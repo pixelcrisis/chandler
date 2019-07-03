@@ -2,10 +2,10 @@
 // Record Timezones from users,
 // then display time relative to everyone.
 
-const DB     = require('../utils/db.js')
-const Util   = require('../utils/util.js')
-const Zoning = require('../utils/zoning.js')
-const lang   = require('../data/lang.json').zoning
+const DB   = require('../utils/db.js')
+const Util = require('../utils/util.js')
+const Time = require('../utils/time.js')
+const lang = require('../data/lang.json').zoning
 
 module.exports = {
 
@@ -18,16 +18,16 @@ module.exports = {
     // if no opts, get time for right now
     if (!opts || !opts.length) {
       title = 'Current Time'
-      table = Zoning.sortTable(table, 'now')
+      table = Time.sortTable(table, 'now')
     } else if (opts.length == 1) {
       // otherwise try and guess a time
-      let when = Zoning.findWhen(opts[0], user.zone)
+      let when = Time.findWhen(opts[0], user.zone)
       if (!when) {
         let response = Util.parse(lang.lost, opts[0])
         return msg.channel.send(response)
       }
       title = `Time at ${opts[0]}`
-      table = Zoning.sortTable(table, when)
+      table = Time.sortTable(table, when)
     }
 
     for (var i = 0; i < table.length; i++) {
@@ -42,7 +42,7 @@ module.exports = {
 
   zones: function(msg, opts) {
     let result = { fields: [] }
-    let table = Zoning.sortTable(DB.get('zoning'), 'now')
+    let table = Time.sortTable(DB.get('zoning'), 'now')
 
     for (var i = 0; i < table.length; i++) {
       let t = table[i]
@@ -61,7 +61,7 @@ module.exports = {
       return msg.channel.send(response)
     }
 
-    let zone = Zoning.findZone(opts)
+    let zone = Time.findZone(opts)
     if (!zone) {
       let response = Util.parse(lang.lost, opts)
       return msg.channel.send(response)
