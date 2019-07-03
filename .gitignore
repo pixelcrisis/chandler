@@ -1,0 +1,5 @@
+.DS_Store
+node_modules
+data/db.json
+data/config.json
+sync.sh

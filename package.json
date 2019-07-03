@@ -1,0 +1,13 @@
+{
+  "name": "chandler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "lowdb": "^1.0.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25"
+  }
+}
