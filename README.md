@@ -11,8 +11,8 @@ Prints X messages, changing the content to the ID of the message.
 `>embed { embed }`  
 Given the JSON for an embed, prints out that embed.
 
-`>edit MSGID content`
-Edit bot message MSGID with "content".  
+`>edit MSGID content`  
+Replace bot message MSGID with "content".  
 Supports text content as well as Embeds.
 
 ### Shifty
