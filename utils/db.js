@@ -11,7 +11,8 @@ const model = mongoose.Schema({
   prefix: { type: String, default: '>' },
   modID:  { type: String, default: '' },
   speak:  { type: String, default: '' },
-  zones:  { type: [],     default: [] }
+  zones:  { type: [],     default: [] },
+  locks:  { type: [],     default: [] }
 })
 const Settings = mongoose.model('Settings', model)
 
@@ -24,11 +25,13 @@ module.exports = {
     await Settings.findOne({ guild }, (err, cfg) => {
       if (err) console.log(err)
       if (!cfg) {
-        console.log("Creating Settings For: " + guild)
+        console.info("Creating Settings For: " + guild)
         const newCfg = new Settings({ guild })
         newCfg.save().catch(err => console.log)
         result = newCfg
       } else {
+        // ghetto migration
+        if (!cfg.locks) cfg.locks = []
         result = cfg
       }
     })
@@ -52,7 +55,7 @@ module.exports = {
     await Settings.findOne({ guild }, (err, res) => {
       if (err) console.log(err)
       if (res) result = res[key]
-      state[guild] = res
+      state[guild][key] = res[key]
     })
     return result
   },
@@ -92,7 +95,7 @@ module.exports = {
         let index = res[key].findIndex(by => by.id == val.id)
         if (index > -1) res[key][index] = val
         else res[key].push(val)
-          res.save()
+        res.save()
       }
     })
   }

@@ -24,7 +24,6 @@ const setCount = amt => {
 }
 
 Client.on('ready', async () => {
-  // migrate our databases
   console.info("Loading Servers...")
   let servers = getCount()
   let count = setCount(servers.length)
