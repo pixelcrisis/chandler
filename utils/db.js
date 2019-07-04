@@ -32,6 +32,7 @@ module.exports = {
         result = cfg
       }
     })
+    this.state[guild] = result
     return result
   },
 
@@ -41,7 +42,6 @@ module.exports = {
       let guild = ids[i]
       result[ids[i]] = await this.load(ids[i])
     }
-    this.state = result
     return result
   },
 
