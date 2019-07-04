@@ -77,7 +77,6 @@ module.exports = {
       if (res) {
         res[key] = val
         res.save()
-        console.log(`Set ${key}:${val}@${guild}`)
       }
     })
   },
@@ -94,7 +93,6 @@ module.exports = {
         if (index > -1) res[key][index] = val
         else res[key].push(val)
           res.save()
-          console.log(`Added Zone: ${val.id}`)
       }
     })
   }
