@@ -14,7 +14,7 @@ module.exports = {
     let invite = '[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
     let website = '[Command List](https://chandler.12px.io)'
     let support = '[Support Server](https://discord.gg/tjRC7E4)'
-    
+
     str = str.split('{invite}').join(invite)
     str = str.split('{website}').join(website)
     str = str.split('{support}').join(support)
@@ -35,7 +35,9 @@ module.exports = {
   // get user/channel from message
   strip: function(str) {
     if (str.indexOf('<') == 0) {
-      return str.substring(2, str.length - 1)
+      let trim = 2
+      if (str.indexOf('@&')) trim = 3
+      return str.substring(trim, str.length - 1)
     } else return str
   },
 
