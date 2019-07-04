@@ -26,7 +26,11 @@ module.exports = {
   },
 
   // get user/channel from message
-  strip: str => str.substring(2, str.length - 1),
+  strip: function(str) {
+    if (str.indexOf('<') == 0) {
+      return str.substring(2, str.length - 1)
+    } else return str
+  },
 
   // quick embed shorthand
   box: function(desc, title, obj) {
