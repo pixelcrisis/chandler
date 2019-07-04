@@ -81,8 +81,8 @@ module.exports = {
   },
 
   setzone: function(msg, opts) {
-    if (!opts || !opts.length != 2) {
-      let respont = Util.parse(lang.setUseage)
+    if (!opts || opts.length < 2 || opts.length > 3) {
+      let response = Util.parse(lang.setUseage)
       return msg.channel.send(response)
     }
 
