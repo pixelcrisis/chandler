@@ -19,21 +19,27 @@ module.exports = {
 
   state: {},
 
+  load: async function(guild) {
+    let result
+    await Settings.findOne({ guild }, (err, cfg) => {
+      if (err) console.log(err)
+      if (!cfg) {
+        console.log("Creating Settings For: " + guild)
+        const newCfg = new Settings({ guild })
+        newCfg.save().catch(err => console.log)
+        result = newCfg
+      } else {
+        result = cfg
+      }
+    })
+    return result
+  },
+
   loadAll: async function(ids) {
     let result = {}
     for (var i = 0; i < ids.length; i++) {
       let guild = ids[i]
-      await Settings.findOne({ guild }, (err, cfg) => {
-        if (err) console.log(err)
-        if (!cfg) {
-          console.log("Creating Settings For: " + guild)
-          const newCfg = new Settings({ guild })
-          newCfg.save().catch(err => console.log)
-          result[guild] = newCfg
-        } else {
-          result[guild] = cfg
-        }
-      })
+      result[ids[i]] = await this.load(ids[i])
     }
     this.state = result
     return result
