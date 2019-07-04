@@ -43,7 +43,7 @@ module.exports = {
         else {
           // else try to parse the embed
           let embed = Util.getEmbed(newMsg)
-          if (embed) m.edit(m.content, { embed })
+          if (embed) m.edit(m.content, embed)
           else {
             // we couldn't parse the embed
             let badEmbed = Util.parse(lang.embed.bad)

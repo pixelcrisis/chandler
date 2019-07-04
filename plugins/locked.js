@@ -48,7 +48,8 @@ module.exports = {
     await msg.channel.setName(data.name)
     await msg.channel.setTopic(data.topic)
     await msg.channel.replacePermissionOverwrites({
-      overwrites: data.perms
+      overwrites: data.perms,
+      reason: "Channel was unlocked by Chandler."
     })
     DB.rem(msg.guild.id, 'locks', data)
   },

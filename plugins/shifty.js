@@ -18,8 +18,8 @@ module.exports = {
     // get the channel
     channel = msg.channel.guild.channels.get(channel)
     if (!channel) {
-      let response = Util.parse(lang.noChannel)
-      return msg.channel.send(response)
+      let noChannel = Util.parse(lang.none)
+      return msg.channel.send(noChannel)
     }
 
     // fetch X messages, store them, delete them.
@@ -37,17 +37,17 @@ module.exports = {
 
     // reprint conversation
     for (var i = 0; i < shifted.length; i++) {
-      let divide = '-----------------------------------------'
+      let divide = Util.parse(lang.line)
       let title  = `${divide} (${i + 1}/${shifted.length})`
-      let author = Util.parse(lang.here, max, msg.channel.id)
+      let author = Util.parse(lang.move, max, msg.channel.name)
       let embed1 = Util.box(shifted[i], author, { title })
       channel.send(embed1)
     }
 
     // relocation message
-    let embed = Util.box(Util.parse(lang.from, max, channel.id))
-    let response = `Moved ${max} Messages To <#${channel.id}>`
-    msg.channel.send(Util.box(response))
+    let desc = Util.parse(lang.here, max, channel.id)
+    let embed2 = Util.box(desc)
+    msg.channel.send(embed2)
   },
 
   // aliases

@@ -35,8 +35,7 @@ module.exports = {
   // get user/channel from message
   strip: function(str) {
     if (str.indexOf('<') == 0) {
-      let trim = 2
-      if (str.indexOf('@&')) trim = 3
+      let trim = str.indexOf('@&') == 1 ? 3 : 2
       return str.substring(trim, str.length - 1)
     } else return str
   },

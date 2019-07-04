@@ -10,7 +10,7 @@
     },
     "prefix": {
       "use": "Useage: `>prefix !`",
-      "set": "Changed Prefix to `{val2}`"
+      "set": "Changed Prefix to `{val1}`"
     },
     "staff": {
       "use":  "Useage: `>staff role`",
@@ -26,9 +26,7 @@
     },
     "edit": {
       "use": "Useage: `>edit MSGID new message`",
-      "none": "Couldn't find that message.",
-      "from": "Moved {val1} Messages Here From <#{val2}>",
-      "here": "Moved {val1} Messages To <#{val2}>"
+      "none": "Couldn't find that message."
     }
   },
   "locked": {
@@ -37,7 +35,10 @@
   },
   "shifty": {
     "use":  "Useage: `>shift X #channel`",
-    "none": "Sorry, couldn't find that channel."
+    "line": "-----------------------------------------",
+    "none": "Sorry, couldn't find that channel.",
+    "move": "Moved {val1} Messages Here From #{val2}",
+    "here": "Moved {val1} Messages To <#{val2}>"
   },
   "speaks": {
     "use":  "Useage: `>speak #channel`",

@@ -20,15 +20,15 @@ module.exports = {
       } else {
         chan = msg.channel.guild.channels.get(chan)
         DB.set(msg.guild.id, 'speak', newID)
-        let swap = Util.parse(lang.curr, newCH.name)
-        if (chan) swap = Util.parse(lang.swap, chan.name, newCH.name)
+        let swap = Util.parse(lang.curr, newCH.id)
+        if (chan) swap = Util.parse(lang.swap, chan.id, newCH.id)
         return msg.channel.send(swap)
       }
     } 
 
     else if (!opts || !opts.length) {
       chan = msg.channel.guild.channels.get(chan)
-      let options = chan ? chan.name : ''
+      let options = chan ? chan.id : ''
       let message = chan ? lang.curr : lang.none
       let response = Util.parse(message, options)
       return msg.channel.send(response)

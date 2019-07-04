@@ -4,6 +4,7 @@
 
 const DB   = require('../utils/db.js')
 const Util = require('../utils/util.js')
+const lang = require('../data/lang.json').basics
 
 module.exports = {
 
