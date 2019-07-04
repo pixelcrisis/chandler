@@ -1,36 +1,96 @@
 // Database Connection
-// Uses Lowdb, lodash
+// Uses MongoDB
 
-const low  = require('lowdb')
-const Sync = require('lowdb/adapters/FileSync')
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost:27017/chandler', {
+  useNewUrlParser: true
+})
 
-const fs = new Sync('data/db.json')
-const db = low(fs)
+const model = mongoose.Schema({
+  guild:  { type: String, default: '' },
+  prefix: { type: String, default: '>' },
+  modID:  { type: String, default: '' },
+  speak:  { type: String, default: '' },
+  zones:  { type: [],     default: [] }
+})
+const Settings = mongoose.model('Settings', model)
 
 module.exports = {
-  db,
 
-  get: function(key) {
-    return this.db.get(key).value()
+  state: {},
+
+  loadAll: async function(ids) {
+    let result = {}
+    for (var i = 0; i < ids.length; i++) {
+      let guild = ids[i]
+      await Settings.findOne({ guild }, (err, cfg) => {
+        if (err) console.log(err)
+        if (!cfg) {
+          console.log("Creating Settings For: " + guild)
+          const newCfg = new Settings({ guild })
+          newCfg.save().catch(err => console.log)
+          result[guild] = newCfg
+        } else {
+          result[guild] = cfg
+        }
+      })
+    }
+    this.state = result
+    return result
   },
 
-  find: function(key, val) {
-    return this.db.get(key).find(val).value()
+  get: async function(guild, key) {
+    let state = this.state
+    if (state[guild]) return state[guild][key]
+    let result
+    await Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      if (res) result = res[key]
+      state[guild] = res
+    })
+    return result
   },
 
-  set: function(key, val) {
-    return this.db.set(key, val).write()
+  find: async function(guild, key, id) {
+    let state = this.state
+    let obj = state[guild][key].find(by => by.id == id)
+    if (obj) return obj
+    let result
+    await Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      let obj = res[key].find(by => by.id == id)
+      if (obj) state[guild][key].push(obj)
+      return obj
+    })
   },
 
-  add: function(key, val) {
-    let found = this.db.get(key).find({ id: val.id })
-    let old = found.value()
-
-    if (old) found.assign(val).write()
-    else this.db.get(key).push(val).write()
+  set: function(guild, key, val) {
+    this.state[guild][key] = val
+    Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      if (res) {
+        res[key] = val
+        res.save()
+        console.log(`Set ${key}:${val}@${guild}`)
+      }
+    })
   },
 
-  rem: function(key, val) {
-
+  add: function(guild, key, val) {
+    let arr = this.state[guild][key]
+    let index = arr.findIndex(by => by.id == val.id)
+    if (index > -1) this.state[guild][key][index] = val
+    else this.state[guild][key].push(val)
+    Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      if (res) {
+        let index = res[key].findIndex(by => by.id == val.id)
+        if (index > -1) res[key][index] = val
+        else res[key].push(val)
+          res.save()
+          console.log(`Added Zone: ${val.id}`)
+      }
+    })
   }
+
 }

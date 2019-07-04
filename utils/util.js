@@ -2,7 +2,7 @@
 // For General Use
 
 const Moment = require('moment')
-const bot    = require('../data/config.json')
+const DB     = require('./db.js')
 
 module.exports = {
 
@@ -11,7 +11,6 @@ module.exports = {
 
   // message parser 
   parse: function(str, val1, val2) {
-    str = str.split('{pre}').join(bot.prefix)
     if (val1) str = str.split('{val1}').join(val1)
     if (val2) str = str.split('{val2}').join(val2)
     return str

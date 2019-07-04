@@ -9,10 +9,14 @@ const lang = require('../data/lang.json').zoning
 
 module.exports = {
 
-  time: function(msg, opts) {
-    let user = DB.find('zoning', { id: msg.author.id })
-    if (!user) return Util.say(msg, lang.unset)
-    let table = DB.get('zoning')
+  time: async function(msg, opts) {
+    let user = await DB.find(msg.guild.id, 'zones', msg.author.id)
+    if (!user) {
+      let response = Util.parse(lang.unset)
+      return msg.channel.send(response)
+    }
+
+    let table = await DB.get(msg.guild.id, 'zones')
     let result = '', title = ''
 
     // if no opts, get time for right now
@@ -40,9 +44,10 @@ module.exports = {
     msg.delete()
   },
 
-  zones: function(msg, opts) {
+  zones: async function(msg, opts) {
     let result = { fields: [] }
-    let table = Time.sortTable(DB.get('zoning'), 'now')
+    let zones = await DB.get(msg.guild.id, 'zones')
+    let table = Time.sortTable(zones, 'now')
 
     for (var i = 0; i < table.length; i++) {
       let t = table[i]
@@ -66,7 +71,7 @@ module.exports = {
       let response = Util.parse(lang.lost, opts)
       return msg.channel.send(response)
     }
-    DB.add('zoning', { id: msg.author.id, zone: zone.name })
+    DB.add(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
     let response = Util.parse(lang.setZone, zone.name)
     return msg.channel.send(response)
   }

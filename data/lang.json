@@ -1,24 +1,24 @@
 {
   "editor": {
-    "useage":     "Useage: `{pre}edit MSGID new message`",
+    "useage":     "Useage: `>edit MSGID new message`",
     "noMessage":  "Couldn't find that message.",
     "badEmbed":   "Couldn't parse the embed."
   },
   "shifty": {
-    "useage":     "Useage: `{pre}shift X #channel`",
+    "useage":     "Useage: `>shift X #channel`",
     "noChannel":  "Sorry, couldn't find that channel"
   },
   "speaks": {
-    "useage":     "Useage: `{pre}speak #channel`",
-    "unset":      "No channel set: `{pre}speak #channel`",
+    "useage":     "Useage: `>speak #channel`",
+    "unset":      "No channel set: `>speak #channel`",
     "noChannel":  "Couldn't find that channel.",
     "speaking":   "Speaking in #{val1}",
     "switch":     "Switched from #{val1} to #{val2}"
   },
   "zoning": {
     "setZone":    "Set zone to {val1}",
-    "unset":      "You need to set your zone first! `{pre}zone`",
+    "unset":      "You need to set your zone first! `>zone`",
     "lost":       "Couldn't find: {val1}",
-    "findZone":   "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `{pre}zone America/Los_Angeles` but replace with your timezone!"
+    "findZone":   "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `>zone America/Los_Angeles` but replace with your timezone!"
   }
 }
