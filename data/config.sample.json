@@ -1,5 +1,9 @@
 {
   "ready": false,
 
+  "debug": true,
+  "guild": "",
+  "chann": "",
+
   "token": "S0MErandomlyHASHEDstringPROVIDEDbyDISCORD"
 }

@@ -24,12 +24,19 @@ const setCount = amt => {
   return count
 }
 
+const Log = msg => {
+  console.info(msg)
+  if (!bot.debug || !bot.debugID) return
+  let chann = Client.channels.get(bot.debugID)
+  chann.send(msg)
+}
+
 Client.on('ready', async () => {
-  console.info("Loading Servers...")
+  Log("Loading Servers...")
   let servers = getCount()
   let count = setCount(servers.length)
   bot.conf = await DB.loadAll(servers)
-  console.info("Loaded " + count)
+  Log("Loaded " + count)
   bot.ready = true
 })
 
@@ -62,13 +69,13 @@ Client.on('guildCreate', async guild => {
   let servers = getCount()
   let count = setCount(servers.length)
   bot.conf[guild.id] = await DB.load(guild.id)
-  console.info("Added to: " + guild.id)
+  Log("Added to: " + guild.id)
 })
 
 Client.on('guildDelete', async guild => {
   let servers = getCount()
   let count = setCount(servers.length)
-  console.info("Removed From: " + guild.id)
+  Log("Removed From: " + guild.id)
 })
 
 Client.login(bot.token)
