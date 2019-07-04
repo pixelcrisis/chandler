@@ -1,39 +1,69 @@
 {
   "basics": {
-    "help":       "View the [Command List](https://chandler.12px.io) or join the [Support Server](https://discord.gg/tjRC7E4)",
-    "invite":     "Click [This Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot) To Invite Me To Your Server!",
-    "usePrefix":  "Useage: `prefix >`",
-    "setPrefix":  "Set Prefix to `{val1}`",
-    "isStaff":    "Staff set to: <@&{val1}>",
-    "noStaff":    "Staff not currently set. `>staff role`",
-    "useStaff":   "Useage: `>staff [role]",
-    "badStaff":   "{val1} didn't seem like a role to me."
+    "help": {
+      "name": "Chandler Help",
+      "desc": "View the {website} or join the {support}!"
+    },
+    "invite": {
+      "name": "Let Me Join!",
+      "desc": "Click the {invite} to invite me to your server!"
+    },
+    "prefix": {
+      "use": "Useage: `>prefix !`",
+      "set": "Changed Prefix to `{val2}`"
+    },
+    "staff": {
+      "use":  "Useage: `>staff role`",
+      "curr": "Staff set to: <@&{val1}>",
+      "lost": "{val1} didn't seem like a role to me.",
+      "none": "Staff not currently set: `>staff role`"
+    }
   },
   "editor": {
-    "useage":     "Useage: `>edit MSGID new message`",
-    "noMessage":  "Couldn't find that message.",
-    "badEmbed":   "Couldn't parse the embed."
+    "embed": {
+      "use": "Useage: `>embed { embed }`",
+      "bad": "Couldn't parse that embed."
+    },
+    "edit": {
+      "use": "Useage: `>edit MSGID new message`",
+      "none": "Couldn't find that message.",
+      "from": "Moved {val1} Messages Here From <#{val2}>",
+      "here": "Moved {val1} Messages To <#{val2}>"
+    }
   },
   "locked": {
-    "isLocked":   "Channel is already locked!",
-    "isUnlocked": "Channel is already unlocked!"
+    "locked":   "Channel is already locked!",
+    "unlocked": "Channel is already unlocked!"
   },
   "shifty": {
-    "useage":     "Useage: `>shift X #channel`",
-    "noChannel":  "Sorry, couldn't find that channel"
+    "use":  "Useage: `>shift X #channel`",
+    "none": "Sorry, couldn't find that channel."
   },
   "speaks": {
-    "useage":     "Useage: `>speak #channel`",
-    "unset":      "No channel set: `>speak #channel`",
-    "noChannel":  "Couldn't find that channel.",
-    "speaking":   "Speaking in #{val1}",
-    "switch":     "Switched from #{val1} to #{val2}"
+    "use":  "Useage: `>speak #channel`",
+    "say":  "Useage: `>say your message",
+    "none": "No channel set: `>speak #channel`",
+    "curr": "Speaking in: <#{val1}>",
+    "swap": "Switched from <#{val1}> to <#{val2}>"
   },
   "zoning": {
-    "setZone":    "Set zone to {val1}",
-    "setUseage":  "Useage: `>setzone @user America/Los_Angeles` (but their timezone)",
-    "unset":      "You need to set your zone first! `>zone`",
-    "lost":       "Couldn't find: {val1}",
-    "findZone":   "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `>zone America/Los_Angeles` but replace with your timezone!"
+    "time": {
+      "none": "You need to set your zone first! `>zone`",
+      "now":  "Current Time",
+      "then": "Time at {val1}",
+      "lost": "Couldn't find: {val1}"
+    },
+    "zones": {
+      "name": "Active Time Zones",
+      "line": "-----"
+    },
+    "zone": {
+      "set":  "Set your timezone to {val1}",
+      "find": "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `>zone America/Los_Angeles` but replace with your timezone!"
+    },
+    "setzone": {
+      "use": "Useage: `>setzone @user America/Los_Angeles` (but their timezone)",
+      "set": "Set timezone for <@{val1}> to: {val2}"
+    } 
   }
 }

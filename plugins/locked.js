@@ -10,10 +10,10 @@ module.exports = {
 
   lock: async function(msg, opts) {
     let perms = msg.channel.permissionOverwrites.array()
-    let lockd = await DB.find(msg.guild.id, 'locks', msg.channel.id)
-    if (lockd) {
-      let response = Util.parse(lang.isLocked)
-      return msg.channel.send(response)
+    let data = await DB.find(msg.guild.id, 'locks', msg.channel.id)
+    if (data) {
+      let isLocked = Util.parse(lang.locked)
+      return msg.channel.send(isLocked)
     }
 
     let now = new Date()
@@ -39,18 +39,18 @@ module.exports = {
   },
 
   unlock: async function(msg, opts) {
-    let lockd  = await DB.find(msg.guild.id, 'locks', msg.channel.id)
-    if (!lockd) {
-      let response = Util.parse(lang.isUnlocked)
-      return msg.channel.send(response)
+    let data  = await DB.find(msg.guild.id, 'locks', msg.channel.id)
+    if (!data) {
+      let isUnlocked = Util.parse(lang.unlocked)
+      return msg.channel.send(isUnlocked)
     }
 
-    await msg.channel.setName(lockd.name)
-    await msg.channel.setTopic(lockd.topic)
+    await msg.channel.setName(data.name)
+    await msg.channel.setTopic(data.topic)
     await msg.channel.replacePermissionOverwrites({
-      overwrites: lockd.perms
+      overwrites: data.perms
     })
-    DB.rem(msg.guild.id, 'locks', lockd)
+    DB.rem(msg.guild.id, 'locks', data)
   },
 
 }

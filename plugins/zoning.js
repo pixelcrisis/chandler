@@ -13,27 +13,25 @@ module.exports = {
   free: ['time', 'zones', 'zone'],
 
   time: async function(msg, opts) {
+    let none = Util.parse(lang.time.none)
     let user = await DB.find(msg.guild.id, 'zones', msg.author.id)
-    if (!user) {
-      let response = Util.parse(lang.unset)
-      return msg.channel.send(response)
-    }
+    if (!user) return msg.channel.send(none)
 
     let table = await DB.get(msg.guild.id, 'zones')
     let result = '', title = ''
 
     // if no opts, get time for right now
     if (!opts || !opts.length) {
-      title = 'Current Time'
+      title = Util.parse(lang.time.now)
       table = Time.sortTable(table, 'now')
     } else if (opts.length == 1) {
       // otherwise try and guess a time
       let when = Time.findWhen(opts[0], user.zone)
       if (!when) {
-        let response = Util.parse(lang.lost, opts[0])
-        return msg.channel.send(response)
+        let noTime = Util.parse(lang.time.lost, opts[0])
+        return msg.channel.send(noTime)
       }
-      title = `Time at ${opts[0]}`
+      title = Util.parse(lang.time.then, opts[0])
       table = Time.sortTable(table, when)
     }
 
@@ -43,7 +41,8 @@ module.exports = {
       result += `${t.name.split('/')[1].split('_').join(' ')} `
       result += `(${t.users.length})\n`
     }
-    msg.channel.send(Util.box(result, title))
+    let embed = Util.box(result, title)
+    msg.channel.send(embed)
     msg.delete()
   },
 
@@ -59,49 +58,49 @@ module.exports = {
       for (var x in t.users) temp.value += `<@${t.users[x]}>\n`
       result.fields.push(temp)
     }
-    msg.channel.send(Util.box('---', "Active Time Zones", result))
+    let name = Util.parse(lang.zones.name)
+    let desc = Util.parse(lang.zones.line)
+    let embed = Util.box(desc, name, result)
+    msg.channel.send(embed)
     msg.delete()
   },
 
   zone: function(msg, opts) {
-
-    if (!opts || !opts.length) {
-      let response = Util.parse(lang.findZone)
-      return msg.channel.send(response)
-    }
+    let none = Util.parse(lang.zone.find)
+    if (!opts || !opts.length) return msg.channel.send(none)
 
     let zone = Time.findZone(opts)
     if (!zone) {
-      let response = Util.parse(lang.lost, opts)
-      return msg.channel.send(response)
+      let noZone = Util.parse(lang.time.lost, opts)
+      return msg.channel.send(noZone)
     }
     DB.add(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
-    let response = Util.parse(lang.setZone, zone.name)
-    return msg.channel.send(response)
+    let setZone = Util.parse(lang.zone.set, zone.name)
+    return msg.channel.send(setZone)
   },
 
   setzone: function(msg, opts) {
+    let useage = Util.parse(lang.setzone.use)
     if (!opts || opts.length < 2 || opts.length > 3) {
-      let response = Util.parse(lang.setUseage)
-      return msg.channel.send(response)
+      return msg.channel.send(useage)
     }
 
     let user = Util.strip(opts.shift())
     let zone = Time.findZone(opts)
 
     if (!zone) {
-      let response = Util.parse(lang.lost, opts)
-      return msg.channel.send(response)
+      let noZone = Util.parse(lang.time.lost, opts)
+      return msg.channel.send(noZone)
     }
 
     if (user.length != msg.author.id.length) {
-      let response = Util.parse(lang.lost, `${user} (userid)`)
-      return msg.channel.send(response)
+      let noUser = Util.parse(lang.time.lost, `${user} (userid)`)
+      return msg.channel.send(noUser)
     }
 
     DB.add(msg.guild.id, 'zones', { id: user, zone: zone.name })
-    let response = Util.parse(lang.setZone, zone.name)
-    return msg.channel.send(response)
+    let setZone = Util.parse(lang.setzone.set, user, zone.name)
+    return msg.channel.send(setZone)
   }
 
 }

@@ -8,15 +8,11 @@ const lang = require('../data/lang.json').shifty
 module.exports = {
 
   shift: async function(msg, opts) {
-    if (opts.length != 2) {
-      let response = Util.parse(lang.useage)
-      return msg.channel.send(response)
-    }
+    let useage = Util.parse(lang.use)
+    if (opts.length != 2) return msg.channel.send(useage)
 
     let shifted = []
     let max = parseInt(opts[0])
-    // channel comes in as: <#CHANNEL_ID>
-    // we need to strip the <#>
     let channel = Util.strip(opts[1])
 
     // get the channel
@@ -43,11 +39,13 @@ module.exports = {
     for (var i = 0; i < shifted.length; i++) {
       let divide = '-----------------------------------------'
       let title  = `${divide} (${i + 1}/${shifted.length})`
-      let author = `Moved ${max} Messages Here From #${msg.channel.name}`
-      channel.send(Util.box(shifted[i], author, { title }))
+      let author = Util.parse(lang.here, max, msg.channel.id)
+      let embed1 = Util.box(shifted[i], author, { title })
+      channel.send(embed1)
     }
 
     // relocation message
+    let embed = Util.box(Util.parse(lang.from, max, channel.id))
     let response = `Moved ${max} Messages To <#${channel.id}>`
     msg.channel.send(Util.box(response))
   },

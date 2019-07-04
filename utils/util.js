@@ -11,6 +11,13 @@ module.exports = {
 
   // message parser 
   parse: function(str, val1, val2) {
+    let invite = '[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
+    let website = '[Command List](https://chandler.12px.io)'
+    let support = '[Support Server](https://discord.gg/tjRC7E4)'
+    
+    str = str.split('{invite}').join(invite)
+    str = str.split('{website}').join(website)
+    str = str.split('{support}').join(support)
     if (val1) str = str.split('{val1}').join(val1)
     if (val2) str = str.split('{val2}').join(val2)
     return str

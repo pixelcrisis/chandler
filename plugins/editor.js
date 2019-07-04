@@ -17,20 +17,23 @@ module.exports = {
   },
 
   embed: function(msg, opts) {
-    let embed = Util.getEmbed(opts.join(' '))
-    if (embed) msg.channel.send(embed)
+    let useage = Util.parse(lang.embed.use)
+    if (!opts) msg.channel.send(useage)
     else {
-      let response = Util.parse(lang.badEmbed)
-      msg.channel.send(response)
+      let embed = Util.getEmbed(opts.join(' '))
+      if (embed) msg.channel.send(embed)
+      else {
+        let badEmbed = Util.parse(lang.embed.bad)
+        msg.channel.send(badEmbed)
+      }
     }
     msg.delete()
   },
 
   edit: function(msg, opts) {
-    if (opts.length <= 1) {
-      let response = Util.parse(lang.usage)
-      return msg.channel.send(response)
-    }
+    let useage = Util.parse(lang.edit.use)
+    if (opts.length <= 1) return msg.channel.send(useage)
+
     let id = opts.shift()
     msg.channel.fetchMessage(id)
       .then((m) => {
@@ -40,18 +43,18 @@ module.exports = {
         else {
           // else try to parse the embed
           let embed = Util.getEmbed(newMsg)
-          if (newMsg) m.edit(m.content, { embed: obj })
+          if (embed) m.edit(m.content, { embed })
           else {
             // we couldn't parse the embed
-            let response = Util.parse(lang.badEmbed)
-            return msg.channel.send(response)
+            let badEmbed = Util.parse(lang.embed.bad)
+            return msg.channel.send(badEmbed)
           }
         }
       })
       .catch(() => {
         // we couldn't find the message
-        let response = Util.parse(lang.noMessage)
-        return msg.channel.send(response)
+        let noMessage = Util.parse(lang.edit.none)
+        return msg.channel.send(noMessage)
       })
     msg.delete()
   }

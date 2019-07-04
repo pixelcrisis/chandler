@@ -15,36 +15,39 @@ module.exports = {
       let newID = Util.strip(opts[0])
       let newCH = msg.channel.guild.channels.get(newID)
       if (!newCH) {
-        let response = Util.parse(lang.noChannel)
-        return msg.channel.send(response)
+        let noChannel = Util.parse(lang.none)
+        return msg.channel.send(noChannel)
       } else {
         chan = msg.channel.guild.channels.get(chan)
         DB.set(msg.guild.id, 'speak', newID)
-        let response = Util.parse(lang.speaking, newCH.name)
-        if (chan) response = Util.parse(lang.switch, chan.name, newCH.name)
-        return msg.channel.send(response)
+        let swap = Util.parse(lang.curr, newCH.name)
+        if (chan) swap = Util.parse(lang.swap, chan.name, newCH.name)
+        return msg.channel.send(swap)
       }
     } 
 
     else if (!opts || !opts.length) {
       chan = msg.channel.guild.channels.get(chan)
       let options = chan ? chan.name : ''
-      let message = chan ? lang.speaking : lang.unset
+      let message = chan ? lang.curr : lang.none
       let response = Util.parse(message, options)
       return msg.channel.send(response)
     }
 
     else {
-      let response = Util.parse(lang.useage)
-      return msg.channel.send(response)
+      let useage = Util.parse(lang.use)
+      return msg.channel.send(useage)
     }
   },
 
   say: async function(msg, opts) {
+    let useage = Util.parse(lang.say)
+    if (!opts) return msg.channel.send(useage)
+
     let chan = await DB.get(msg.guild.id, 'speak')
     if (!chan) {
-      let response = Util.parse(lang.unset)
-      return msg.channel.send(response)
+      let noChannel = Util.parse(lang.none)
+      return msg.channel.send(noChannel)
     } else {
       chan = msg.channel.guild.channels.get(chan)
     }
