@@ -66,12 +66,21 @@ module.exports = {
       return msg.channel.send(response)
     }
 
+    let wUsr = (opts.length == 2)
+    let user = wUsr ? Util.strip(opts.shift()) : msg.author.id
     let zone = Time.findZone(opts)
+
     if (!zone) {
       let response = Util.parse(lang.lost, opts)
       return msg.channel.send(response)
     }
-    DB.add(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
+
+    if (user.length != msg.author.id.length) {
+      let response = Util.parse(lang.lost, `${user} (userid)`)
+      return msg.channel.send(response)
+    }
+
+    DB.add(msg.guild.id, 'zones', { id: user, zone: zone.name })
     let response = Util.parse(lang.setZone, zone.name)
     return msg.channel.send(response)
   }
