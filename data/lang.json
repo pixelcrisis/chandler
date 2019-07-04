@@ -17,6 +17,7 @@
   },
   "zoning": {
     "setZone":    "Set zone to {val1}",
+    "setUseage":  "Useage: `>setzone @user America/Los_Angeles` (but their timezone)",
     "unset":      "You need to set your zone first! `>zone`",
     "lost":       "Couldn't find: {val1}",
     "findZone":   "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `>zone America/Los_Angeles` but replace with your timezone!"

@@ -64,13 +64,29 @@ module.exports = {
   },
 
   zone: function(msg, opts) {
+
     if (!opts || !opts.length) {
       let response = Util.parse(lang.findZone)
       return msg.channel.send(response)
     }
 
-    let wUsr = (opts.length == 2)
-    let user = wUsr ? Util.strip(opts.shift()) : msg.author.id
+    let zone = Time.findZone(opts)
+    if (!zone) {
+      let response = Util.parse(lang.lost, opts)
+      return msg.channel.send(response)
+    }
+    DB.add(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
+    let response = Util.parse(lang.setZone, zone.name)
+    return msg.channel.send(response)
+  },
+
+  setzone: function(msg, opts) {
+    if (!opts || !opts.length != 2) {
+      let respont = Util.parse(lang.setUseage)
+      return msg.channel.send(response)
+    }
+
+    let user = Util.strip(opts.shift())
     let zone = Time.findZone(opts)
 
     if (!zone) {
