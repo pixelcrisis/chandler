@@ -6,10 +6,12 @@ const DB = require('./utils/db.js')
 
 const Discord = require('discord.js')
 
-const speaks = require('./plugins/speaks.js')
-const editor = require('./plugins/editor.js')
-const shifty = require('./plugins/shifty.js')
-const zoning = require('./plugins/zoning.js')
+const plugins = [
+  require('./plugins/speaks.js'),
+  require('./plugins/editor.js'),
+  require('./plugins/shifty.js'),
+  require('./plugins/zoning.js')  
+]
 
 const Client = new Discord.Client()
 
@@ -35,18 +37,20 @@ Client.on('message', async (msg) => {
   let opts = msg.content.slice(prefix.length).trim().split(/ +/g)
   let cmd = opts.shift().toLowerCase()
 
-  if (zoning[cmd]) return zoning[cmd](msg, opts)
-
-  // these plugin commands are mod-gated
-  const isMod = () => {
+  const canExecute = plugin => {
+    // is it free? (can anyone use it)
+    if (plugin.free && plugin.free.includes(cmd)) return true
+    // mods and the owner can always execute
     if (msg.member.user.id == msg.member.guild.ownerID) return true
     else return msg.member.roles.has(modID)
   }
 
-  if (!isMod) return
-  if (speaks[cmd]) return speaks[cmd](msg, opts)
-  if (editor[cmd]) return editor[cmd](msg, opts)
-  if (shifty[cmd]) return shifty[cmd](msg, opts)
+  for (var p in plugins) {
+    let plugin = plugins[p]
+    if (plugin[cmd] && canExecute(plugin)) {
+      return plugin[cmd](msg, opts)
+    }
+  }
 })
 
 Client.login(bot.token)

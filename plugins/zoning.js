@@ -9,6 +9,9 @@ const lang = require('../data/lang.json').zoning
 
 module.exports = {
 
+  // free commands can be used by anyone
+  free: ['time', 'zones', 'zone'],
+
   time: async function(msg, opts) {
     let user = await DB.find(msg.guild.id, 'zones', msg.author.id)
     if (!user) {
