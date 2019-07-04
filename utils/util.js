@@ -20,13 +20,13 @@ module.exports = {
   getEmbed: function(str) {
     try {
       let obj = JSON.parse(str)
-      if (!obj.embed) obj = { embed: obj }
-      return obj
+      return obj.embed ? obj : { embed: obj }
     }
-    catch(e) {
-      return false
-    }
+    catch(e) { return false }
   },
+
+  // get user/channel from message
+  strip: str => str.substring(2, str.length - 1),
 
   // quick embed shorthand
   box: function(desc, title, obj) {

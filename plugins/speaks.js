@@ -12,7 +12,7 @@ module.exports = {
     let chan = await DB.get(msg.guild.id, 'speak')
 
     if (opts.length == 1) {
-      let newID = opts[0].substring(2, opts[0].length - 1)
+      let newID = Util.strip(opts[0])
       let newCH = msg.channel.guild.channels.get(newID)
       if (!newCH) {
         let response = Util.parse(lang.noChannel)

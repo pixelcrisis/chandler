@@ -17,7 +17,7 @@ module.exports = {
     let max = parseInt(opts[0])
     // channel comes in as: <#CHANNEL_ID>
     // we need to strip the <#>
-    let channel = opts[1].substring(2, opts[1].length - 1)
+    let channel = Util.strip(opts[1])
 
     // get the channel
     channel = msg.channel.guild.channels.get(channel)
