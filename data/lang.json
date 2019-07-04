@@ -3,7 +3,11 @@
     "help":       "View the [Command List](https://chandler.12px.io) or join the [Support Server](https://discord.gg/tjRC7E4)",
     "invite":     "Click [This Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=67600&scope=bot) To Invite Me To Your Server!",
     "usePrefix":  "Useage: `prefix >`",
-    "setPrefix":  "Set Prefix to `{val1}`"
+    "setPrefix":  "Set Prefix to `{val1}`",
+    "isStaff":    "Staff set to: <@&{val1}>",
+    "noStaff":    "Staff not currently set. `>staff role`",
+    "useStaff":   "Useage: `>staff [role]",
+    "badStaff":   "{val1} didn't seem like a role to me."
   },
   "editor": {
     "useage":     "Useage: `>edit MSGID new message`",
