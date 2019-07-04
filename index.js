@@ -15,20 +15,24 @@ const plugins = [
 
 const Client = new Discord.Client()
 
+const getCount = () => Client.guilds.keyArray()
+const setCount = amt => {
+  let count = `${amt} Servers.`
+  Client.user.setActivity(count, { type: 'LISTENING' })
+  return count
+}
+
 Client.on('ready', async () => {
   // migrate our databases
   console.info("Loading Servers...")
-  let servers = Client.guilds.keyArray()
-  let count = `${servers.length} Servers.`
+  let servers = getCount()
+  let count = setCount(servers.length)
   bot.conf = await DB.loadAll(servers)
   console.info("Loaded " + count)
-
-  Client.user.setActivity(count, { type: 'LISTENING' })
-  console.info("Booted.")
   bot.ready = true
 })
 
-Client.on('message', async (msg) => {
+Client.on('message', async msg => {
   let modID = await DB.get(msg.guild.id, 'modID')
   let prefix = await DB.get(msg.guild.id, 'prefix')
   if (!bot.ready || !msg.member || msg.author.bot) return
@@ -51,6 +55,18 @@ Client.on('message', async (msg) => {
       return plugin[cmd](msg, opts)
     }
   }
+})
+
+Client.on('guildCreate', async guild => {
+  let servers = getCount()
+  let count = setCount(servers.length)
+  bot.conf[guild.id] = await DB.load(guild.id)
+})
+
+Client.on('guildDelete', async guild => {
+  let servers = getCount()
+  let count = setCount(servers.length)
+  console.info("Removed From: " + guild.id)
 })
 
 Client.login(bot.token)
