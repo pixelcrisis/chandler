@@ -14,6 +14,10 @@
     "noMessage":  "Couldn't find that message.",
     "badEmbed":   "Couldn't parse the embed."
   },
+  "locked": {
+    "isLocked":   "Channel is already locked!",
+    "isUnlocked": "Channel is already unlocked!"
+  },
   "shifty": {
     "useage":     "Useage: `>shift X #channel`",
     "noChannel":  "Sorry, couldn't find that channel"

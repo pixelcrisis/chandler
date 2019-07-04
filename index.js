@@ -8,9 +8,10 @@ const Discord = require('discord.js')
 
 const plugins = [
   require('./plugins/basics.js'),
-  require('./plugins/speaks.js'),
   require('./plugins/editor.js'),
+  require('./plugins/locked.js'),
   require('./plugins/shifty.js'),
+  require('./plugins/speaks.js'),
   require('./plugins/zoning.js')  
 ]
 
@@ -61,6 +62,7 @@ Client.on('guildCreate', async guild => {
   let servers = getCount()
   let count = setCount(servers.length)
   bot.conf[guild.id] = await DB.load(guild.id)
+  console.info("Added to: " + guild.id)
 })
 
 Client.on('guildDelete', async guild => {

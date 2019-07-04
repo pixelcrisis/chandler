@@ -25,7 +25,6 @@ module.exports = {
     await Settings.findOne({ guild }, (err, cfg) => {
       if (err) console.log(err)
       if (!cfg) {
-        console.info("Creating Settings For: " + guild)
         const newCfg = new Settings({ guild })
         newCfg.save().catch(err => console.log)
         result = newCfg
@@ -96,6 +95,22 @@ module.exports = {
         if (index > -1) res[key][index] = val
         else res[key].push(val)
         res.save()
+      }
+    })
+  },
+
+  rem: function(guild, key, val) {
+    let arr = this.state[guild][key]
+    let index = arr.findIndex(by => by.id == val.id)
+    if (index > -1) this.state[guild][key].splice(index, 1)
+    Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      if (res) {
+        let index = res[key].findIndex(by => by.id == val.id)
+        if (index > -1) {
+          let removed = res[key].splice(index, 1)
+          res.save()
+        }
       }
     })
   }
