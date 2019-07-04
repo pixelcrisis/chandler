@@ -4,7 +4,9 @@ He doesn't do much, but he does it well.
   
 &nbsp;  
 
-### Editor
+## Features & Commands
+
+#### Editor
 `>print X`  
 Prints X messages, changing the content to the ID of the message.  
   
@@ -15,19 +17,19 @@ Given the JSON for an embed, prints out that embed.
 Replace bot message MSGID with "content".  
 Supports text content as well as Embeds.
 
-### Shifty
+#### Shifty
 `>shift X #channel`  
 Moves the last X messages to a different #channel.  
 Aliases: `>move`
 
-### Speaks
+#### Speaks
 `>speak #channel`  
 Set a #channel for the bot to speak in.
 
 `>say message`  
 Bot sends message to the aforementioned channel.
 
-### Zoning
+#### Zoning
 `>zone TIMEZONE`  
 Using the format `America/Chicago`, records users timezone.
 
