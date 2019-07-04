@@ -1,4 +1,7 @@
 {
+  "basics": {
+    "invite": "Click [This Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=67600&scope=bot) To Invite Me To Your Server!"
+  },
   "editor": {
     "useage":     "Useage: `>edit MSGID new message`",
     "noMessage":  "Couldn't find that message.",

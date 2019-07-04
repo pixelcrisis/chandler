@@ -7,6 +7,7 @@ const DB = require('./utils/db.js')
 const Discord = require('discord.js')
 
 const plugins = [
+  require('./plugins/basics.js'),
   require('./plugins/speaks.js'),
   require('./plugins/editor.js'),
   require('./plugins/shifty.js'),
