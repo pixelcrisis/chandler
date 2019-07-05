@@ -56,11 +56,12 @@ module.exports = {
     return result
   },
 
-  get: async function(guild, key) {
+  get: function(guild, key) {
+    console.log(this.state[guild][key])
     return this.state[guild][key]
   },
 
-  find: async function(guild, key, id) {
+  find: function(guild, key, id) {
     return this.state[guild][key].find(by => by.id == id)
   },
 
