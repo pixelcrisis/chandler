@@ -14,7 +14,7 @@ module.exports = {
   free: ['time', 'zones', 'zone'],
 
   time: function(msg, opts) {
-    let none = $.parse(lang.time.none)
+    let none = Utils.parse(lang.time.none)
     let user = State.find(msg.guild.id, 'zones', msg.author.id)
     if (!user) return msg.channel.send(none)
 
@@ -23,16 +23,16 @@ module.exports = {
 
     // if no opts, get time for right now
     if (!opts || !opts.length) {
-      title = $.parse(lang.time.now)
+      title = Utils.parse(lang.time.now)
       table = Zones.sortTable(table, 'now')
     } else if (opts.length == 1) {
       // otherwise try and guess a time
       let when = Zones.findWhen(opts[0], user.zone)
       if (!when) {
-        let noTime = $.parse(lang.time.lost, opts[0])
+        let noTime = Utils.parse(lang.time.lost, opts[0])
         return msg.channel.send(noTime)
       }
-      title = $.parse(lang.time.then, opts[0])
+      title = Utils.parse(lang.time.then, opts[0])
       table = Zones.sortTable(table, when)
     }
 
@@ -59,48 +59,48 @@ module.exports = {
       for (var x in t.users) temp.value += `<@${t.users[x]}>\n`
       result.fields.push(temp)
     }
-    let name = $.parse(lang.zones.name)
-    let desc = $.parse(lang.zones.line)
+    let name = Utils.parse(lang.zones.name)
+    let desc = Utils.parse(lang.zones.line)
     let embed = Embed.create(desc, name, result)
     msg.channel.send(embed)
     msg.delete()
   },
 
   zone: function(msg, opts) {
-    let none = $.parse(lang.zone.find)
+    let none = Utils.parse(lang.zone.find)
     if (!opts || !opts.length) return msg.channel.send(none)
 
     let zone = Zones.findZone(opts)
     if (!zone) {
-      let noZone = $.parse(lang.time.lost, opts)
+      let noZone = Utils.parse(lang.time.lost, opts)
       return msg.channel.send(noZone)
     }
     State.push(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
-    let setZone = $.parse(lang.zone.set, zone.name)
+    let setZone = Utils.parse(lang.zone.set, zone.name)
     return msg.channel.send(setZone)
   },
 
   setzone: function(msg, opts) {
-    let useage = $.parse(lang.setzone.use)
+    let useage = Utils.parse(lang.setzone.use)
     if (!opts || opts.length < 2 || opts.length > 3) {
       return msg.channel.send(useage)
     }
 
-    let user = $.strip(opts.shift())
+    let user = Utils.strip(opts.shift())
     let zone = Zones.findZone(opts)
 
     if (!zone) {
-      let noZone = $.parse(lang.time.lost, opts)
+      let noZone = Utils.parse(lang.time.lost, opts)
       return msg.channel.send(noZone)
     }
 
     if (user.length != msg.author.id.length) {
-      let noUser = $.parse(lang.time.lost, `${user} (userid)`)
+      let noUser = Utils.parse(lang.time.lost, `${user} (userid)`)
       return msg.channel.send(noUser)
     }
 
     State.push(msg.guild.id, 'zones', { id: user, zone: zone.name })
-    let setZone = $.parse(lang.setzone.set, user, zone.name)
+    let setZone = Utils.parse(lang.setzone.set, user, zone.name)
     return msg.channel.send(setZone)
   }
 
