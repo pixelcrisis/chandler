@@ -12,7 +12,8 @@ const model = mongoose.Schema({
   modID:  { type: String, default: '' },
   speak:  { type: String, default: '' },
   zones:  { type: [],     default: [] },
-  locks:  { type: [],     default: [] }
+  locks:  { type: [],     default: [] },
+  comms:  { type: {},     default: {} }
 })
 const Settings = mongoose.model('Settings', model)
 
@@ -29,8 +30,10 @@ module.exports = {
         newCfg.save().catch(err => console.log)
         result = newCfg
       } else {
-        // ghetto migration
+        // ghetto migrations
+        console.log(cfg.comms)
         if (!cfg.locks) cfg.locks = []
+        if (!cfg.comms) cfg.comms = {}
         result = cfg
       }
     })
@@ -85,7 +88,25 @@ module.exports = {
     })
   },
 
-  add: function(guild, key, val) {
+  add: function(guild, repo, key, val) {
+    this.state[guild][repo][key] = val
+    Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      res[repo][key] = val
+      res.save()
+    })
+  },
+
+  rem: function(guild, repo, key) {
+    delete this.state[guild][repo][key]
+    Settings.findOne({ guild }, (err, res) => {
+      if (err) console.log(err)
+      delete res[repo][key]
+      res.save()
+    })
+  },
+
+  push: function(guild, key, val) {
     let arr = this.state[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
     if (index > -1) this.state[guild][key][index] = val
@@ -101,7 +122,7 @@ module.exports = {
     })
   },
 
-  rem: function(guild, key, val) {
+  pull: function(guild, key, val) {
     let arr = this.state[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
     if (index > -1) this.state[guild][key].splice(index, 1)
