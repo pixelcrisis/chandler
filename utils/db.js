@@ -53,8 +53,10 @@ module.exports = {
     let result
     await Settings.findOne({ guild }, (err, res) => {
       if (err) console.log(err)
-      if (res) result = res[key]
-      state[guild][key] = res[key]
+      if (res) {
+        result = res[key]
+        state[guild][key] = res[key]
+      }
     })
     return result
   },

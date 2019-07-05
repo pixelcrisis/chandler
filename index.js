@@ -42,9 +42,9 @@ Client.on('ready', async () => {
 })
 
 Client.on('message', async msg => {
+  if (!bot.ready || !msg.member || msg.author.bot) return
   let modID = await DB.get(msg.guild.id, 'modID')
   let prefix = await DB.get(msg.guild.id, 'prefix')
-  if (!bot.ready || !msg.member || msg.author.bot) return
   if (msg.content.indexOf(prefix) !== 0) return
 
   let opts = msg.content.slice(prefix.length).trim().split(/ +/g)
