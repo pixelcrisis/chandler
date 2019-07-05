@@ -78,4 +78,6 @@ Client.on('guildDelete', async guild => {
   Log("Removed From: " + guild.id)
 })
 
+Client.on('error', error => Log(error))
+
 Client.login(bot.token)
