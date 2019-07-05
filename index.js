@@ -37,7 +37,7 @@ Client.on('ready', async () => {
   let servers = getCount()
   let count = setCount(servers.length)
   bot.conf = await DB.loadAll(servers)
-  Log(`Booting: Loaded ${count}, Complete.`)
+  Log(`Booting: Loaded ${count} Complete.`)
   bot.ready = true
 })
 
