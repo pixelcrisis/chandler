@@ -1,8 +1,8 @@
 // Chandler
 // A Discord Bot
 
-let bot  = require('./data/config.json')
-const DB = require('./utils/db.js')
+let bot = require('./data/config.json')
+const State = require('./utils/state.js')
 
 const Discord = require('discord.js')
 
@@ -37,15 +37,15 @@ Client.on('ready', async () => {
   Log("Booting: Loading Servers...")
   let servers = getCount()
   let count = setCount(servers.length)
-  bot.conf = await DB.loadAll(servers)
+  bot.conf = await State.loadAll(servers)
   Log(`Booting: Loaded ${count} Complete.`)
   bot.ready = true
 })
 
 Client.on('message', async msg => {
   if (!bot.ready || !msg.member || msg.author.bot) return
-  let modID = await DB.get(msg.guild.id, 'modID')
-  let prefix = await DB.get(msg.guild.id, 'prefix')
+  let modID = await State.get(msg.guild.id, 'modID')
+  let prefix = await State.get(msg.guild.id, 'prefix')
   if (msg.content.indexOf(prefix) !== 0) return
 
   let opts = msg.content.slice(prefix.length).trim().split(/ +/g)
@@ -72,7 +72,7 @@ Client.on('message', async msg => {
 Client.on('guildCreate', async guild => {
   let servers = getCount()
   let count = setCount(servers.length)
-  bot.conf[guild.id] = await DB.load(guild.id)
+  bot.conf[guild.id] = await State.load(guild.id)
   Log("Added to: " + guild.id)
 })
 

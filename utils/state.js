@@ -1,4 +1,4 @@
-// Database Connection
+// Database Connection Partial
 // Uses MongoDB
 
 const mongoose = require('mongoose')
@@ -22,10 +22,10 @@ const Settings = mongoose.model('Settings', model)
 
 module.exports = {
 
-  state: {},
+  data: {},
 
   save: async function(guild) {
-    return Settings.findOneAndUpdate({ guild }, this.state[guild])
+    return Settings.findOneAndUpdate({ guild }, this.data[guild])
   },
 
   load: async function(guild) {
@@ -43,7 +43,7 @@ module.exports = {
         result = cfg
       }
     })
-    this.state[guild] = result
+    this.data[guild] = result
     return result
   },
 
@@ -57,40 +57,40 @@ module.exports = {
   },
 
   get: function(guild, key) {
-    return this.state[guild][key]
+    return this.data[guild][key]
   },
 
   find: function(guild, key, id) {
-    return this.state[guild][key].find(by => by.id == id)
+    return this.data[guild][key].find(by => by.id == id)
   },
 
   set: function(guild, key, val) {
-    this.state[guild][key] = val
+    this.data[guild][key] = val
     this.save(guild)
   },
 
   add: function(guild, repo, key, val) {
-    this.state[guild][repo][key] = val
+    this.data[guild][repo][key] = val
     this.save(guild)
   },
 
   rem: function(guild, repo, key) {
-    delete this.state[guild][repo][key]
+    delete this.data[guild][repo][key]
     this.save(guild)
   },
 
   push: function(guild, key, val) {
-    let arr = this.state[guild][key]
+    let arr = this.data[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
-    if (index > -1) this.state[guild][key][index] = val
-    else this.state[guild][key].push(val)
+    if (index > -1) this.data[guild][key][index] = val
+    else this.data[guild][key].push(val)
     this.save(guild)
   },
 
   pull: function(guild, key, val) {
-    let arr = this.state[guild][key]
+    let arr = this.data[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
-    if (index > -1) this.state[guild][key].splice(index, 1)
+    if (index > -1) this.data[guild][key].splice(index, 1)
     this.save(guild)
   }
 
