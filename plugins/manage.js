@@ -46,6 +46,16 @@ module.exports = {
     if (opts.length !== 1) return msg.channel.send(useage)
     msg.channel.fetchMessages({ limit: opts[0] + 1 })
       .then(got => { msg.channel.bulkDelete(got) })
+  },
+
+  roles: function(msg, opts) {
+    let response = '', roles = msg.guild.roles.array()
+    for (var i = roles.length - 1; i >= 0; i--) {
+      if (roles[i].name != "@everyone") {
+        response += "`" + roles[i].name + " - " + roles[i].id + "`\n"
+      }
+    }
+    return msg.channel.send(response)
   }
 
 }
