@@ -12,12 +12,12 @@ module.exports = {
   // free commands can be used by anyone
   free: ['time', 'zones', 'zone'],
 
-  time: async function(msg, opts) {
+  time: function(msg, opts) {
     let none = Util.parse(lang.time.none)
-    let user = await DB.find(msg.guild.id, 'zones', msg.author.id)
+    let user = DB.find(msg.guild.id, 'zones', msg.author.id)
     if (!user) return msg.channel.send(none)
 
-    let table = await DB.get(msg.guild.id, 'zones')
+    let table = DB.get(msg.guild.id, 'zones')
     let result = '', title = ''
 
     // if no opts, get time for right now
@@ -46,9 +46,9 @@ module.exports = {
     msg.delete()
   },
 
-  zones: async function(msg, opts) {
+  zones: function(msg, opts) {
     let result = { fields: [] }
-    let zones = await DB.get(msg.guild.id, 'zones')
+    let zones = DB.get(msg.guild.id, 'zones')
     let table = Time.sortTable(zones, 'now')
 
     for (var i = 0; i < table.length; i++) {

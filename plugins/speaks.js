@@ -8,8 +8,8 @@ const lang = require('../data/lang.json').speaks
 
 module.exports = {
 
-  speak: async function(msg, opts) {
-    let chan = await DB.get(msg.guild.id, 'speak')
+  speak: function(msg, opts) {
+    let chan = DB.get(msg.guild.id, 'speak')
 
     if (opts.length == 1) {
       let newID = Util.strip(opts[0])
@@ -40,11 +40,11 @@ module.exports = {
     }
   },
 
-  say: async function(msg, opts) {
+  say: function(msg, opts) {
     let useage = Util.parse(lang.say)
     if (!opts) return msg.channel.send(useage)
 
-    let chan = await DB.get(msg.guild.id, 'speak')
+    let chan = DB.get(msg.guild.id, 'speak')
     if (!chan) {
       let noChannel = Util.parse(lang.none)
       return msg.channel.send(noChannel)

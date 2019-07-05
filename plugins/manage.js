@@ -16,10 +16,10 @@ module.exports = {
     return msg.channel.send(setPrefix)
   },
 
-  staff: async function(msg, opts) {
+  staff: function(msg, opts) {
     if (!opts || !opts.length) {
       let response = Util.parse(lang.staff.none)
-      let staff = await DB.get(msg.guild.id, 'modID')
+      let staff = DB.get(msg.guild.id, 'modID')
       if (staff) response = Util.parse(lang.staff.curr, staff)
       return msg.channel.send(response)
     }
