@@ -7,7 +7,9 @@
     "invite": {
       "name": "Let Me Join!",
       "desc": "Click the {invite} to invite me to your server!"
-    },
+    }
+  },
+  "manage": {
     "prefix": {
       "use": "Useage: `>prefix !`",
       "set": "Changed Prefix to `{val1}`"
@@ -17,7 +19,8 @@
       "curr": "Staff set to: <@&{val1}>",
       "lost": "{val1} didn't seem like a role to me.",
       "none": "Staff not currently set: `>staff role`"
-    }
+    },
+    "clear": "Useage: `>clear 3`"
   },
   "editor": {
     "embed": {

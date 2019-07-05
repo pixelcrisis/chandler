@@ -3,7 +3,7 @@
 
 const DB   = require('../utils/db.js')
 const Util = require('../utils/util.js')
-const lang = require('../data/lang.json').basics
+const lang = require('../data/lang.json').manage
 
 module.exports = {
 
@@ -39,6 +39,13 @@ module.exports = {
       let useage = Util.parse(lang.staff.use)
       return msg.channel.send(useage)
     }
+  },
+
+  clear: function(msg, opts) {
+    let useage = Util.parse(lang.clear)
+    if (opts.length !== 1) return msg.channel.send(useage)
+    msg.channel.fetchMessages({ limit: opts[0] + 1 })
+      .then(got => { msg.channel.bulkDelete(got) })
   }
 
 }
