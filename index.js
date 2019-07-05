@@ -8,6 +8,7 @@ const Discord = require('discord.js')
 
 const plugins = [
   require('./plugins/basics.js'),
+  require('./plugins/manage.js'),
   require('./plugins/editor.js'),
   require('./plugins/locked.js'),
   require('./plugins/shifty.js'),
