@@ -2,6 +2,9 @@
 // Uses MongoDB
 
 const mongoose = require('mongoose')
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 mongoose.connect('mongodb://localhost:27017/chandler', {
   useNewUrlParser: true
 })
@@ -21,6 +24,10 @@ module.exports = {
 
   state: {},
 
+  save: async function(guild) {
+    return Settings.findOneAndUpdate({ guild }, this.state[guild])
+  },
+
   load: async function(guild) {
     let result
     await Settings.findOne({ guild }, (err, cfg) => {
@@ -31,7 +38,6 @@ module.exports = {
         result = newCfg
       } else {
         // ghetto migrations
-        console.log(cfg.comms)
         if (!cfg.locks) cfg.locks = []
         if (!cfg.comms) cfg.comms = {}
         result = cfg
@@ -51,59 +57,26 @@ module.exports = {
   },
 
   get: async function(guild, key) {
-    let state = this.state
-    if (state[guild]) return state[guild][key]
-    let result
-    await Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      if (res) {
-        result = res[key]
-        state[guild][key] = res[key]
-      }
-    })
-    return result
+    return this.state[guild][key]
   },
 
   find: async function(guild, key, id) {
-    let state = this.state
-    let obj = state[guild][key].find(by => by.id == id)
-    if (obj) return obj
-    let result
-    await Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      let obj = res[key].find(by => by.id == id)
-      if (obj) state[guild][key].push(obj)
-      return obj
-    })
+    return this.state[guild][key].find(by => by.id == id)
   },
 
   set: function(guild, key, val) {
     this.state[guild][key] = val
-    Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      if (res) {
-        res[key] = val
-        res.save()
-      }
-    })
+    this.save(guild)
   },
 
   add: function(guild, repo, key, val) {
     this.state[guild][repo][key] = val
-    Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      res[repo][key] = val
-      res.save()
-    })
+    this.save(guild)
   },
 
   rem: function(guild, repo, key) {
     delete this.state[guild][repo][key]
-    Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      delete res[repo][key]
-      res.save()
-    })
+    this.save(guild)
   },
 
   push: function(guild, key, val) {
@@ -111,31 +84,14 @@ module.exports = {
     let index = arr.findIndex(by => by.id == val.id)
     if (index > -1) this.state[guild][key][index] = val
     else this.state[guild][key].push(val)
-    Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      if (res) {
-        let index = res[key].findIndex(by => by.id == val.id)
-        if (index > -1) res[key][index] = val
-        else res[key].push(val)
-        res.save()
-      }
-    })
+    this.save(guild)
   },
 
   pull: function(guild, key, val) {
     let arr = this.state[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
     if (index > -1) this.state[guild][key].splice(index, 1)
-    Settings.findOne({ guild }, (err, res) => {
-      if (err) console.log(err)
-      if (res) {
-        let index = res[key].findIndex(by => by.id == val.id)
-        if (index > -1) {
-          let removed = res[key].splice(index, 1)
-          res.save()
-        }
-      }
-    })
+    this.save(guild)
   }
 
 }
