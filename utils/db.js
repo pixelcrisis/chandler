@@ -57,7 +57,6 @@ module.exports = {
   },
 
   get: function(guild, key) {
-    console.log(this.state[guild][key])
     return this.state[guild][key]
   },
 

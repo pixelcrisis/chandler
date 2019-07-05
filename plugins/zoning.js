@@ -74,7 +74,7 @@ module.exports = {
       let noZone = Util.parse(lang.time.lost, opts)
       return msg.channel.send(noZone)
     }
-    DB.add(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
+    DB.push(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
     let setZone = Util.parse(lang.zone.set, zone.name)
     return msg.channel.send(setZone)
   },
@@ -98,7 +98,7 @@ module.exports = {
       return msg.channel.send(noUser)
     }
 
-    DB.add(msg.guild.id, 'zones', { id: user, zone: zone.name })
+    DB.push(msg.guild.id, 'zones', { id: user, zone: zone.name })
     let setZone = Util.parse(lang.setzone.set, user, zone.name)
     return msg.channel.send(setZone)
   }

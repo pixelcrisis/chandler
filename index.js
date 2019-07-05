@@ -6,15 +6,16 @@ const DB = require('./utils/db.js')
 
 const Discord = require('discord.js')
 
-const plugins = [
-  require('./plugins/basics.js'),
-  require('./plugins/manage.js'),
-  require('./plugins/editor.js'),
-  require('./plugins/locked.js'),
-  require('./plugins/shifty.js'),
-  require('./plugins/speaks.js'),
-  require('./plugins/zoning.js')  
-]
+const plugins = {
+  basics: require('./plugins/basics.js'),
+  manage: require('./plugins/manage.js'),
+  editor: require('./plugins/editor.js'),
+  locked: require('./plugins/locked.js'),
+  shifty: require('./plugins/shifty.js'),
+  speaks: require('./plugins/speaks.js'),
+  zoning: require('./plugins/zoning.js'),
+  custom: require('./plugins/custom.js')
+}
 
 const Client = new Discord.Client()
 
@@ -64,6 +65,8 @@ Client.on('message', async msg => {
       return plugin[cmd](msg, opts)
     }
   }
+
+  plugins['custom'].__run(msg, cmd)
 })
 
 Client.on('guildCreate', async guild => {

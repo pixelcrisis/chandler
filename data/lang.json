@@ -69,5 +69,20 @@
       "use": "Useage: `>setzone @user America/Los_Angeles` (but their timezone)",
       "set": "Set timezone for <@{val1}> to: {val2}"
     } 
+  },
+  "custom": {
+    "alias": {
+      "use": "Useage: `>alias command message`",
+      "bad": "The trigger **{val}** is reserved, sorry.",
+      "new": "Alias **{val1}** points to: `{val2}`",
+      "set": "Updated **{val1}** to: `{val2}`"
+    },
+    "forget": {
+      "use": "Useage: `>forget command`",
+      "bad": "Alias **{val1}** doesn't exist.",
+      "rem": "Deleted Alias **{val1}**"
+    },
+    "none": "There are no aliases set. `>alias command message`",
+    "list": "**{val1}**: {val2}\n"
   }
 }

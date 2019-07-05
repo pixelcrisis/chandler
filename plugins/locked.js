@@ -22,7 +22,7 @@ module.exports = {
     let time = `${now.toDateString()} - ${now.toTimeString()}`
     let newTopic = `${msg.channel.name} was locked @ ${time}.`
 
-    DB.add(msg.guild.id, 'locks', { 
+    DB.push(msg.guild.id, 'locks', { 
       id: msg.channel.id,
       name: msg.channel.name,
       topic: msg.channel.topic,
@@ -51,7 +51,7 @@ module.exports = {
       overwrites: data.perms,
       reason: "Channel was unlocked by Chandler."
     })
-    DB.rem(msg.guild.id, 'locks', data)
+    DB.pull(msg.guild.id, 'locks', data)
   },
 
 }
