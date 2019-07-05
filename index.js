@@ -32,11 +32,11 @@ const Log = msg => {
 }
 
 Client.on('ready', async () => {
-  Log("Loading Servers...")
+  Log("Booting: Loading Servers...")
   let servers = getCount()
   let count = setCount(servers.length)
   bot.conf = await DB.loadAll(servers)
-  Log("Loaded " + count)
+  Log(`Booting: Loaded ${count}, Complete.`)
   bot.ready = true
 })
 
