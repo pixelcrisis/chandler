@@ -7,6 +7,7 @@ He doesn't do much, but he does it well.
 - Locks and Unlocks Channels
 - Moves Messages Between Channels.
 - Keeps track of local user times!
+- Send and Replace Embeds (Bulletins!)
 
 ## Commands
 You can view the command list [on the website](https://chandler.12px.io).
