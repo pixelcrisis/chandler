@@ -2,7 +2,7 @@
 // Stores Current Data in DB, Locks
 // Unlocks, restores data from DB
 
-const Utils = require('../utils/utils.js')
+const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
 const lang = require('../data/lang.json').locked
 
@@ -11,10 +11,7 @@ module.exports = {
   lock: async function(msg, opts) {
     let perms = msg.channel.permissionOverwrites.array()
     let data = State.find(msg.guild.id, 'locks', msg.channel.id)
-    if (data) {
-      let isLocked = Utils.parse(lang.locked)
-      return msg.channel.send(isLocked)
-    }
+    if (data) return Reply.to(msg, lang.locked)
 
     let now = new Date()
     let everyone = msg.channel.guild.defaultRole
@@ -40,10 +37,7 @@ module.exports = {
 
   unlock: async function(msg, opts) {
     let data = State.find(msg.guild.id, 'locks', msg.channel.id)
-    if (!data) {
-      let isUnlocked = Utils.parse(lang.unlocked)
-      return msg.channel.send(isUnlocked)
-    }
+    if (!data) return Reply.to(msg, lang.unlocked)
 
     await msg.channel.setName(data.name)
     await msg.channel.setTopic(data.topic)

@@ -2,7 +2,7 @@
 // Allows mods to speak through the bot.
 // for fun or moderation.
 
-const Utils = require('../utils/utils.js')
+const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
 const lang = require('../data/lang.json').speaks
 
@@ -12,46 +12,33 @@ module.exports = {
     let chan = State.get(msg.guild.id, 'speak')
 
     if (opts.length == 1) {
-      let newID = Utils.strip(opts[0])
+      let newID = Reply.strip(opts[0])
       let newCH = msg.channel.guild.channels.get(newID)
-      if (!newCH) {
-        let noChannel = Utils.parse(lang.none)
-        return msg.channel.send(noChannel)
-      } else {
+      if (!newCH) return Reply.to(msg, lang.none)
+      else {
         chan = msg.channel.guild.channels.get(chan)
         State.set(msg.guild.id, 'speak', newID)
-        let swap = Utils.parse(lang.curr, newCH.id)
-        if (chan) swap = Utils.parse(lang.swap, chan.id, newCH.id)
-        return msg.channel.send(swap)
+        if (chan) return Reply.to(msg, lang.swap, chan.id, newCH.id)
+        else return Reply.to(msg, lang.curr, newCH.id)
       }
     } 
 
     else if (!opts || !opts.length) {
       chan = msg.channel.guild.channels.get(chan)
-      let options = chan ? chan.id : ''
-      let message = chan ? lang.curr : lang.none
-      let response = Utils.parse(message, options)
-      return msg.channel.send(response)
+      if (chan) return Reply.to(msg, lang.curr, chan.id)
+      else return Reply.to(msg, lang.none)
     }
 
-    else {
-      let useage = Utils.parse(lang.use)
-      return msg.channel.send(useage)
-    }
+    else return Reply.to(msg, lang.use)
   },
 
   say: function(msg, opts) {
-    let useage = Utils.parse(lang.say)
-    if (!opts) return msg.channel.send(useage)
+    if (!opts) return Reply.to(msg, lang.say)
 
     let chan = State.get(msg.guild.id, 'speak')
-    if (!chan) {
-      let noChannel = Utils.parse(lang.none)
-      return msg.channel.send(noChannel)
-    } else {
-      chan = msg.channel.guild.channels.get(chan)
-    }
-    if (opts.length) return chan.send(opts.join(' '))
+    if (!chan) return Reply.to(msg, lang.none)
+    else chan = msg.channel.guild.channels.get(chan)
+    if (opts.length) return Reply.to(msg, opts.join(' '))
   }
 
 };

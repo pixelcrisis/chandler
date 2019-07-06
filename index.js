@@ -81,13 +81,13 @@ Client.on('guildCreate', async guild => {
   let servers = getCount()
   let count = setCount(servers.length)
   bot.conf[guild.id] = await State.load(guild.id)
-  Log("Added to: " + guild.id)
+  Log(`Added to ${guild.name} : ${guild.id}`)
 })
 
 Client.on('guildDelete', async guild => {
   let servers = getCount()
   let count = setCount(servers.length)
-  Log("Removed From: " + guild.id)
+  Log(`Removed From ${guild.name} : ${guild.id}`)
 })
 
 Client.on('error', error => Log(error))

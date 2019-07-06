@@ -1,8 +1,7 @@
 // Basic Plugin
 // For the real simple.
 
-const Utils = require('../utils/utils.js')
-const Embed = require('../utils/embed.js')
+const Reply = require('../utils/reply.js')
 const lang = require('../data/lang.json').basics
 
 module.exports = {
@@ -10,15 +9,11 @@ module.exports = {
   free: ['help', 'invite'],
 
   help: function(msg, opts) {
-    let name = Utils.parse(lang.help.name)
-    let desc = Utils.parse(lang.help.desc)
-    return msg.channel.send(Embed.make(desc, name))
+    return Reply.embed(msg, lang.help.name, lang.help.desc)
   },
 
   invite: function(msg, opts) {
-    let name = Utils.parse(lang.invite.name)
-    let desc = Utils.parse(lang.invite.desc)
-    return msg.channel.send(Embed.make(desc, name))
+    return Reply.embed(msg, lang.invite.name, lang.invite.desc)
   }
 
 }

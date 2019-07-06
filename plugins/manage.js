@@ -1,49 +1,42 @@
 // Management Plugin
 // For Managing Chandler/Servers
 
-const Utils = require('../utils/utils.js')
+const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
 const lang = require('../data/lang.json').manage
 
 module.exports = {
 
   prefix: function(msg, opts) {
-    let useage = Utils.parse(lang.prefix.use)
-    if (!opts) return msg.channel.send(useage)
+    if (!opts || !opts[0] || !opts.join(' ')) {
+      return Reply.to(msg, lang.prefix.use)
+    }
 
     State.set(msg.guild.id, 'prefix', opts.join(' '))
-    let setPrefix = Utils.parse(lang.prefix.set, opts.join(' '))
-    return msg.channel.send(setPrefix)
+    return Reply.to(msg, lang.prefix.set, opts.join(' '))
   },
 
   staff: function(msg, opts) {
     if (!opts || !opts.length) {
-      let response = Utils.parse(lang.staff.none)
       let staff = State.get(msg.guild.id, 'modID')
-      if (staff) response = Utils.parse(lang.staff.curr, staff)
-      return msg.channel.send(response)
+      if (staff) return Reply.to(msg, lang.staff.curr, staff)
+      else return Reply.to(msg, lang.staff.none)
     }
 
     else if (opts.length == 1) {
-      let role = Utils.strip(opts[0])
+      let role = Reply.strip(opts[0])
       if (!msg.guild.roles.has(role)) {
-        let noChannel = Utils.parse(lang.staff.lost, opts[0])
-        return msg.channel.send(noChannel)
+        return Reply.to(msg, lang.staff.lost, opts[0])
       }
       State.set(msg.guild.id, 'modID', role)
-      let setStaff = Utils.parse(lang.staff.curr, role)
-      return msg.channel.send(setStaff)
+      return Reply.to(msg, lang.staff.curr, role)
     }
 
-    else {
-      let useage = Utils.parse(lang.staff.use)
-      return msg.channel.send(useage)
-    }
+    else return Reply.to(msg, lang.staff.use)
   },
 
   clear: function(msg, opts) {
-    let useage = Utils.parse(lang.clear)
-    if (opts.length !== 1) return msg.channel.send(useage)
+    if (opts.length !== 1) return Reply.to(msg, lang.clear)
     return msg.channel.fetchMessages({ limit: parseInt(opts[0]) + 1 })
       .then(got => { msg.channel.bulkDelete(got) })
   },

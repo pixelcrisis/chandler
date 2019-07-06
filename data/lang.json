@@ -53,8 +53,9 @@
   },
   "zoning": {
     "time": {
-      "none": "You need to set your zone first! `>zone`",
+      "use": "Useage: `>time [time]`",
       "now":  "Current Time",
+      "none": "You need to set your zone first! `>zone`",
       "then": "Time at {val1}",
       "lost": "Couldn't find: {val1}"
     },

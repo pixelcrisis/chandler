@@ -2,31 +2,26 @@
 // Moves X messages from one channel
 // to a different channel.
 
-const Utils = require('../utils/utils.js')
-const Embed = require('../utils/embed.js')
+const Reply = require('../utils/reply.js')
 const lang = require('../data/lang.json').shifty
 
 module.exports = {
 
   shift: async function(msg, opts) {
-    let useage = Utils.parse(lang.use)
-    if (opts.length != 2) return msg.channel.send(useage)
+    if (opts.length != 2) return Reply.to(msg, lang.use)
 
     let shifted = []
     let max = parseInt(opts[0])
-    let channel = Utils.strip(opts[1])
+    let channel = Reply.strip(opts[1])
 
     // get the channel
     channel = msg.channel.guild.channels.get(channel)
-    if (!channel) {
-      let noChannel = Utils.parse(lang.none)
-      return msg.channel.send(noChannel)
-    }
+    if (!channel) return Reply.to(msg, lang.none)
 
     // fetch X messages, store them, delete them.
     await msg.channel.fetchMessages({ limit: max + 1 }).then(fetched => {
       fetched.forEach(message => {
-        let ago = Utils.ago(message.createdTimestamp)
+        let ago = Reply.past(message.createdTimestamp)
         shifted.push(`<@${message.author.id}>: **${message.content}** (${ago})`)
       })
       msg.channel.bulkDelete(fetched)
@@ -34,21 +29,19 @@ module.exports = {
 
     // split at 2k characters
     let trigger = shifted.shift() // don't reprint the command
-    shifted = Utils.split(shifted, '\n\n')
+    shifted = Reply.split(shifted, '\n\n')
 
     // reprint conversation
     for (var i = 0; i < shifted.length; i++) {
-      let divide = Utils.parse(lang.line)
+      let divide = Reply.parse(lang.line)
       let title  = `${divide} (${i + 1}/${shifted.length})`
-      let author = Utils.parse(lang.move, max, msg.channel.name)
-      let embed1 = Embed.make(shifted[i], author, { title })
-      channel.send(embed1)
+      let author = Reply.parse(lang.move, max, msg.channel.name)
+      Reply.embed({ channel }, author, shifted[i], { title })
     }
 
     // relocation message
-    let desc = Utils.parse(lang.here, max, channel.id)
-    let embed2 = Embed.make(desc)
-    return msg.channel.send(embed2)
+    let desc = Reply.parse(lang.here, max, channel.id)
+    return Reply.embed(msg, null, desc)
   },
 
   // aliases

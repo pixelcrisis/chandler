@@ -2,9 +2,8 @@
 // Record Timezones from users,
 // then display time relative to everyone.
 
-const Utils = require('../utils/utils.js')
+const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
-const Embed = require('../utils/embed.js')
 const Zones = require('../utils/zones.js')
 const lang = require('../data/lang.json').zoning
 
@@ -13,28 +12,25 @@ module.exports = {
   // free commands can be used by anyone
   free: ['time', 'zones', 'zone'],
 
-  time: function(msg, opts) {
-    let none = Utils.parse(lang.time.none)
+  time: function(msg, opts, test) {
     let user = State.find(msg.guild.id, 'zones', msg.author.id)
-    if (!user) return msg.channel.send(none)
+    if (!user) return Reply.to(msg, lang.time.none)
 
     let table = State.get(msg.guild.id, 'zones')
     let result = '', title = ''
 
     // if no opts, get time for right now
     if (!opts || !opts.length) {
-      title = Utils.parse(lang.time.now)
+      title = Reply.parse(lang.time.now)
       table = Zones.sortTable(table, 'now')
     } else if (opts.length == 1) {
       // otherwise try and guess a time
       let when = Zones.findWhen(opts[0], user.zone)
-      if (!when) {
-        let noTime = Utils.parse(lang.time.lost, opts[0])
-        return msg.channel.send(noTime)
-      }
-      title = Utils.parse(lang.time.then, opts[0])
+      if (!when) return Reply.to(msg, lang.time.lost, opts[0])
+
+      title = Reply.parse(lang.time.then, opts[0])
       table = Zones.sortTable(table, when)
-    }
+    } else return Reply.to(msg, lang.time.use)
 
     for (var i = 0; i < table.length; i++) {
       let t = table[i]
@@ -42,12 +38,12 @@ module.exports = {
       result += `${t.name.split('/')[1].split('_').join(' ')} `
       result += `(${t.users.length})\n`
     }
-    let embed = Embed.create(result, title)
-    msg.channel.send(embed)
-    return msg.delete()
+
+    Reply.embed(msg, title, result)
+    return test ? false : msg.delete()
   },
 
-  zones: function(msg, opts) {
+  zones: function(msg, opts, test) {
     let result = { fields: [] }
     let zones = State.get(msg.guild.id, 'zones')
     let table = Zones.sortTable(zones, 'now')
@@ -59,49 +55,37 @@ module.exports = {
       for (var x in t.users) temp.value += `<@${t.users[x]}>\n`
       result.fields.push(temp)
     }
-    let name = Utils.parse(lang.zones.name)
-    let desc = Utils.parse(lang.zones.line)
-    let embed = Embed.create(desc, name, result)
-    msg.channel.send(embed)
-    return msg.delete()
+    let name = Reply.parse(lang.zones.name)
+    let desc = Reply.parse(lang.zones.line)
+    Reply.embed(msg, name, desc, result)
+    return test ? false : msg.delete()
   },
 
   zone: function(msg, opts) {
-    let none = Utils.parse(lang.zone.find)
-    if (!opts || !opts.length) return msg.channel.send(none)
+    if (!opts) return Reply.to(msg, lang.zone.find)
 
     let zone = Zones.findZone(opts)
-    if (!zone) {
-      let noZone = Utils.parse(lang.time.lost, opts)
-      return msg.channel.send(noZone)
-    }
+    if (!zone) return Reply.to(msg, lang.time.lost, opts.join(' '))
     State.push(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
-    let setZone = Utils.parse(lang.zone.set, zone.name)
-    return msg.channel.send(setZone)
+    return Reply.to(msg, lang.zone.set, zone.name)
   },
 
   setzone: function(msg, opts) {
-    let useage = Utils.parse(lang.setzone.use)
     if (!opts || opts.length < 2 || opts.length > 3) {
-      return msg.channel.send(useage)
+      return Reply.to(msg, lang.setzone.use)
     }
 
-    let user = Utils.strip(opts.shift())
+    let user = Reply.strip(opts.shift())
     let zone = Zones.findZone(opts)
 
-    if (!zone) {
-      let noZone = Utils.parse(lang.time.lost, opts)
-      return msg.channel.send(noZone)
-    }
+    if (!zone) return Reply.to(msg, lang.time.lost, opts.join(' '))
 
     if (user.length != msg.author.id.length) {
-      let noUser = Utils.parse(lang.time.lost, `${user} (userid)`)
-      return msg.channel.send(noUser)
+      return Reply.to(msg, lang.time.lost, `${user} (userid)`)
     }
 
     State.push(msg.guild.id, 'zones', { id: user, zone: zone.name })
-    let setZone = Utils.parse(lang.setzone.set, user, zone.name)
-    return msg.channel.send(setZone)
+    return Reply.to(msg, lang.setzone.set, user, zone.name)
   }
 
 }
