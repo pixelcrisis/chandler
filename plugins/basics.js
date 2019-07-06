@@ -12,7 +12,7 @@ module.exports = {
   help: function(msg, opts) {
     let name = Utils.parse(lang.help.name)
     let desc = Utils.parse(lang.help.desc)
-    return msg.channel.send($.embed.make(desc, name))
+    return msg.channel.send(Embed.make(desc, name))
   },
 
   invite: function(msg, opts) {

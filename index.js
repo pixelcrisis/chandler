@@ -2,6 +2,7 @@
 // A Discord Bot
 
 let bot = require('./data/config.json')
+const Tests = require('./utils/tests.js')
 const State = require('./utils/state.js')
 
 const Discord = require('discord.js')
@@ -50,6 +51,13 @@ Client.on('message', async msg => {
 
   let opts = msg.content.slice(prefix.length).trim().split(/ +/g)
   let cmd = opts.shift().toLowerCase()
+
+  if (cmd == 'test' && msg.member.user.id == bot.owner) {
+    bot.ready = false
+    let tests = await Tests.run(msg, plugins)
+    bot.ready = true
+    return msg.channel.send('Testing Completed')
+  }
 
   const canExecute = plugin => {
     // is it free? (can anyone use it)

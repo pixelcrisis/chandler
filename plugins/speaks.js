@@ -51,7 +51,7 @@ module.exports = {
     } else {
       chan = msg.channel.guild.channels.get(chan)
     }
-    if (opts.length) chan.send(opts.join(' '))
+    if (opts.length) return chan.send(opts.join(' '))
   }
 
 };

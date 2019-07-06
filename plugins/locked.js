@@ -32,7 +32,7 @@ module.exports = {
 
     await msg.channel.setName('locked')
     await msg.channel.setTopic(newTopic)
-    msg.channel.replacePermissionOverwrites({
+    return msg.channel.replacePermissionOverwrites({
       overwrites: [{ id: everyone, denied: ['SEND_MESSAGES'] }],
       reason: "Channel was locked by Chandler."
     })
@@ -51,7 +51,7 @@ module.exports = {
       overwrites: data.perms,
       reason: "Channel was unlocked by Chandler."
     })
-    State.pull(msg.guild.id, 'locks', data)
+    return State.pull(msg.guild.id, 'locks', data)
   },
 
 }

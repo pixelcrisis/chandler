@@ -9,7 +9,7 @@ module.exports = {
 
   __run: function(msg, alias) {
     let cmds = State.get(msg.guild.id, 'comms')
-    if (cmds[alias]) msg.channel.send(cmds[alias])
+    if (cmds[alias]) return msg.channel.send(cmds[alias])
   },
 
   alias: function(msg, opts) {

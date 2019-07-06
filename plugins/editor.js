@@ -9,17 +9,17 @@ const lang = require('../data/lang.json').editor
 
 module.exports = {
 
-  print: function(msg, opts) {
+  print: async function(msg, opts, test) {
     let total = opts.length ? parseInt(opts[0]) : 0
     for (var i = 0; i < total; i++) {
-      msg.channel.send('_ _').then(m => m.edit(m.id))
+      await msg.channel.send('_ _').then(m => m.edit(m.id))
     }
-    msg.delete()
+    return test ? true : msg.delete()
   },
 
-  embed: function(msg, opts) {
+  embed: function(msg, opts, test) {
     let useage = Utils.parse(lang.embed.use)
-    if (!opts) msg.channel.send(useage)
+    if (!opts) return msg.channel.send(useage)
     else {
       let embed = Embed.parse(opts.join(' '))
       if (embed) msg.channel.send(embed)
@@ -28,10 +28,10 @@ module.exports = {
         msg.channel.send(badEmbed)
       }
     }
-    msg.delete()
+    return test ? true : msg.delete()
   },
 
-  edit: function(msg, opts) {
+  edit: function(msg, opts, test) {
     let useage = Utils.parse(lang.edit.use)
     if (opts.length <= 1) return msg.channel.send(useage)
 
@@ -57,7 +57,7 @@ module.exports = {
         let noMessage = Utils.parse(lang.edit.none)
         return msg.channel.send(noMessage)
       })
-    msg.delete()
+    return test ? true : msg.delete()
   }
 
 }

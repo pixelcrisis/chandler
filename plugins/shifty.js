@@ -41,14 +41,14 @@ module.exports = {
       let divide = Utils.parse(lang.line)
       let title  = `${divide} (${i + 1}/${shifted.length})`
       let author = Utils.parse(lang.move, max, msg.channel.name)
-      let embed1 = Embed.create(shifted[i], author, { title })
+      let embed1 = Embed.make(shifted[i], author, { title })
       channel.send(embed1)
     }
 
     // relocation message
     let desc = Utils.parse(lang.here, max, channel.id)
-    let embed2 = Embed.create(desc)
-    msg.channel.send(embed2)
+    let embed2 = Embed.make(desc)
+    return msg.channel.send(embed2)
   },
 
   // aliases

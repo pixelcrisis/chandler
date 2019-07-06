@@ -2,8 +2,8 @@
   "ready": false,
 
   "debug": true,
-  "guild": "",
-  "chann": "",
+  "debugID": "",
 
+  "owner": "",
   "token": "S0MErandomlyHASHEDstringPROVIDEDbyDISCORD"
 }

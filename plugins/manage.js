@@ -44,7 +44,7 @@ module.exports = {
   clear: function(msg, opts) {
     let useage = Utils.parse(lang.clear)
     if (opts.length !== 1) return msg.channel.send(useage)
-    msg.channel.fetchMessages({ limit: opts[0] + 1 })
+    return msg.channel.fetchMessages({ limit: parseInt(opts[0]) + 1 })
       .then(got => { msg.channel.bulkDelete(got) })
   },
 

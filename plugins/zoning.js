@@ -44,7 +44,7 @@ module.exports = {
     }
     let embed = Embed.create(result, title)
     msg.channel.send(embed)
-    msg.delete()
+    return msg.delete()
   },
 
   zones: function(msg, opts) {
@@ -63,7 +63,7 @@ module.exports = {
     let desc = Utils.parse(lang.zones.line)
     let embed = Embed.create(desc, name, result)
     msg.channel.send(embed)
-    msg.delete()
+    return msg.delete()
   },
 
   zone: function(msg, opts) {
