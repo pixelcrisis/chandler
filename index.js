@@ -29,8 +29,8 @@ const setCount = amt => {
 
 const Log = msg => {
   console.info(msg)
-  if (!bot.debug || !bot.debugID) return
-  let chann = Client.channels.get(bot.debugID)
+  if (!bot.server || !bot.serverLogID) return
+  let chann = Client.channels.get(bot.serverLogID)
   chann.send(msg)
 }
 
