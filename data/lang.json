@@ -23,6 +23,7 @@
     "clear": "Useage: `>clear 3`"
   },
   "editor": {
+    "limit": "Max Prints: 5",
     "embed": {
       "use": "Useage: `>embed { embed }`",
       "bad": "Couldn't parse that embed."

@@ -11,6 +11,10 @@ module.exports = {
 
   print: async function(msg, opts, test) {
     let total = opts.length ? parseInt(opts[0]) : 0
+    if (total > 5) {
+      let limited = Utils.parse(lang.limit)
+      return msg.channel.send(limited)
+    }
     for (var i = 0; i < total; i++) {
       await msg.channel.send('_ _').then(m => m.edit(m.id))
     }
