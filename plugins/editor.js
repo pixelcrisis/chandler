@@ -10,7 +10,7 @@ const lang = require('../data/lang.json').editor
 module.exports = {
 
   print: async function(msg, opts, test) {
-    let total = opts.length ? parseInt(opts[0]) : 0
+    let total = opts.length ? parseInt(opts[0]) : 1
     if (total > 5) {
       let limited = Utils.parse(lang.limit)
       return msg.channel.send(limited)
