@@ -1,8 +1,8 @@
 {
   "ready": false,
 
-  "debug": true,
-  "debugID": "",
+  "server": false,
+  "serverLogID": "",
 
   "owner": "",
   "token": "S0MErandomlyHASHEDstringPROVIDEDbyDISCORD"
