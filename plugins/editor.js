@@ -27,11 +27,11 @@ module.exports = {
     return test ? true : msg.delete()
   },
 
-  edit: function(msg, opts, test) {
+  edit: async function(msg, opts, test) {
     if (opts.length <= 1) return Reply.to(msg, lang.edit.use)
 
     let id = opts.shift()
-    msg.channel.fetchMessage(id)
+    await msg.channel.fetchMessage(id)
       .then((m) => {
         let newMsg = opts.join(' ')
         // if not an embed, just push the edit

@@ -53,10 +53,11 @@ Client.on('message', async msg => {
   let cmd = opts.shift().toLowerCase()
 
   if (cmd == 'test' && msg.member.user.id == bot.owner) {
-    bot.ready = false
-    let tests = await Tests.run(msg, plugins)
-    bot.ready = true
-    return msg.channel.send('Testing Completed')
+    if (!bot.server) {
+      bot.ready = false
+      let tests = await Tests.run(msg, opts, plugins)
+      bot.ready = true
+    }
   }
 
   const canExecute = plugin => {
