@@ -42,13 +42,11 @@ module.exports = {
   },
 
   roles: function(msg, opts) {
-    let response = '', roles = msg.guild.roles.array()
+    let list = [], roles = msg.guild.roles.array()
     for (var i = roles.length - 1; i >= 0; i--) {
-      if (roles[i].name != "@everyone") {
-        response += "`" + roles[i].name + " - " + roles[i].id + "`\n"
-      }
+      list.push("`" + roles[i].id + "` - " + roles[i].name)
     }
-    return msg.channel.send(response)
+    return Reply.list(msg, "Server Roles", list, '\n')
   }
 
 }

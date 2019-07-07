@@ -27,20 +27,11 @@ module.exports = {
       msg.channel.bulkDelete(fetched)
     })
 
-    // split at 2k characters
     let trigger = shifted.shift() // don't reprint the command
-    shifted = Reply.split(shifted, '\n\n')
 
     // reprint conversation
-    for (var i = 0; i < shifted.length; i++) {
-      Reply.with({ channel }, {
-        name: lang.move,
-        desc: shifted[i],
-        title: `${lang.line} (${i + 1}/${shifted.length})`
-      }, max, msg.channel.name)
-    }
-
-    // relocation message
+    let title = Reply.parse(lang.move, max, msg.channel.name)
+    Reply.list(msg, title, shifted, '\n\n')
     return Reply.with(msg, lang.here, max, channel.id)
   },
 

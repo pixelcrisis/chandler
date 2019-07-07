@@ -26,6 +26,19 @@ module.exports = {
     return msg.channel.send({ embed })
   },
 
+  list: function(msg, title, data, join) {
+    // split list at 2k characters
+    data = this.split(data, join)
+    for (var i = 0; i < data.length; i++) {
+      let embed = {
+        description: data[i],
+        author: { name: this.parse(title) },
+        footer: { text: `Page ${i + 1}/${data.length}` }
+      }
+      return msg.channel.send({ embed })
+    }
+  },
+
   parse: function(str, val1, val2) {
     if (!str) return str
     let invite = '[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
