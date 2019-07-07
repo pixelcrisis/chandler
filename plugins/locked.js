@@ -11,7 +11,7 @@ module.exports = {
   lock: async function(msg, opts) {
     let perms = msg.channel.permissionOverwrites.array()
     let data = State.find(msg.guild.id, 'locks', msg.channel.id)
-    if (data) return Reply.to(msg, lang.locked)
+    if (data) return Reply.with(msg, lang.locked)
 
     let now = new Date()
     let everyone = msg.channel.guild.defaultRole
@@ -37,7 +37,7 @@ module.exports = {
 
   unlock: async function(msg, opts) {
     let data = State.find(msg.guild.id, 'locks', msg.channel.id)
-    if (!data) return Reply.to(msg, lang.unlocked)
+    if (!data) return Reply.with(msg, lang.unlocked)
 
     await msg.channel.setName(data.name)
     await msg.channel.setTopic(data.topic)

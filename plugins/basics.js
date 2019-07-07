@@ -9,11 +9,11 @@ module.exports = {
   free: ['help', 'invite'],
 
   help: function(msg, opts) {
-    return Reply.embed(msg, lang.help.name, lang.help.desc)
+    return Reply.with(msg, lang.help)
   },
 
   invite: function(msg, opts) {
-    return Reply.embed(msg, lang.invite.name, lang.invite.desc)
+    return Reply.with(msg, lang.invite)
   }
 
 }

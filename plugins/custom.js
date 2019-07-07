@@ -13,28 +13,28 @@ module.exports = {
   },
 
   alias: function(msg, opts) {
-    if (opts.length < 2) return Reply.to(msg, lang.alias.use)
+    if (opts.length < 2) return Reply.with(msg, lang.alias.use)
     let cmds = State.get(msg.guild.id, 'comms')
     let cant = [ 'alias', 'forget', 'prefix' ]
 
     let cmd = opts.shift()
     let opt = opts.join(' ')
 
-    if (cant.includes(cmd)) return Reply.to(msg, lang.alias.bad)
+    if (cant.includes(cmd)) return Reply.with(msg, lang.alias.bad)
 
     State.add(msg.guild.id, 'comms', cmd, opt)
     let response = cmds[cmd] ? lang.alias.set : lang.alias.new
-    return Reply.to(msg, response, cmd, opt)
+    return Reply.with(msg, response, cmd, opt)
   },
 
   forget: function(msg, opts) {
-    if (opts.length != 1) return Reply.to(msg, lang.forget.use)
+    if (opts.length != 1) return Reply.with(msg, lang.forget.use)
     let cmds = State.get(msg.guild.id, 'comms')
     if (cmds[opts[0]]) {
       State.rem(msg.guild.id, 'comms', opts[0])
-      return Reply.to(msg, lang.forget.rem, opts[0])
+      return Reply.with(msg, lang.forget.rem, opts[0])
     } 
-    else return Reply.to(msg, lang.forget.bad, opts[0])
+    else return Reply.with(msg, lang.forget.bad, opts[0])
   },
 
   aliases: function(msg, opts) {

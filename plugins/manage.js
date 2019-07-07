@@ -9,34 +9,34 @@ module.exports = {
 
   prefix: function(msg, opts) {
     if (!opts || !opts[0] || !opts.join(' ')) {
-      return Reply.to(msg, lang.prefix.use)
+      return Reply.with(msg, lang.prefix.use)
     }
 
     State.set(msg.guild.id, 'prefix', opts.join(' '))
-    return Reply.to(msg, lang.prefix.set, opts.join(' '))
+    return Reply.with(msg, lang.prefix.set, opts.join(' '))
   },
 
   staff: function(msg, opts) {
     if (!opts || !opts.length) {
       let staff = State.get(msg.guild.id, 'modID')
-      if (staff) return Reply.to(msg, lang.staff.curr, staff)
-      else return Reply.to(msg, lang.staff.none)
+      if (staff) return Reply.with(msg, lang.staff.curr, staff)
+      else return Reply.with(msg, lang.staff.none)
     }
 
     else if (opts.length == 1) {
       let role = Reply.strip(opts[0])
       if (!msg.guild.roles.has(role)) {
-        return Reply.to(msg, lang.staff.lost, opts[0])
+        return Reply.with(msg, lang.staff.lost, opts[0])
       }
       State.set(msg.guild.id, 'modID', role)
-      return Reply.to(msg, lang.staff.curr, role)
+      return Reply.with(msg, lang.staff.curr, role)
     }
 
-    else return Reply.to(msg, lang.staff.use)
+    else return Reply.with(msg, lang.staff.use)
   },
 
   clear: function(msg, opts) {
-    if (opts.length !== 1) return Reply.to(msg, lang.clear)
+    if (opts.length !== 1) return Reply.with(msg, lang.clear)
     return msg.channel.fetchMessages({ limit: parseInt(opts[0]) + 1 })
       .then(got => { msg.channel.bulkDelete(got) })
   },

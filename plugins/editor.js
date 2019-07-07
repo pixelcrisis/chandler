@@ -10,7 +10,7 @@ module.exports = {
 
   print: async function(msg, opts, test) {
     let total = opts.length ? parseInt(opts[0]) : 1
-    if (total > 5) return Reply.to(msg, lang.limit)
+    if (total > 5) return Reply.with(msg, lang.limit)
     for (var i = 0; i < total; i++) {
       await msg.channel.send('_ _').then(m => m.edit(m.id))
     }
@@ -18,17 +18,17 @@ module.exports = {
   },
 
   embed: function(msg, opts, test) {
-    if (!opts) return Reply.to(msg, lang.embed.use)
+    if (!opts) return Reply.with(msg, lang.embed.use)
     else {
       let embed = Reply.getEmbed(opts.join(' '))
       if (embed) msg.channel.send(embed)
-      else return Reply.to(msg, lang.embed.bad)
+      else return Reply.with(msg, lang.embed.bad)
     }
     return test ? true : msg.delete()
   },
 
   edit: async function(msg, opts, test) {
-    if (opts.length <= 1) return Reply.to(msg, lang.edit.use)
+    if (opts.length <= 1) return Reply.with(msg, lang.edit.use)
 
     let id = opts.shift()
     await msg.channel.fetchMessage(id)
@@ -42,13 +42,13 @@ module.exports = {
           if (embed) m.edit(m.content, embed)
           else {
             // we couldn't parse the embed
-            return Reply.to(msg, lang.embed.bad)
+            return Reply.with(msg, lang.embed.bad)
           }
         }
       })
       .catch(() => {
         // we couldn't find the message
-        return Reply.to(msg, lang.edit.none)
+        return Reply.with(msg, lang.edit.none)
       })
     return test ? true : msg.delete()
   }

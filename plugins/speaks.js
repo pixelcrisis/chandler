@@ -14,31 +14,31 @@ module.exports = {
     if (opts.length == 1) {
       let newID = Reply.strip(opts[0])
       let newCH = msg.channel.guild.channels.get(newID)
-      if (!newCH) return Reply.to(msg, lang.none)
+      if (!newCH) return Reply.with(msg, lang.none)
       else {
         chan = msg.channel.guild.channels.get(chan)
         State.set(msg.guild.id, 'speak', newID)
-        if (chan) return Reply.to(msg, lang.swap, chan.id, newCH.id)
-        else return Reply.to(msg, lang.curr, newCH.id)
+        if (chan) return Reply.with(msg, lang.swap, chan.id, newCH.id)
+        else return Reply.with(msg, lang.curr, newCH.id)
       }
     } 
 
     else if (!opts || !opts.length) {
       chan = msg.channel.guild.channels.get(chan)
-      if (chan) return Reply.to(msg, lang.curr, chan.id)
-      else return Reply.to(msg, lang.none)
+      if (chan) return Reply.with(msg, lang.curr, chan.id)
+      else return Reply.with(msg, lang.none)
     }
 
-    else return Reply.to(msg, lang.use)
+    else return Reply.with(msg, lang.use)
   },
 
   say: function(msg, opts) {
-    if (!opts) return Reply.to(msg, lang.say)
+    if (!opts) return Reply.with(msg, lang.say)
 
     let chan = State.get(msg.guild.id, 'speak')
-    if (!chan) return Reply.to(msg, lang.none)
+    if (!chan) return Reply.with(msg, lang.none)
     else chan = msg.channel.guild.channels.get(chan)
-    if (opts.length) return Reply.to(msg, opts.join(' '))
+    if (opts.length) return Reply.with(msg, opts.join(' '))
   }
 
 };
