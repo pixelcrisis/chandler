@@ -16,7 +16,11 @@ module.exports = {
         else if (prop == 'desc') {
           embed.description = this.parse(data[prop], val1, val2)
         }
-        else embed[prop] = this.parse(data[prop], val1, val2)
+        else if (prop != 'fields') {
+          embed[prop] = this.parse(data[prop], val1, val2)
+        } else {
+          embed[prop] = data[prop]
+        }
       }  
     }
     return msg.channel.send({ embed })

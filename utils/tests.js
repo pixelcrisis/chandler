@@ -19,6 +19,7 @@ module.exports = {
     let plug = opts[0]
     if (this[plug]) await this[plug](msg, plugins[plug])
     else if (plug == 'all') {
+      Reply(msg, '***FULL TEST STARTING***')
       for (var plugin in plugins) {
         await this[plugin](msg, plugins[plugin])
         await sleep(10000)

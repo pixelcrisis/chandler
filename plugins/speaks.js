@@ -38,7 +38,7 @@ module.exports = {
     let chan = State.get(msg.guild.id, 'speak')
     if (!chan) return Reply.with(msg, lang.none)
     else chan = msg.channel.guild.channels.get(chan)
-    if (opts.length) return Reply.with(msg, opts.join(' '))
+    if (opts.length) return msg.channel.send(opts.join(' '))
   }
 
 };
