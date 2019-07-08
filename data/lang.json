@@ -84,7 +84,6 @@
       "bad": "Alias **{val1}** doesn't exist.",
       "rem": "Deleted Alias **{val1}**"
     },
-    "none": "There are no aliases set. `>alias command message`",
-    "list": "**{val1}**: `{val2}`\n"
+    "none": "There are no aliases set. `>alias command message`"
   }
 }

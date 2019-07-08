@@ -39,8 +39,8 @@ module.exports = {
 
   aliases: function(msg, opts) {
     let list = [], data = State.get(msg.guild.id, 'comms')
-    for (var i = data.length - 1; i >= 0; i--) {
-      list.push(Reply.parse(lang.list, cmd, cmds[cmd]))
+    for (var cmd in data) {
+      list.push("**" + cmd + "**: `" + data[cmd] + "`")
     }
     if (!list.length) return Reply.with(msg, lang.none)
     else return Reply.list(msg, "Server Aliases", list, '\n')
