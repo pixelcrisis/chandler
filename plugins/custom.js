@@ -38,14 +38,12 @@ module.exports = {
   },
 
   aliases: function(msg, opts) {
-    let response = ''
-    let noAliases = Reply.parse(lang.none)
-    let cmds = State.get(msg.guild.id, 'comms')
-
-    for (var cmd in cmds) {
-      response += Reply.parse(lang.list, cmd, cmds[cmd])
+    let list = [], data = State.get(msg.guild.id, 'comms')
+    for (var i = data.length - 1; i >= 0; i--) {
+      list.push(Reply.parse(lang.list, cmd, cmds[cmd]))
     }
-    return msg.channel.send(response ? response : noAliases)
+    if (!list.length) return Reply.with(msg, lang.none)
+    else return Reply.list(msg, "Server Aliases", list, '\n')
   }
 
 }
