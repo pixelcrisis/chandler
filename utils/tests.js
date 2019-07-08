@@ -82,7 +82,7 @@ module.exports = {
     return Reply(msg, 'Finished Test.', [
       '`embed(string)` - Bad Parse',
       '`embed(embed) - Embed Test`',
-      '`print(1)` - Message ID',
+      '`print()` - Message ID',
       '`edit()` - Useage',
       '`edit(string)` - Useage',
       '`edit(string, thing) - Bad Message`',

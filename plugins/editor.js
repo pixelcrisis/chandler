@@ -9,11 +9,7 @@ const lang = require('../data/lang.json').editor
 module.exports = {
 
   print: async function(msg, opts, test) {
-    let total = opts.length ? parseInt(opts[0]) : 1
-    if (total > 5) return Reply.with(msg, lang.limit)
-    for (var i = 0; i < total; i++) {
-      await msg.channel.send('_ _').then(m => m.edit(m.id))
-    }
+    msg.channel.send('_ _').then(m => m.edit(m.id))
     return test ? true : msg.delete()
   },
 
