@@ -2,14 +2,14 @@
 // Allows mods to speak through the bot.
 // for fun or moderation.
 
-const Reply = require('../utils/reply.js')
-const State = require('../utils/state.js')
+const Reply = require('../utility/reply.js')
+const State = require('../utility/state.js')
 const lang = require('../data/lang.json').talking
 
 module.exports = {
 
   speak(msg, opts) {
-    let chan = State.get(msg.guild.id, 'speak')
+    let chan = State.getConfig(msg.guild.id, 'speak')
 
     if (opts.length == 1) {
       let newID = Reply.strip(opts[0])
@@ -17,7 +17,7 @@ module.exports = {
       if (!newCH) return Reply.with(msg, lang.none)
       else {
         chan = msg.channel.guild.channels.get(chan)
-        State.set(msg.guild.id, 'speak', newID)
+        State.setConfig(msg.guild.id, 'speak', newID)
         if (chan) return Reply.with(msg, lang.swap, chan.id, newCH.id)
         else return Reply.with(msg, lang.curr, newCH.id)
       }
@@ -35,7 +35,7 @@ module.exports = {
   say(msg, opts) {
     if (!opts) return Reply.with(msg, lang.say)
 
-    let chan = State.get(msg.guild.id, 'speak')
+    let chan = State.getConfig(msg.guild.id, 'speak')
     if (!chan) return Reply.with(msg, lang.none)
     else chan = msg.channel.guild.channels.get(chan)
     if (opts.length) return msg.channel.send(opts.join(' '))

@@ -1,8 +1,8 @@
 // Bot Manager Plugin
 // For the Basic, Chandler Specific.
 
-const Reply = require('../utils/reply.js')
-const State = require('../utils/state.js')
+const Reply = require('../utility/reply.js')
+const State = require('../utility/state.js')
 const lang = require('../data/lang.json').manager
 
 module.exports = {
@@ -22,13 +22,13 @@ module.exports = {
       return Reply.with(msg, lang.prefix.use)
     }
 
-    State.set(msg.guild.id, 'prefix', opts.join(' '))
+    State.setConfig(msg.guild.id, 'prefix', opts.join(' '))
     return Reply.with(msg, lang.prefix.set, opts.join(' '))
   },
 
   staff(msg, opts) {
     if (!opts || !opts.length) {
-      let staff = State.get(msg.guild.id, 'modID')
+      let staff = State.getConfig(msg.guild.id, 'modID')
       if (staff) return Reply.with(msg, lang.staff.curr, staff)
       else return Reply.with(msg, lang.staff.none)
     }
@@ -38,7 +38,7 @@ module.exports = {
       if (!msg.guild.roles.has(role)) {
         return Reply.with(msg, lang.staff.lost, opts[0])
       }
-      State.set(msg.guild.id, 'modID', role)
+      State.setConfig(msg.guild.id, 'modID', role)
       return Reply.with(msg, lang.staff.curr, role)
     }
 

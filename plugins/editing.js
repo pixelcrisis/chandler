@@ -3,7 +3,7 @@
 // Including Embed Support!
 // (Good For Notices/Rules)
 
-const Reply = require('../utils/reply.js')
+const Reply = require('../utility/reply.js')
 const lang = require('../data/lang.json').editing
 
 module.exports = {

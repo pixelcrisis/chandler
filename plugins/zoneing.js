@@ -2,9 +2,9 @@
 // Record Timezones from users,
 // then display time relative to everyone.
 
-const Reply = require('../utils/reply.js')
-const State = require('../utils/state.js')
-const Zones = require('../utils/zones.js')
+const Reply = require('../utility/reply.js')
+const State = require('../utility/state.js')
+const Zones = require('../utility/zones.js')
 const lang = require('../data/lang.json').zoneing
 
 module.exports = {
@@ -13,10 +13,10 @@ module.exports = {
   free: ['time', 'zones', 'zone'],
 
   time(msg, opts, test) {
-    let user = State.find(msg.guild.id, 'zones', msg.author.id)
+    let user = State.getZone(msg.guild.id, msg.author.id)
     if (!user) return Reply.with(msg, lang.time.none)
 
-    let table = State.get(msg.guild.id, 'zones')
+    let table = State.fetch(msg.guild.id, 'zoneing')
     let result = '', title = ''
 
     // if no opts, get time for right now
@@ -45,7 +45,8 @@ module.exports = {
 
   zones(msg, opts, test) {
     let result = []
-    let zones  = State.get(msg.guild.id, 'zones')
+    let zones  = State.fetch(msg.guild.id, 'zoneing')
+    if (!zones.length) return Reply.with(msg, lang.zones.none)
     let table  = Zones.sortTable(zones, 'now')
 
     for (var i = 0; i < table.length; i++) {
@@ -68,7 +69,7 @@ module.exports = {
 
     let zone = Zones.findZone(opts)
     if (!zone) return Reply.with(msg, lang.time.lost, opts.join(' '))
-    State.push(msg.guild.id, 'zones', { id: msg.author.id, zone: zone.name })
+    State.addZone(msg.guild.id, msg.author.id, zone.name)
     return Reply.with(msg, lang.zone.set, zone.name)
   },
 
@@ -86,7 +87,7 @@ module.exports = {
       return Reply.with(msg, lang.time.lost, `${user} (userid)`)
     }
 
-    State.push(msg.guild.id, 'zones', { id: user, zone: zone.name })
+    State.addZone(msg.guild.id, user, zone.name)
     return Reply.with(msg, lang.setzone.set, user, zone.name)
   }
 

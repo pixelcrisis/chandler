@@ -2,7 +2,7 @@
 // A Discord Bot
 
 const Discord = require('discord.js')
-const Events  = require('./utils/events.js')
+const Events  = require('./utility/events.js')
 const config  = require('./data/config.json')
 
 const plugins = {

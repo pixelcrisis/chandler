@@ -58,6 +58,7 @@
       "lost": "Couldn't find: {val1}"
     },
     "zones": {
+      "none": "No one has set a timezone yet! `>zone`",
       "name": "Active Time Zones",
       "line": "-----"
     },

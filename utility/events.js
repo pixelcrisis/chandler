@@ -20,8 +20,8 @@ module.exports = {
     })
     if (guild) {
       if (!guild.deleted) {
-        await State.load(guild.id)
-      this.log(`Added to ${guild.name} : ${guild.id}`)
+        await State.load([ guild.id ])
+        this.log(`Added to ${guild.name} : ${guild.id}`)
       }
       else this.log(`Removed from ${guild.name} : ${guild.id}`)
     } 
@@ -37,15 +37,15 @@ module.exports = {
     }
     this.log("Booting: Loading Guilds...")
     let guilds = await this.updateGuilds(Client)
-    await State.loadAll(guilds)
+    await State.load(guilds)
     this.log(`Booted: Loaded ${guilds.length} Guilds.`)
     this.ready = true
   },
 
   async onMessage(msg, plugins) {
     if (!this.ready || !msg.member || msg.author.bot) return
-    let modID  = State.get(msg.guild.id, 'modID')
-    let prefix = State.get(msg.guild.id, 'prefix')
+    let modID  = State.getConfig(msg.guild.id, 'modID')
+    let prefix = State.getConfig(msg.guild.id, 'prefix')
     if (msg.content.indexOf(prefix) !== 0) return
 
     let opts = msg.content.slice(prefix.length).trim().split(/ +/g)

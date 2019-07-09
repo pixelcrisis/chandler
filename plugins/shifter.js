@@ -2,7 +2,7 @@
 // Moves X messages from one channel
 // to a different channel.
 
-const Reply = require('../utils/reply.js')
+const Reply = require('../utility/reply.js')
 const lang = require('../data/lang.json').shifter
 
 module.exports = {

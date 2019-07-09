@@ -16,13 +16,13 @@ const Reply = (msg, str, results) => {
 module.exports = {
 
   async run(msg, opts, plugins) {
-    let plug = opts[0], count = 0
-    if (this[plug]) await this[plug](msg, plugins[plug])
+    let plug = opts[0], count = 1
+    if (this[plug]) await this[plug](msg, plugins[plug], count)
     else if (plug == 'all') {
-      Reply(msg, '***FULL TEST STARTING***')
+      Reply(msg, '**Full Test Starting**')
       for (var plugin in plugins) {
-        count += 1
         await this[plugin](msg, plugins[plugin], count)
+        count += 1
         await sleep(10000)
       }
     } 
@@ -30,7 +30,17 @@ module.exports = {
   },
 
   async manager(msg, plugin, count) {
-    Reply(msg, 'Testing Manager...')
+    Reply(msg, 'Testing Manager...', [
+      '`help()` - Message', 
+      '`invite()` - Message',
+      '`prefix()` - Useage',
+      '`prefix(~)` - Changed',
+      '`staff()` - Curr',
+      '`staff(gibberish)` - Bad Role',
+      '`staff(id)` - Set Staff',
+      '`roles()` - List`'
+    ])
+
     await plugin.help(msg, [])
     await plugin.invite(msg, [])
     await plugin.prefix(msg, [])
@@ -40,20 +50,23 @@ module.exports = {
     await plugin.staff(msg, [ staff ])
     await plugin.roles(msg, [])
 
-    return Reply(msg, `Finished Test ${count}.`, [
-      '`Help()` - Message', 
-      '`Invite()` - Message',
-      '`prefix()` - Useage',
-      '`prefix(~)` - Changed',
-      '`staff()` - Curr',
-      '`staff(gibberish)` - Bad Role',
-      '`staff(id)` - Set Staff',
-      '`roles()` - List`'
-    ])
+    return Reply(msg, `Finished Test ${count}.`)
   },
 
   async editing(msg, plugin, count) {
-    Reply(msg, 'Testing Editing...')
+    Reply(msg, 'Testing Editing...', [
+      '`embed(string)` - Bad Parse',
+      '`embed(embed) - Embed Test`',
+      '`print()` - Message ID',
+      '`clear()` - Useage',
+      '`clear(2)` - Cleared Deleted',
+      '`edit()` - Useage',
+      '`edit(string)` - Useage',
+      '`edit(string, thing) - Bad Message`',
+      '`edit(id, string) - String Edit`',
+      '`edit(id, embed) - Embed Edit`',
+    ])
+
     await plugin.embed(msg, ['string'], true)
     await plugin.embed(msg, ['{','"title":','"Embed Test"','}'], true)
     await plugin.print(msg, ['1'], true)
@@ -74,57 +87,43 @@ module.exports = {
       await plugin.edit(msg, [m.id, '{ "title": "Embed Edit "}'], true)
     })
 
-    return Reply(msg, `Finished Test ${count}.`, [
-      '`embed(string)` - Bad Parse',
-      '`embed(embed) - Embed Test`',
-      '`print()` - Message ID',
-      '`clear()` - Useage',
-      '`clear(2)` - Cleared Deleted',
-      '`edit()` - Useage',
-      '`edit(string)` - Useage',
-      '`edit(string, thing) - Bad Message`',
-      '`edit(id, string) - String Edit`',
-      '`edit(id, embed) - Embed Edit`',
-    ])
+    return Reply(msg, `Finished Test ${count}.`)
   },
 
   async locking(msg, plugin, count) {
-    Reply(msg, 'Testing Locking...')
-    await plugin.lock(msg, [])
-    await sleep(5000)
-    await plugin.unlock(msg, [])
-    return Reply(msg, `Finished Test ${count}.`, [
+    Reply(msg, 'Testing Locking...', [
       '`lock()` - good',
       '`unlock()` - good'
     ])
+
+    await plugin.lock(msg, [])
+    await sleep(5000)
+    await plugin.unlock(msg, [])
+
+    return Reply(msg, `Finished Test ${count}.`)
   },
 
   async shifter(msg, plugin, count) {
-    Reply(msg, 'Testing Shifter...')
-    await plugin.shift(msg, [])
-    await plugin.shift(msg, ['2'])
-    await plugin.shift(msg, ['a', 'oh'])
-    await msg.channel.send('Shift Test 1')
-    await msg.channel.send('Shift Test 2')
-    await msg.channel.send('Shift Test 3')
-    await plugin.shift(msg, ['2',  channel ])
-    return Reply(msg, `Finished Test ${count}.`, [
+    Reply(msg, 'Testing Shifter...', [
       '`shift()` - Useage',
       '`shift(2)` - Useage',
       '`shift(a, oh)` - Bad Channel',
       '`shift(2, channel)` - Shifted'
     ])
+
+    await plugin.shift(msg, [])
+    await plugin.shift(msg, ['2'])
+    await plugin.shift(msg, ['a', 'oh'])
+    await msg.channel.send('Shift Test 1')
+    await msg.channel.send('Shift Test 2')
+    await msg.channel.send('sim >shift')
+    await plugin.shift(msg, ['2',  channel ])
+
+    return Reply(msg, `Finished Test ${count}.`)
   },
 
   async talking(msg, plugin, count) {
-    Reply(msg, 'Testing Talking...')
-    await plugin.speak(msg, [])
-    await plugin.speak(msg, ['oh'])
-    await plugin.speak(msg, [ channel ])
-    await plugin.speak(msg, [ channel , 'message'])
-    await plugin.say(msg, [])
-    await plugin.say(msg, ['say','test!'])
-    return Reply(msg, `Finished Test ${count}.`, [
+    Reply(msg, 'Testing Talking...', [
       '`speak()` - Curr',
       '`speak(oh)` - Bad Channel',
       '`speak(channel)` - Switched',
@@ -132,23 +131,19 @@ module.exports = {
       '`say()` - Empty',
       '`say(say test!)` - say test!',
     ])
+
+    await plugin.speak(msg, [])
+    await plugin.speak(msg, ['oh'])
+    await plugin.speak(msg, [ channel ])
+    await plugin.speak(msg, [ channel , 'message'])
+    await plugin.say(msg, [])
+    await plugin.say(msg, ['say','test!'])
+
+    return Reply(msg, `Finished Test ${count}.`)
   },
 
   async zoneing(msg, plugin, count) {
-    Reply(msg, 'Testing Zoneing...')
-    await plugin.time(msg, [], true)
-    await plugin.time(msg, ['what'], true)
-    await plugin.time(msg, ['9pm'], true)
-    await plugin.time(msg, ['when', 'ever'], true)
-    await plugin.zone(msg, [])
-    await plugin.zone(msg, ['thing'])
-    await plugin.zone(msg, ['America/Chicago'])
-    await plugin.zones(msg, [], true)
-    await plugin.setzone(msg, [])
-    await plugin.setzone(msg, ['user'])
-    await plugin.setzone(msg, ['user', 'America/Chicago'])
-    await plugin.setzone(msg, [ user, 'America/Chicago'])
-    return Reply(msg, `Finished Test ${count}.`, [
+    Reply(msg, 'Testing Zoneing...', [
       '`time()` - Current Time',
       '`time(what)` - Bad Time',
       '`time(9pm)` - 9pm Time',
@@ -162,29 +157,45 @@ module.exports = {
       '`setzone(string, zone)` - Bad User',
       '`setzone(user, zone)` - Set Zone'
     ])
+
+    await plugin.time(msg, [], true)
+    await plugin.time(msg, ['what'], true)
+    await plugin.time(msg, ['9pm'], true)
+    await plugin.time(msg, ['when', 'ever'], true)
+    await plugin.zone(msg, [])
+    await plugin.zone(msg, ['thing'])
+    await plugin.zone(msg, ['America/Chicago'])
+    await plugin.zones(msg, [], true)
+    await plugin.setzone(msg, [])
+    await plugin.setzone(msg, ['user'])
+    await plugin.setzone(msg, ['user', 'America/Chicago'])
+    await plugin.setzone(msg, [ user, 'America/Chicago'])
+
+    return Reply(msg, `Finished Test ${count}.`)
   },
 
   async aliases(msg, plugin, count) {
-    Reply(msg, 'Testing Aliases...')
-    await plugin.alias(msg, [])
-    await plugin.alias(msg, ['vxWkzT'])
-    await plugin.alias(msg, ['vxWkzT', 'Alias Test'])
-    await plugin.__run(msg, ['vxWkzT'])
-    await plugin.forget(msg, ['vxWkzT', 'asdfasdf'])
-    await plugin.forget(msg, ['vxWkzT'])
-    await plugin.forget(msg, [])
-    await plugin.aliases(msg, [])
-
-    return Reply(msg, `Finished Test ${count}.`, [
+    Reply(msg, 'Testing Aliases...', [
       '`alias()` - Useage',
       '`alias(vxWkzT)` - Useage',
       '`alias(vxWkzT, testing)` - Updated',
       '`vxWkzT()` - Alias Test`',
+      '`aliases()` - List',
       '`forget(vxWkzT, asdfasdf)` - Useage',
       '`forget(vxWkzT)` - Deleted',
-      '`forget()` - Useage',
-      '`aliases()` - List'
+      '`forget()` - Useage'
     ])
+
+    await plugin.alias(msg, [])
+    await plugin.alias(msg, ['vxWkzT'])
+    await plugin.alias(msg, ['vxWkzT', 'Alias Test'])
+    await plugin.__run(msg, ['vxWkzT'])
+    await plugin.aliases(msg, [])
+    await plugin.forget(msg, ['vxWkzT', 'asdfasdf'])
+    await plugin.forget(msg, ['vxWkzT'])
+    await plugin.forget(msg, [])
+
+    return Reply(msg, `Finished Test ${count}.`)
   }
 
 }
