@@ -17,6 +17,15 @@
       "curr": "Staff set to: <@&{val1}>",
       "lost": "Couldn't find role: `{val1}`",
       "none": "Staff not currently set: `>staff role`"
+    },
+    "logs": {
+      "off":   "Disalbed `{val1}` Logging.",
+      "join":  "Join Log Set To: `{val1}` in <#{val2}>",
+      "leave": "Leave Log Set To: `{val1}` in <#{val2}>",
+      "use": {
+        "name": "Enable User Logging!",
+        "desc": "`>onjoin #channel [message]`\n`>onleave #channel [message]`\n\n`message` defaults to `{user} joined.` and `{user} left.`\n\nVariables:\n`{user}` - @User\n`{user.name}` - User's Username\n`{user.id}` The User ID"
+      }
     }
   },
   "editing": {

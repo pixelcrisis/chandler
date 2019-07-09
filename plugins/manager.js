@@ -51,6 +51,28 @@ module.exports = {
       list.push("`" + roles[i].id + "` - " + roles[i].name)
     }
     return Reply.list(msg, "Server Roles", list, '\n')
-  }
+  },
+
+  onjoin(msg, opts) {
+    if (opts.length < 1) return Reply.with(msg, lang.logs.use)
+    let channel = Reply.strip(opts.shift())
+    let message = opts.join(' ')
+    message = message ? message : "{user} joined."
+    if (['off', 'false', 'disable'].includes(channel)) channel = false
+    State.setConfig(msg.guild.id, 'onjoin', { channel, message })
+    if (!channel) return Reply.with(msg, lang.logs.off, 'onjoin')
+    else return Reply.with(msg, lang.logs.join, message, channel)
+  },
+
+  onleave(msg, opts) {
+    if (opts.length < 1) return Reply.with(msg, lang.logs.use)
+    let channel = Reply.strip(opts.shift())
+    let message = opts.join(' ')
+    message = message ? message : "{user} left."
+    if (['off', 'false', 'disable'].includes(channel)) channel = false
+    State.setConfig(msg.guild.id, 'onleave', { channel, message })
+    if (!channel) return Reply.with(msg, lang.logs.off, 'onleave')
+    else return Reply.with(msg, lang.logs.leave, message, channel)
+  },
 
 }

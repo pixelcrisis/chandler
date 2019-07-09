@@ -16,20 +16,23 @@ const Reply = (msg, str, results) => {
 module.exports = {
 
   async run(msg, opts, plugins) {
-    let plug = opts[0], count = 1
-    if (this[plug]) await this[plug](msg, plugins[plug], count)
-    else if (plug == 'all') {
-      Reply(msg, '**Full Test Starting**')
-      for (var plugin in plugins) {
-        await this[plugin](msg, plugins[plugin], count)
-        count += 1
-        await sleep(10000)
+    if (opts.length == 1 && this[opts[0]]) {
+      await this[opts[0]](msg, plugins[opts[0]], 1, 1)
+    } else {
+      for (var i = 0; i < opts.length; i++) {
+        let plugin = this[opts[i]]
+        let skipped = `Skipping **${opts[i]}** Test ${i + 1}/${opts.length}`
+        if (!plugin) Reply(msg, skipped)
+        else {
+          await plugin(msg, plugins[opts[i]], i + 1, opts.length)
+          await sleep(10000)
+        }
       }
-    } 
+    }
     return Reply(msg, 'Testing Completed.')
   },
 
-  async manager(msg, plugin, count) {
+  async manager(msg, plugin, count, max) {
     Reply(msg, 'Testing Manager...', [
       '`help()` - Message', 
       '`invite()` - Message',
@@ -50,10 +53,10 @@ module.exports = {
     await plugin.staff(msg, [ staff ])
     await plugin.roles(msg, [])
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   },
 
-  async editing(msg, plugin, count) {
+  async editing(msg, plugin, count, max) {
     Reply(msg, 'Testing Editing...', [
       '`embed(string)` - Bad Parse',
       '`embed(embed) - Embed Test`',
@@ -87,10 +90,10 @@ module.exports = {
       await plugin.edit(msg, [m.id, '{ "title": "Embed Edit "}'], true)
     })
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   },
 
-  async locking(msg, plugin, count) {
+  async locking(msg, plugin, count, max) {
     Reply(msg, 'Testing Locking...', [
       '`lock()` - good',
       '`unlock()` - good'
@@ -100,17 +103,16 @@ module.exports = {
     await sleep(5000)
     await plugin.unlock(msg, [])
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   },
 
-  async shifter(msg, plugin, count) {
+  async shifter(msg, plugin, count, max) {
     Reply(msg, 'Testing Shifter...', [
       '`shift()` - Useage',
       '`shift(2)` - Useage',
       '`shift(a, oh)` - Bad Channel',
       '`shift(2, channel)` - Shifted'
     ])
-
     await plugin.shift(msg, [])
     await plugin.shift(msg, ['2'])
     await plugin.shift(msg, ['a', 'oh'])
@@ -119,10 +121,10 @@ module.exports = {
     await msg.channel.send('sim >shift')
     await plugin.shift(msg, ['2',  channel ])
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   },
 
-  async talking(msg, plugin, count) {
+  async talking(msg, plugin, count, max) {
     Reply(msg, 'Testing Talking...', [
       '`speak()` - Curr',
       '`speak(oh)` - Bad Channel',
@@ -139,10 +141,10 @@ module.exports = {
     await plugin.say(msg, [])
     await plugin.say(msg, ['say','test!'])
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   },
 
-  async zoneing(msg, plugin, count) {
+  async zoneing(msg, plugin, count, max) {
     Reply(msg, 'Testing Zoneing...', [
       '`time()` - Current Time',
       '`time(what)` - Bad Time',
@@ -171,10 +173,10 @@ module.exports = {
     await plugin.setzone(msg, ['user', 'America/Chicago'])
     await plugin.setzone(msg, [ user, 'America/Chicago'])
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   },
 
-  async aliases(msg, plugin, count) {
+  async aliases(msg, plugin, count, max) {
     Reply(msg, 'Testing Aliases...', [
       '`alias()` - Useage',
       '`alias(vxWkzT)` - Useage',
@@ -195,7 +197,7 @@ module.exports = {
     await plugin.forget(msg, ['vxWkzT'])
     await plugin.forget(msg, [])
 
-    return Reply(msg, `Finished Test ${count}.`)
+    return Reply(msg, `Finished Test ${count}/${max}.`)
   }
 
 }

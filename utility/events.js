@@ -38,6 +38,10 @@ module.exports = {
 
     if (cmd == 'test' && msg.member.user.id == this.owner) {
       this.ready = false
+      if (opts.includes('logging')) {
+        this.logJoin(msg.member)
+        this.logLeave(msg.member)
+      } 
       await Tests.run(msg, opts, plugins)
       this.ready = true
     }
@@ -69,6 +73,31 @@ module.exports = {
       this.log(`${prefix} ${logged}`)
     }
     return guilds
+  },
+
+  parse(str, member) {
+    str = str.split('{user}').join(`<@${member.id}>`)
+    str = str.split('{user.id}').join(member.id)
+    str = str.split('{user.name}').join(member.user.username)
+    return str
+  },
+
+  logJoin(member) {
+    let data = State.getConfig(member.guild.id, 'onjoin')
+    if (data && data.channel) {
+      let channel = member.guild.channels.get(data.channel)
+      message = this.parse(message, member)
+      channel.send(message)
+    }
+  },
+
+  logLeave(member) {
+    let data = State.getConfig(member.guild.id, 'onleave')
+    if (data && data.channel) {
+      let channel = member.guild.channels.get(data.channel)
+      message = this.parse(data.message, member)
+      channel.send(message)
+    }
   }
 
 }

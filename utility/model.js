@@ -8,7 +8,6 @@ module.exports = function(coll, defaults) {
 
   this.load = async function(db) {
     const coll = db.collection(this.coll)
-    await coll.deleteMany({})
     const docs = await coll.find({}).toArray()
     if (docs.length) return docs
     else return this.make(db)
