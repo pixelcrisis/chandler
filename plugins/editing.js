@@ -8,6 +8,11 @@ const lang = require('../data/lang.json').editing
 
 module.exports = {
 
+  async print(msg, opts, test) {
+    msg.channel.send(opts.join(' '))
+    return test ? true : msg.delete()
+  },
+
   clear(msg, opts) {
     if (opts.length !== 1) return Reply.with(msg, lang.clear)
     return msg.channel.fetchMessages({ limit: parseInt(opts[0]) + 1 })
