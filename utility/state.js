@@ -6,20 +6,19 @@ const Client = new Mongo('mongodb://localhost:27017', {
   useNewUrlParser: true
 })
 
-const defconf = { prefix: '>', modID: '', speak: '' }
-const Configs = new Model('configs', defconf)
 const Zoneing = new Model('zoneing')
 const Aliases = new Model('aliases')
 const Locking = new Model('locking')
+const Configs = new Model('configs', { prefix: '>' })
 
 const getIndex = (arr, id) => arr.findIndex(i => i.id == id)
 
 module.exports = {
 
-  ver: 1,
   data: {},
 
   async load(guilds) {
+    await Client.close()
     await Client.connect()
     for (var i = 0; i < guilds.length; i++) {
       let guild = guilds[i]
@@ -27,7 +26,7 @@ module.exports = {
       let state = this.data[guild]
       const db = Client.db(guild)
       
-      state.configs = await Configs.load(db, this.ver)
+      state.configs = await Configs.load(db)
       state.aliases = await Aliases.load(db)
       state.locking = await Locking.load(db)
       state.zoneing = await Zoneing.load(db)

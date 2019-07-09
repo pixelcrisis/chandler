@@ -13,21 +13,6 @@ module.exports = {
     if (this.logID) this.logID.send(msg)
   },
 
-  async updateGuilds(Client, guild) {
-    let guilds = Client.guilds.keyArray()
-    Client.user.setActivity(`${guilds.length} Servers.`, {
-      type: 'LISTENING'
-    })
-    if (guild) {
-      if (!guild.deleted) {
-        await State.load([ guild.id ])
-        this.log(`Added to ${guild.name} : ${guild.id}`)
-      }
-      else this.log(`Removed from ${guild.name} : ${guild.id}`)
-    } 
-    return guilds
-  },
-
   async onBoot(Client, config) {
     this.owner = config.owner
     this.server = config.server
@@ -70,6 +55,20 @@ module.exports = {
     }
 
     plugins['aliases'].__run(msg, cmd)
+  },
+
+  async updateGuilds(Client, guild) {
+    let guilds = Client.guilds.keyArray()
+    let active = { type: 'LISTENING' }
+    let status = `${guilds.length} Servers.`
+    Client.user.setActivity(status, active)
+    if (guild) {
+      let logged = `${guild.name} : ${guild.id}`
+      let prefix = guild.deleted ? 'Removed From' : 'Added To'
+      if (!guild.deleted) await State.load([ guild.id ])
+      this.log(`${prefix} ${logged}`)
+    }
+    return guilds
   }
 
 }

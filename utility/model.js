@@ -6,19 +6,19 @@ module.exports = function(coll, defaults) {
   this.defaults = defaults
   const update = { upsert: true }
 
-  this.load = async function(db, ver) {
+  this.load = async function(db) {
     const coll = db.collection(this.coll)
+    await coll.deleteMany({})
     const docs = await coll.find({}).toArray()
     if (docs.length) return docs
-    else return this.make(db, ver)
+    else return this.make(db)
   }
 
-  this.make = async function(db, ver) {
+  this.make = async function(db) {
     if (!this.defaults) return []
     const coll = db.collection(this.coll)
-    const data = Object.assign({ ver }, this.defaults)
-    await coll.insertOne(data)
-    return [ data ]
+    await coll.insertOne(this.defaults)
+    return [ this.defaults ]
   }
 
   this.save = async function(db, key, val) {
