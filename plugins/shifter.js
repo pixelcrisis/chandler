@@ -1,13 +1,13 @@
-// Message Shifting Plugin
+// Message Shifter Plugin
 // Moves X messages from one channel
 // to a different channel.
 
 const Reply = require('../utils/reply.js')
-const lang = require('../data/lang.json').shifty
+const lang = require('../data/lang.json').shifter
 
 module.exports = {
 
-  shift: async function(msg, opts) {
+  async shift(msg, opts) {
     if (opts.length != 2) return Reply.with(msg, lang.use)
 
     let shifted = []
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   // aliases
-  move: async function(msg, opts){ this.__shift(msg, opts) }
+  async move(msg, opts){ this.__shift(msg, opts) }
 
 }

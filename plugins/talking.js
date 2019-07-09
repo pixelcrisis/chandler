@@ -1,14 +1,14 @@
-// Speaking Plugin
+// Talking Plugin
 // Allows mods to speak through the bot.
 // for fun or moderation.
 
 const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
-const lang = require('../data/lang.json').speaks
+const lang = require('../data/lang.json').talking
 
 module.exports = {
 
-  speak: function(msg, opts) {
+  speak(msg, opts) {
     let chan = State.get(msg.guild.id, 'speak')
 
     if (opts.length == 1) {
@@ -32,7 +32,7 @@ module.exports = {
     else return Reply.with(msg, lang.use)
   },
 
-  say: function(msg, opts) {
+  say(msg, opts) {
     if (!opts) return Reply.with(msg, lang.say)
 
     let chan = State.get(msg.guild.id, 'speak')

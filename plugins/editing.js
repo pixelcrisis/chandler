@@ -1,19 +1,25 @@
-// Message Editor Plugin
+// Message Editing Plugin
 // For Editing Bot Messages
 // Including Embed Support!
 // (Good For Notices/Rules)
 
 const Reply = require('../utils/reply.js')
-const lang = require('../data/lang.json').editor
+const lang = require('../data/lang.json').editing
 
 module.exports = {
 
-  print: async function(msg, opts, test) {
+  async print(msg, opts, test) {
     msg.channel.send('_ _').then(m => m.edit(m.id))
     return test ? true : msg.delete()
   },
 
-  embed: function(msg, opts, test) {
+  clear(msg, opts) {
+    if (opts.length !== 1) return Reply.with(msg, lang.clear)
+    return msg.channel.fetchMessages({ limit: parseInt(opts[0]) + 1 })
+      .then(got => { msg.channel.bulkDelete(got) })
+  },
+
+  embed(msg, opts, test) {
     if (!opts) return Reply.with(msg, lang.embed.use)
     else {
       let embed = Reply.getEmbed(opts.join(' '))
@@ -23,7 +29,7 @@ module.exports = {
     return test ? true : msg.delete()
   },
 
-  edit: async function(msg, opts, test) {
+  async edit(msg, opts, test) {
     if (opts.length <= 1) return Reply.with(msg, lang.edit.use)
 
     let id = opts.shift()
@@ -44,7 +50,7 @@ module.exports = {
       })
       .catch(() => {
         // we couldn't find the message
-        return Reply.with(msg, lang.edit.none)
+        return Reply.with(msg, lang.edit.none, id)
       })
     return test ? true : msg.delete()
   }

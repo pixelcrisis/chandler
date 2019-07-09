@@ -1,9 +1,7 @@
 {
-  "ready": false,
-
   "server": false,
   "serverLogID": "",
 
   "owner": "",
-  "token": "S0MErandomlyHASHEDstringPROVIDEDbyDISCORD"
+  "token": ""
 }

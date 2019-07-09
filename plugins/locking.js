@@ -4,11 +4,11 @@
 
 const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
-const lang = require('../data/lang.json').locked
+const lang = require('../data/lang.json').locking
 
 module.exports = {
 
-  lock: async function(msg, opts) {
+  async lock(msg, opts) {
     let perms = msg.channel.permissionOverwrites.array()
     let data = State.find(msg.guild.id, 'locks', msg.channel.id)
     if (data) return Reply.with(msg, lang.locked)
@@ -35,7 +35,7 @@ module.exports = {
     })
   },
 
-  unlock: async function(msg, opts) {
+  async unlock(msg, opts) {
     let data = State.find(msg.guild.id, 'locks', msg.channel.id)
     if (!data) return Reply.with(msg, lang.unlocked)
 

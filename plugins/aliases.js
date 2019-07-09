@@ -1,18 +1,18 @@
-// Custom Command Plugin
+// Alias Command Plugin
 // Set a string to return on a custom command.
 
 const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
-const lang = require('../data/lang.json').custom
+const lang = require('../data/lang.json').aliases
 
 module.exports = {
 
-  __run: function(msg, alias) {
+  __run(msg, alias) {
     let cmds = State.get(msg.guild.id, 'comms')
     if (cmds[alias]) return msg.channel.send(cmds[alias])
   },
 
-  alias: function(msg, opts) {
+  alias(msg, opts) {
     if (opts.length < 2) return Reply.with(msg, lang.alias.use)
     let cmds = State.get(msg.guild.id, 'comms')
     let cant = [ 'alias', 'forget', 'prefix' ]
@@ -27,7 +27,7 @@ module.exports = {
     return Reply.with(msg, response, cmd, opt)
   },
 
-  forget: function(msg, opts) {
+  forget(msg, opts) {
     if (opts.length != 1) return Reply.with(msg, lang.forget.use)
     let cmds = State.get(msg.guild.id, 'comms')
     if (cmds[opts[0]]) {
@@ -37,7 +37,7 @@ module.exports = {
     else return Reply.with(msg, lang.forget.bad, opts[0])
   },
 
-  aliases: function(msg, opts) {
+  aliases(msg, opts) {
     let list = [], data = State.get(msg.guild.id, 'comms')
     for (var cmd in data) {
       list.push("**" + cmd + "**: `" + data[cmd] + "`")

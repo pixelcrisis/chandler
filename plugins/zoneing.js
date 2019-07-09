@@ -1,18 +1,18 @@
-// Time Zoning Plugin
+// Time Zoneing Plugin
 // Record Timezones from users,
 // then display time relative to everyone.
 
 const Reply = require('../utils/reply.js')
 const State = require('../utils/state.js')
 const Zones = require('../utils/zones.js')
-const lang = require('../data/lang.json').zoning
+const lang = require('../data/lang.json').zoneing
 
 module.exports = {
 
   // free commands can be used by anyone
   free: ['time', 'zones', 'zone'],
 
-  time: function(msg, opts, test) {
+  time(msg, opts, test) {
     let user = State.find(msg.guild.id, 'zones', msg.author.id)
     if (!user) return Reply.with(msg, lang.time.none)
 
@@ -43,7 +43,7 @@ module.exports = {
     return test ? false : msg.delete()
   },
 
-  zones: function(msg, opts, test) {
+  zones(msg, opts, test) {
     let result = []
     let zones = State.get(msg.guild.id, 'zones')
     let table = Zones.sortTable(zones, 'now')
@@ -63,8 +63,8 @@ module.exports = {
     return test ? false : msg.delete()
   },
 
-  zone: function(msg, opts) {
-    if (!opts) return Reply.with(msg, lang.zone.find)
+  zone(msg, opts) {
+    if (!opts.length) return Reply.with(msg, lang.zone.find)
 
     let zone = Zones.findZone(opts)
     if (!zone) return Reply.with(msg, lang.time.lost, opts.join(' '))
@@ -72,7 +72,7 @@ module.exports = {
     return Reply.with(msg, lang.zone.set, zone.name)
   },
 
-  setzone: function(msg, opts) {
+  setzone(msg, opts) {
     if (!opts || opts.length < 2 || opts.length > 3) {
       return Reply.with(msg, lang.setzone.use)
     }

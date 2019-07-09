@@ -1,5 +1,5 @@
 {
-  "basics": {
+  "manager": {
     "help": {
       "name": "Chandler Help",
       "desc": "View the {website} or join the {support}!"
@@ -7,9 +7,7 @@
     "invite": {
       "name": "Let Me Join!",
       "desc": "Click the {invite} to invite me to your server!"
-    }
-  },
-  "manage": {
+    },
     "prefix": {
       "use": "Useage: `>prefix !`",
       "set": "Changed Prefix to `{val1}`"
@@ -17,12 +15,11 @@
     "staff": {
       "use":  "Useage: `>staff role`",
       "curr": "Staff set to: <@&{val1}>",
-      "lost": "{val1} didn't seem like a role to me.",
+      "lost": "Couldn't find role: `{val1}`",
       "none": "Staff not currently set: `>staff role`"
-    },
-    "clear": "Useage: `>clear 3`"
+    }
   },
-  "editor": {
+  "editing": {
     "limit": "Max Prints: 5",
     "embed": {
       "use": "Useage: `>embed { embed }`",
@@ -30,28 +27,29 @@
     },
     "edit": {
       "use": "Useage: `>edit MSGID new message`",
-      "none": "Couldn't find that message."
-    }
+      "none": "Couldn't find message: `{val1}`"
+    },
+    "clear": "Useage: `>clear 3`"
   },
-  "locked": {
+  "locking": {
     "locked":   "Channel is already locked!",
     "unlocked": "Channel is already unlocked!"
   },
-  "shifty": {
+  "shifter": {
     "use":  "Useage: `>shift X #channel`",
     "line": "-----------------------------------------",
     "none": "Sorry, couldn't find that channel.",
     "move": "Moved {val1} Messages Here From #{val2}",
     "here": "Moved {val1} Messages To <#{val2}>"
   },
-  "speaks": {
+  "talking": {
     "use":  "Useage: `>speak #channel`",
     "say":  "Useage: `>say your message",
     "none": "No channel set: `>speak #channel`",
     "curr": "Speaking in: <#{val1}>",
     "swap": "Switched from <#{val1}> to <#{val2}>"
   },
-  "zoning": {
+  "zoneing": {
     "time": {
       "use": "Useage: `>time [time]`",
       "now":  "Current Time",
@@ -64,15 +62,15 @@
       "line": "-----"
     },
     "zone": {
-      "set":  "Set your timezone to {val1}",
-      "find": "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `>zone America/Los_Angeles` but replace with your timezone!"
+      "set":  "Set your timezone to `{val1}`",
+      "find": "Step 1: Find your timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>\n\nStep 2: Use `>zone America/Chicago` but replace with your timezone!"
     },
     "setzone": {
-      "use": "Useage: `>setzone @user America/Los_Angeles` (but their timezone)",
-      "set": "Set timezone for <@{val1}> to: {val2}"
+      "use": "Useage: `>setzone @user America/Chicago`\n(but use their timezone!)",
+      "set": "Set timezone for <@{val1}> to: `{val2}`"
     } 
   },
-  "custom": {
+  "aliases": {
     "alias": {
       "use": "Useage: `>alias command message`",
       "bad": "The trigger **{val}** is reserved, sorry.",
