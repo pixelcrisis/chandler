@@ -4,7 +4,7 @@ const Moment = require('moment')
 
 module.exports = {
 
-  with: function(msg, data, val1, val2) {
+  with(msg, data, val1, val2) {
     let embed = { author: {} }
     if (typeof data == 'string') {
       embed.description = this.parse(data, val1, val2)
@@ -26,7 +26,7 @@ module.exports = {
     return msg.channel.send({ embed })
   },
 
-  list: function(msg, title, data, join) {
+  list(msg, title, data, join) {
     // split list at 2k characters
     data = this.split(data, join)
     for (var i = 0; i < data.length; i++) {
@@ -39,7 +39,7 @@ module.exports = {
     }
   },
 
-  parse: function(str, val1, val2) {
+  parse(str, val1, val2) {
     if (!str) return str
     let invite = '[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
     let website = '[Command List](https://chandler.12px.io)'
@@ -53,7 +53,7 @@ module.exports = {
     return str
   },
 
-  getEmbed: function(str) {
+  getEmbed(str) {
     try {
       let obj = JSON.parse(str)
       return obj.embed ? obj : { embed: obj }
@@ -61,23 +61,23 @@ module.exports = {
     catch(e) { return false }
   },
 
-  strip: function(str) {
+  strip(str) {
     if (str.indexOf('<') == 0) {
       let trim = str.indexOf('@&') == 1 ? 3 : 2
       return str.substring(trim, str.length - 1)
     } else return str
   },
 
-  when: function(time) { 
+  when(time) { 
     return Moment(time).fromNow() 
   },
 
-  to: function(msg, reply, val1, val2) {
+  to(msg, reply, val1, val2) {
     reply = this.parse(reply, val1, val2)
     return msg.channel.send(reply)
   },
 
-  embed: function(msg, name, desc, opts) {
+  embed(msg, name, desc, opts) {
     name = this.parse(name)
     desc = this.parse(desc)
     let res = {
@@ -88,7 +88,7 @@ module.exports = {
     return msg.channel.send({ embed: res })
   },
 
-  split: function(data, join) {
+  split(data, join) {
     let text = '', messages = []
     for (var i = data.length - 1; i >= 0; i--) {
       let len = text.length + data[i].length + join.length

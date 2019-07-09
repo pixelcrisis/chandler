@@ -24,11 +24,11 @@ module.exports = {
 
   data: {},
 
-  save: async function(guild) {
+  async save(guild) {
     return Settings.findOneAndUpdate({ guild }, this.data[guild])
   },
 
-  load: async function(guild) {
+  async load(guild) {
     let result
     await Settings.findOne({ guild }, (err, cfg) => {
       if (err) console.log(err)
@@ -47,7 +47,7 @@ module.exports = {
     return result
   },
 
-  loadAll: async function(ids) {
+  async loadAll(ids) {
     let result = {}
     for (var i = 0; i < ids.length; i++) {
       let guild = ids[i]
@@ -56,30 +56,30 @@ module.exports = {
     return result
   },
 
-  get: function(guild, key) {
+  get(guild, key) {
     return this.data[guild][key]
   },
 
-  find: function(guild, key, id) {
+  find(guild, key, id) {
     return this.data[guild][key].find(by => by.id == id)
   },
 
-  set: function(guild, key, val) {
+  set(guild, key, val) {
     this.data[guild][key] = val
     this.save(guild)
   },
 
-  add: function(guild, repo, key, val) {
+  add(guild, repo, key, val) {
     this.data[guild][repo][key] = val
     this.save(guild)
   },
 
-  rem: function(guild, repo, key) {
+  rem(guild, repo, key) {
     delete this.data[guild][repo][key]
     this.save(guild)
   },
 
-  push: function(guild, key, val) {
+  push(guild, key, val) {
     let arr = this.data[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
     if (index > -1) this.data[guild][key][index] = val
@@ -87,7 +87,7 @@ module.exports = {
     this.save(guild)
   },
 
-  pull: function(guild, key, val) {
+  pull(guild, key, val) {
     let arr = this.data[guild][key]
     let index = arr.findIndex(by => by.id == val.id)
     if (index > -1) this.data[guild][key].splice(index, 1)

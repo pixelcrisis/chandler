@@ -45,8 +45,8 @@ module.exports = {
 
   zones(msg, opts, test) {
     let result = []
-    let zones = State.get(msg.guild.id, 'zones')
-    let table = Zones.sortTable(zones, 'now')
+    let zones  = State.get(msg.guild.id, 'zones')
+    let table  = Zones.sortTable(zones, 'now')
 
     for (var i = 0; i < table.length; i++) {
       let t = table[i]

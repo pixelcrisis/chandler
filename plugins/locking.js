@@ -10,21 +10,22 @@ module.exports = {
 
   async lock(msg, opts) {
     let perms = msg.channel.permissionOverwrites.array()
-    let data = State.find(msg.guild.id, 'locks', msg.channel.id)
+    let data  = State.find(msg.guild.id, 'locks', msg.channel.id)
     if (data) return Reply.with(msg, lang.locked)
 
-    let now = new Date()
+    let now      = new Date()
     let everyone = msg.channel.guild.defaultRole
-    let modID = State.get(msg.guild.id, 'modID')
-    let time = `${now.toDateString()} - ${now.toTimeString()}`
+    let modID    = State.get(msg.guild.id, 'modID')
+    let time     = `${now.toDateString()} - ${now.toTimeString()}`
     let newTopic = `${msg.channel.name} was locked @ ${time}.`
 
     State.push(msg.guild.id, 'locks', { 
-      id: msg.channel.id,
-      name: msg.channel.name,
+      id:    msg.channel.id,
+      name:  msg.channel.name,
       topic: msg.channel.topic,
       perms: perms
     })
+
     perms.forEach(perm => perm.delete())
 
     await msg.channel.setName('locked')

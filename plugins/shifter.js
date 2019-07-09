@@ -17,6 +17,7 @@ module.exports = {
     // get the channel
     channel = msg.channel.guild.channels.get(channel)
     if (!channel) return Reply.with(msg, lang.none)
+    if (isNaN(max)) reutnr Reply.with(msg, lang.use)
 
     // fetch X messages, store them, delete them.
     await msg.channel.fetchMessages({ limit: max + 1 }).then(fetched => {

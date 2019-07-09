@@ -15,7 +15,7 @@ const Reply = (msg, str, results) => {
 
 module.exports = {
 
-  run: async function(msg, opts, plugins) {
+  async run(msg, opts, plugins) {
     let plug = opts[0], count = 0
     if (this[plug]) await this[plug](msg, plugins[plug])
     else if (plug == 'all') {
@@ -29,7 +29,7 @@ module.exports = {
     return Reply(msg, 'Testing Completed.')
   },
 
-  manager: async function(msg, plugin, count) {
+  async manager(msg, plugin, count) {
     Reply(msg, 'Testing Manager...')
     await plugin.help(msg, [])
     await plugin.invite(msg, [])
@@ -52,7 +52,7 @@ module.exports = {
     ])
   },
 
-  editing: async function(msg, plugin, count) {
+  async editing(msg, plugin, count) {
     Reply(msg, 'Testing Editing...')
     await plugin.embed(msg, ['string'], true)
     await plugin.embed(msg, ['{','"title":','"Embed Test"','}'], true)
@@ -88,7 +88,7 @@ module.exports = {
     ])
   },
 
-  locking: async function(msg, plugin, count) {
+  async locking(msg, plugin, count) {
     Reply(msg, 'Testing Locking...')
     await plugin.lock(msg, [])
     await sleep(5000)
@@ -99,7 +99,7 @@ module.exports = {
     ])
   },
 
-  shifter: async function(msg, plugin, count) {
+  async shifter(msg, plugin, count) {
     Reply(msg, 'Testing Shifter...')
     await plugin.shift(msg, [])
     await plugin.shift(msg, ['2'])
@@ -116,7 +116,7 @@ module.exports = {
     ])
   },
 
-  talking: async function(msg, plugin, count) {
+  async talking(msg, plugin, count) {
     Reply(msg, 'Testing Talking...')
     await plugin.speak(msg, [])
     await plugin.speak(msg, ['oh'])
@@ -134,7 +134,7 @@ module.exports = {
     ])
   },
 
-  zoneing: async function(msg, plugin, count) {
+  async zoneing(msg, plugin, count) {
     Reply(msg, 'Testing Zoneing...')
     await plugin.time(msg, [], true)
     await plugin.time(msg, ['what'], true)
@@ -164,7 +164,7 @@ module.exports = {
     ])
   },
 
-  aliases: async function(msg, plugin, count) {
+  async aliases(msg, plugin, count) {
     Reply(msg, 'Testing Aliases...')
     await plugin.alias(msg, [])
     await plugin.alias(msg, ['vxWkzT'])
