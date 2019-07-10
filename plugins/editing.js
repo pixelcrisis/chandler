@@ -8,7 +8,8 @@ const lang = require('../data/lang.json').editing
 
 module.exports = {
 
-  async print(msg, opts, test) {
+  print(msg, opts, test) {
+    if (!opts.length) return false
     msg.channel.send(opts.join(' '))
     return test ? true : msg.delete()
   },
