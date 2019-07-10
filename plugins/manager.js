@@ -68,7 +68,7 @@ module.exports = {
     if (opts.length < 1) return Reply.with(msg, lang.logs.use)
     let channel = Reply.strip(opts.shift())
     let message = opts.join(' ')
-    message = message ? message : "{user} left."
+    message = message ? message : "{user.name} left."
     if (['off', 'false', 'disable'].includes(channel)) channel = false
     State.setConfig(msg.guild.id, 'onleave', { channel, message })
     if (!channel) return Reply.with(msg, lang.logs.off, 'onleave')
