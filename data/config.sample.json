@@ -1,6 +1,6 @@
 {
-  "server": false,
-  "serverLogID": "",
+  "serverMode": false,
+  "serverLogs": "",
 
   "owner": "",
   "token": ""
