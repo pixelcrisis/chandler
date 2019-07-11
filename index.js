@@ -9,7 +9,9 @@ Bot.conf = require('./config.json')
 Bot.lang = require('./language.json')
 
 // Build out our utilities
-require('./plugins/utilities.js')(Bot)
+require('./plugins/utils.js')(Bot)
+require('./plugins/state.js')(Bot)
+require('./plugins/loader.js')(Bot)
 // Most changes to `Bot` happen here.
 
 const init = async () => {
