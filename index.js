@@ -8,6 +8,11 @@ const Bot = new Discord.Client()
 Bot.conf = require('./config.json')
 Bot.lang = require('./language.json')
 
+// Build out our utilities
+require('./plugins/utilities.js')(Bot)
+
+// Done Requiring, Let's Go
+
 const init = async () => {
   Bot.login(Bot.conf.token)
 }
