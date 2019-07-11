@@ -48,7 +48,7 @@ module.exports = {
 
     const hasPerms = plugin => {
       if (plugin.free && plugin.free.includes(cmd)) return true
-      if (msg.member.user.id == msg.member.guild.ownerID) return true
+      if (msg.member.hasPermission('ADMINISTRATOR')) return true
       return msg.member.roles.has(modID)
     }
 
