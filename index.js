@@ -5,10 +5,11 @@
 const Discord = require('discord.js')
 const Bot = new Discord.Client()
 
-Bot.config = require('./data/config.json')
+Bot.conf = require('config.json')
+Bot.lang = require('language.json')
 
 const init = async () => {
-  Bot.login(Bot.config.token)
+  Bot.login(Bot.conf.token)
 }
 
 
