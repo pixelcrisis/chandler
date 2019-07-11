@@ -7,7 +7,7 @@ const lang = require('../data/lang.json').manager
 
 module.exports = {
 
-  free: ['help', 'invite'],
+  free: ['help', 'commands', 'invite'],
 
   help(msg, opts) {
     return Reply.with(msg, lang.help)
@@ -74,5 +74,8 @@ module.exports = {
     if (!channel) return Reply.with(msg, lang.logs.off, 'onleave')
     else return Reply.with(msg, lang.logs.leave, message, channel)
   },
+
+  // aliases
+  commands(msg, opts) { this.help(msg, opts) }
 
 }

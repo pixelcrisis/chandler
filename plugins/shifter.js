@@ -37,6 +37,6 @@ module.exports = {
   },
 
   // aliases
-  async move(msg, opts){ this.__shift(msg, opts) }
+  async move(msg, opts){ this.shift(msg, opts) }
 
 }
