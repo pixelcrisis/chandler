@@ -17,7 +17,6 @@ require('./plugins/loader.js')(Bot)
 const init = async () => {
   await Bot.loadCommands()
   await Bot.loadEvents()
-  await Bot.loadGuilds()
   // this is really only the first
   // init step. more initializing is
   // done in events/ready.js

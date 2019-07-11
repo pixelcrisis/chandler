@@ -4,6 +4,8 @@
 
 module.exports = (Bot) => {
 
+  Bot.booted = false
+
   Bot.log = (message) => {
     console.info(message)
     // Always print logs in console

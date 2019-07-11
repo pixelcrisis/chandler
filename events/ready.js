@@ -9,6 +9,15 @@ module.exports = async (Bot, msg) => {
     Bot._logger = Bot.channels.get(Bot.serverLogs)
   }
 
+  const guilds = Bot.guilds.keyArray()
+  const active = { type: 'LISTENING' }
+  const status = `${guilds.length} Servers.`
+  Bot.user.setActivity(status, active)
 
+  // Start loading all the data
+  await Bot.loadGuilds(guilds)
+
+  Bot.booted = true
+  Bot.log("Loaded Everything, Booted Up.")
 
 }
