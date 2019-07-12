@@ -17,6 +17,13 @@ module.exports = (Bot) => {
     data = data.split('{invite}').join(invite)
     data = data.split('{website}').join(website)
     data = data.split('{support}').join(support)
+    if (msg && msg.member) {
+      data = data.split('{user}').join(`<@${msg.member.id}>`)
+      data = data.split('{user.id}').join(msg.member.id)
+      data = data.split('{user.name}').join(msg.member.user.username)
+    }
+    // unescape escaped parse flags
+    data = data.split('{/').join('{')
     return data
   }
 
