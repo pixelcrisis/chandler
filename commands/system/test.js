@@ -4,7 +4,7 @@ module.exports = {
   
   level: 9,
 
-  response: {
+  resp: {
     start: "Starting {val1} Test(s)",
     finish: "Finished {val1} Test(s)"
   },
@@ -18,7 +18,7 @@ module.exports = {
     if (!opts.length) return Bot.reply(msg, this.help)
     const color = 16736084
 
-    Bot.reply(msg, { desc: this.response.start, color }, opts.length)
+    Bot.reply(msg, { desc: this.resp.start, color }, opts.length)
     Bot.booted = false
 
     if (opts.length) {
@@ -29,7 +29,7 @@ module.exports = {
     }
 
     Bot.booted = true
-    Bot.reply(msg, { desc: this.response.finish, color }, opts.length)
+    Bot.reply(msg, { desc: this.resp.finish, color }, opts.length)
   },
 
   test: async function(Bot, msg) {

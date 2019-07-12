@@ -5,11 +5,12 @@ module.exports = {
   level: 1,
   alias: [ 'invite' ],
 
-  response: {
+  resp: {
     name: "Chandler Help",
-    desc: "View the {website} for Docs, or join the {support}!\n" +
-          "You can use this {invite} to bring Chandler to your server!\n" +
-          "You can also use `{pre}help command` to get help with a `command`"
+    desc: "View the {website} for Docs\n" +
+          "Join the {support} for Help\n" +
+          "Or, {invite} to your server!\n\n" +
+          "`{pre}help command` will help with a `command`\n"
   },
 
   help: {
@@ -22,7 +23,7 @@ module.exports = {
     if (!opts.length) {
       // if no command specified,
       // print the general response
-      return Bot.reply(msg, this.response)
+      return Bot.reply(msg, this.resp)
     }
     // otherwise get the help message for a command
     else if (opts.length == 1) {

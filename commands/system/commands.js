@@ -5,8 +5,6 @@ module.exports = {
   level: 1,
   alias: [ 'cmds' ],
 
-  response: {},
-
   help: {
     name: "{pre}commands",
     desc: "Prints a list of commands you have access to."

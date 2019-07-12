@@ -12,7 +12,7 @@ module.exports = {
   alias: [],
   // these are other triggers that can fire this command
 
-  response: {},
+  resp: {},
   // strings that the command output goes here
 
   help: {
