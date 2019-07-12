@@ -27,7 +27,7 @@ module.exports = (Bot) => {
     } else {
       for (var prop in data) {
         if (prop != 'fields') {
-          data[prop] = Bot.parse(msg, data[prop], val2, val2)
+          data[prop] = Bot.parse(msg, data[prop], val1, val2)
         }
         if (prop == 'name') embed.author.name = data[prop]
         else if (prop == 'desc') embed.description = data[prop]
