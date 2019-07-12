@@ -37,15 +37,18 @@ module.exports = (Bot) => {
     return msg.channel.send({ embed })
   }
 
-  Bot.listReply = (msg, title, data, join) => {
+  Bot.listReply = (msg, title, data, join = '\n') => {
     // due to discord text limits
     // if we're sending array data
     // split it at the 2k limit
     let text = '', messages = []
     for (var i = 0; i < data.length; i++) {
-      let len = text.length + data[i].length + join.length
-      if (len >= 1850) messages.push(text)
-      text = len < 1850 ? `${text}${join}${data[i]}` : `${data[i]}`
+      if (!text) text = data[i]
+      else {
+        let len = text.length + data[i].length + join.length
+        if (len >= 1850) messages.push(text)
+        text = len < 1850 ? `${text}${join}${data[i]}` : `${data[i]}`        
+      }
     }
     if (text) messages.push(text)
     // now we have an array of messages plit at 2k characters
