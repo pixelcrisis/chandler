@@ -6,8 +6,9 @@ const readDir = promisify(require("fs").readdir)
 
 module.exports = (Bot) => {
 
-  Bot.aliases = {}
-  Bot.commands = {}
+  require('./reply.js')(Bot)
+  require('./utils.js')(Bot)
+  require('./state.js')(Bot)
 
   Bot.loadEvents = async () => {
     const files = await readDir('./events/')
@@ -18,7 +19,10 @@ module.exports = (Bot) => {
       // bind events with `Bot` automagically
       Bot.on(name, event.bind(null, Bot))
     }
-  },
+  }
+
+  Bot.aliases = {}
+  Bot.commands = {}
 
   Bot.loadCommands = async () => {
     const groups = await readDir('./commands/')
