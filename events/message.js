@@ -6,6 +6,7 @@ module.exports = async (Bot, msg) => {
 
   const prefix = Bot.getConfig(msg.guild.id, 'prefix')
   const modsID = Bot.getConfig(msg.guild.id, 'modsID')
+  const access = Bot.getAccess(msg, modsID)
   const mention = `<@${Bot.user.id}>`
 
   const hasPrefix = msg.content.indexOf(prefix) === 0
@@ -21,8 +22,6 @@ module.exports = async (Bot, msg) => {
   const cmd = Bot.findCommand(command)
   if (!cmd) return
 
-  if (Bot.getAccess(msg, modsID) >= cmd.level) {
-    cmd.fire(Bot, msg, options)
-  }
+  if (access >= cmd.level) cmd.fire(Bot, msg, options, access)
 
 }

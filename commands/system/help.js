@@ -17,7 +17,7 @@ module.exports = {
           "Otherwise, returns the help documentation for `command`"
   },
 
-  fire: function(Bot, msg, opts) {
+  fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) {
       // if no command specified,
       // print the general response
@@ -26,7 +26,7 @@ module.exports = {
     // otherwise get the help message for a command
     else if (opts.length == 1) {
       let cmd = Bot.findCommand(opts[0])
-      if (cmd) return Bot.reply(msg, cmd.help)
+      if (cmd && lvl >= cmd.level) return Bot.reply(msg, cmd.help)
     }
   }
 
