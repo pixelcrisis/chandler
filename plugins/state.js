@@ -30,10 +30,10 @@ module.exports = (Bot) => {
       const db = Client.db(guild)
 
       // propertis must match collection name
-      result.config = Config.load(db)
-      result.zones = Zones.load(db)
-      result.locks = Locks.load(db)
-      result.tags = Tags.load(db)
+      result.config = await Config.load(db)
+      result.zones = await Zones.load(db)
+      result.locks = await Locks.load(db)
+      result.tags = await Tags.load(db)
 
       // there's only one result in config, so
       result.config = result.config[0]
