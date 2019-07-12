@@ -22,7 +22,7 @@ module.exports = {
   },
   // help name and desc for quick use with >help command
 
-  fire: function(Bot, msg, args) {
+  fire: function(Bot, msg, opts) {
     // actual bot function would go here
   }
 
