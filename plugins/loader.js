@@ -26,8 +26,11 @@ module.exports = (Bot) => {
 
   Bot.loadCommands = async () => {
     const groups = await readDir('./commands/')
-    Bot.log(`Loading ${groups.length} Command Groups...`)
+    // ignore template.js in count
+    Bot.log(`Loading ${groups.length - 1} Command Groups...`)
     for (var g = 0; g < groups.length; g++) {
+      // ignore template.js in processing
+      if (groups[g].endsWith('.js')) return
       const files = await readDir(`./commands/${groups[g]}`)
       Bot.log(`Loading ${files.length} Commands From Group: ${groups[g]}`)
       for (var f = 0; f < files.length; f++) {
