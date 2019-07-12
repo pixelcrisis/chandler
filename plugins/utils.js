@@ -22,4 +22,8 @@ module.exports = (Bot) => {
     return 1
   }
 
+  Bot.findCommand = (cmd) => {
+    return Bot.commands[cmd] || Bot.commands[Bot.aliases[cmd]]
+  }
+
 }
