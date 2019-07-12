@@ -28,7 +28,12 @@ module.exports = (Bot) => {
       Bot.log(`Loading ${files.length} Commands From Group: ${groups[g]}`)
       for (var f = 0; f < files.length; f++) {
         const command = require(`../commands/${groups[g]}/${files[f]}`)
-        return Bot.commands[command.name] = command  
+        Bot.commands[command.name] = command  
+        if (command.alias) {
+          for (var i = 0; i < command.alias.length; i++) {
+            Bot.aliases[command.alias[i]] = command.name
+          }
+        }
       }
     }
   }

@@ -1,6 +1,12 @@
 module.exports = {
 
   name: 'help',
-  fire: function() {}
+  
+  level: 1,
+  alias: ['what'],
+
+  fire: function() {
+    console.log("Fired.")
+  }
 
 }
