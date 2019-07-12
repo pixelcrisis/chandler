@@ -20,7 +20,7 @@ module.exports = async (Bot, msg) => {
 
   // todo tests
 
-  const cmd = Bot.commands[command] || Bot.commands[Bot.aliases[command]]
+  const cmd = Bot.findCommand(command)
   if (!cmd) return
 
   if (Bot.getAccess(msg, modsID) >= cmd.level) {

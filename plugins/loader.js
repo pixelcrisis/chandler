@@ -38,4 +38,8 @@ module.exports = (Bot) => {
     }
   }
 
+  Bot.findCommand = (cmd) => {
+    return Bot.commands[cmd] || Bot.commands[Bot.aliases[cmd]]
+  }
+
 }
