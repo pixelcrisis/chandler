@@ -11,8 +11,6 @@ module.exports = async (Bot, msg) => {
   const hasPrefix = msg.content.indexOf(prefix) === 0
   const hasMention = msg.content.indexOf(mention) === 0
   if (!hasPrefix && !hasMention) return
-    
-  // todo if (!message.guild) no work in DM
 
   const amount = hasPrefix ? prefix.length : mention.length
   const options = msg.content.slice(amount).trim().split(/ +/g)
