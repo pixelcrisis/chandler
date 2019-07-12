@@ -17,13 +17,24 @@ module.exports = {
 
   help: {
     name: "{pre}template [required] (optional)",
-    desc: "This is just an empty template command.\n" +
+    desc: "This is just an empty command.\n" +
           "It isn't supposed to do anything."
   },
   // help name and desc for quick use with >help command
 
   fire: function(Bot, msg, opts, lvl) {
     // actual bot function would go here
+  },
+
+  test: async function(Bot, msg) {
+    Bot.reply(msg, {
+      name: "Testing {pre}template",
+      desc: "`{pre}template` - response\n" +
+            "`{pre}template arg` - response",
+      color: 16549991
+    })
+    // tests for the command go here
+    Bot.reply(msg, "{pre}template test complete.")
   }
 
 }

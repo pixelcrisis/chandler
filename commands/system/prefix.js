@@ -17,6 +17,18 @@ module.exports = {
     if (!opts.length) return Bot.reply(msg, this.help)
     Bot.setConfig(msg.guild.id, { prefix: opts.join(' ') })
     return Bot.reply(msg, this.response, opts.join(' '))
+  },
+
+  test: async function(Bot, msg) {
+    Bot.reply(msg, {
+      name: "Testing {pre}prefix",
+      desc: "`{pre}prefix` - Useage\n" +
+            "`{pre}prefix ~` - Set",
+      color: 16549991
+    })
+
+    await this.fire(Bot, msg, [])
+    await this.fire(Bot, msg, ['~'])
   }
 
 }

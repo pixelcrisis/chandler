@@ -28,6 +28,22 @@ module.exports = {
       let cmd = Bot.findCommand(opts[0])
       if (cmd && lvl >= cmd.level) return Bot.reply(msg, cmd.help)
     }
+  },
+
+  test: async function(Bot, msg) {
+    Bot.reply(msg, {
+      name: "Testing {pre}help",
+      desc: "`{pre}help` - Links\n" +
+            "`{pre}help help` - Useage\n" +
+            "`{pre}help test` - Nothing (Perms 7)\n" +
+            "`{pre}help test` - Useage",
+      color: 16549991
+    })
+
+    await this.fire(Bot, msg, [])
+    await this.fire(Bot, msg, ['help'], 1)
+    await this.fire(Bot, msg, ['test'], 7)
+    await this.fire(Bot, msg, ['test'], 9)
   }
 
 }
