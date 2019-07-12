@@ -18,7 +18,8 @@ module.exports = async (Bot, msg) => {
   const command = options.shift().toLowerCase()
 
   // todo tests
-
+  // return help on empty commands
+  if (command == '') command = 'help'
   const cmd = Bot.findCommand(command)
   if (!cmd) return
 
