@@ -3,7 +3,7 @@ module.exports = {
   name: 'help',
   
   level: 1,
-  alias: ['what', 'invite'],
+  alias: [ 'what', 'invite' ],
 
   response: {
     name: "Chandler Help",
