@@ -1,12 +1,12 @@
 module.exports = {
 
-  name: 'commands',
+  name: 'cmds',
   
   level: 1,
-  alias: [ 'cmds' ],
+  alias: [ 'commands' ],
 
   help: {
-    name: "{pre}commands",
+    name: "{pre}cmds",
     desc: "Prints a list of commands you have access to."
   },
 
@@ -20,16 +20,16 @@ module.exports = {
 
   test: async function(Bot, msg) {
     Bot.reply(msg, {
-      name: "Testing {pre}commands",
-      desc: "`{pre}commands` - List (Few, perm 1)\n" +
-            "`{pre}commands` - List (All, perm 9)",
+      name: "Testing {pre}cmds",
+      desc: "`{pre}cmds` - List (Few, perm 1)\n" +
+            "`{pre}cmds` - List (All, perm 9)",
       color: 16549991
     })
     
     await this.fire(Bot, msg, [], 1)
     await this.fire(Bot, msg, [], 9)
 
-    Bot.reply(msg, "{pre}commands test complete.")
+    Bot.reply(msg, "{pre}cmds test complete.")
   }
 
 }
