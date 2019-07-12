@@ -19,8 +19,8 @@ module.exports = async (Bot, msg) => {
 
   // todo tests
   // return help on empty commands
-  if (command == '') command = 'help'
-  const cmd = Bot.findCommand(command)
+  let trigger = command ? command : 'help'
+  const cmd = Bot.findCommand(trigger)
   if (!cmd) return
 
   if (access >= cmd.level) cmd.fire(Bot, msg, options, access)
