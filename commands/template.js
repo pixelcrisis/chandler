@@ -33,7 +33,9 @@ module.exports = {
             "`{pre}template arg` - response",
       color: 16549991
     })
+
     // tests for the command go here
+    
     return Bot.reply(msg, "{pre}template test complete.")
   }
 
