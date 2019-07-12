@@ -3,7 +3,7 @@
 
 module.exports = (Bot) => {
 
-  const website = '[Command List](https://chandler.12px.io)'
+  const website = '[Website](https://chandler.12px.io)'
   const support = '[Support Server](https://discord.gg/tjRC7E4)'
   const invite = '[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
 
