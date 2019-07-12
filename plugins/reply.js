@@ -8,7 +8,7 @@ module.exports = (Bot) => {
   const invite = '[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
 
   Bot.parse = (msg, data, val1, val2) => {
-    if (!data) return data
+    if (typeof data != 'string') return data
     const prefix = Bot.getConfig(msg.guild.id, 'prefix')
 
     data = data.split('{val1}').join(val1)
