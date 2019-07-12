@@ -3,12 +3,13 @@ module.exports = {
   name: 'help',
   
   level: 1,
-  alias: [ 'what', 'invite' ],
+  alias: [ 'invite' ],
 
   response: {
     name: "Chandler Help",
     desc: "View the {website} for Docs, or join the {support}!\n" +
-          "You can use this {invite} to bring Chandler to your server!"
+          "You can use this {invite} to bring Chandler to your server!\n" +
+          "You can also use `{pre}help command` to get help with a `command`"
   },
 
   help: {

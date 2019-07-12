@@ -17,7 +17,6 @@ module.exports = async (Bot, msg) => {
   const options = msg.content.slice(amount).trim().split(/ +/g)
   const command = options.shift().toLowerCase()
 
-  // todo tests
   // return help on empty commands
   let trigger = command ? command : 'help'
   const cmd = Bot.findCommand(trigger)
