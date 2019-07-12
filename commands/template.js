@@ -26,7 +26,7 @@ module.exports = {
     // actual bot function would go here
   },
 
-  test: async function(Bot, msg) {
+  test: async function(Bot, msg, data) {
     Bot.reply(msg, {
       name: "Testing {pre}template",
       desc: "`{pre}template` - response\n" +
@@ -34,7 +34,7 @@ module.exports = {
       color: 16549991
     })
     // tests for the command go here
-    Bot.reply(msg, "{pre}template test complete.")
+    return Bot.reply(msg, "{pre}template test complete.")
   }
 
 }

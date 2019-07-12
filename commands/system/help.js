@@ -32,13 +32,13 @@ module.exports = {
     }
   },
 
-  test: async function(Bot, msg) {
+  test: async function(Bot, msg, data) {
     Bot.reply(msg, {
       name: "Testing {pre}help",
       desc: "`{pre}help` - Links\n" +
-            "`{pre}help help` - Useage\n" +
+            "`{pre}help help` - Help\n" +
             "`{pre}help test` - Nothing (level 7)\n" +
-            "`{pre}help test` - Useage (level 9)",
+            "`{pre}help test` - Help (level 9)",
       color: 16549991
     })
 
@@ -46,6 +46,8 @@ module.exports = {
     await this.fire(Bot, msg, ['help'], 1)
     await this.fire(Bot, msg, ['test'], 7)
     await this.fire(Bot, msg, ['test'], 9)
+
+    return Bot.reply(msg, "{pre}help test complete.")
   }
 
 }

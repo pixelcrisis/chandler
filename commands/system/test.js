@@ -14,6 +14,12 @@ module.exports = {
     desc: "If you don't know what this does..."
   },
 
+  testData: {
+    user: '200944208855433220',
+    role: '596192935138033675',
+    channel: '596837986356690954'
+  },
+
   fire: async function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
     const color = 16736084
@@ -24,16 +30,16 @@ module.exports = {
     if (opts.length) {
       for (var i = 0; i < opts.length; i++) {
         let cmd = Bot.findCommand(opts[i])
-        if (cmd) await cmd.test(Bot, msg)
+        if (cmd) await cmd.test(Bot, msg, this.testData)
       }
     }
 
     Bot.booted = true
-    Bot.reply(msg, { desc: this.resp.finish, color }, opts.length)
+    return Bot.reply(msg, { desc: this.resp.finish, color }, opts.length)
   },
 
   test: async function(Bot, msg) {
-    Bot.reply(msg, "i n c e p t i o n")
+    return Bot.reply(msg, "i n c e p t i o n")
   }
 
 }

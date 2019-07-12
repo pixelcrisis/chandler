@@ -19,16 +19,18 @@ module.exports = {
     return Bot.reply(msg, this.resp, opts.join(' '))
   },
 
-  test: async function(Bot, msg) {
+  test: async function(Bot, msg, data) {
     Bot.reply(msg, {
       name: "Testing {pre}prefix",
-      desc: "`{pre}prefix` - Useage\n" +
+      desc: "`{pre}prefix` - Help\n" +
             "`{pre}prefix ~` - Set",
       color: 16549991
     })
 
     await this.fire(Bot, msg, [])
     await this.fire(Bot, msg, ['~'])
+
+    return Bot.reply(msg, "{pre}prefix test complete.")
   }
 
 }

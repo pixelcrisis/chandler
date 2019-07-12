@@ -18,7 +18,7 @@ module.exports = {
     return Bot.listReply(msg, "Chandler Commands", list, ', ')
   },
 
-  test: async function(Bot, msg) {
+  test: async function(Bot, msg, data) {
     Bot.reply(msg, {
       name: "Testing {pre}cmds",
       desc: "`{pre}cmds` - List (Few, level 1)\n" +
@@ -29,7 +29,7 @@ module.exports = {
     await this.fire(Bot, msg, [], 1)
     await this.fire(Bot, msg, [], 9)
 
-    Bot.reply(msg, "{pre}cmds test complete.")
+    return Bot.reply(msg, "{pre}cmds test complete.")
   }
 
 }
