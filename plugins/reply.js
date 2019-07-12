@@ -9,18 +9,22 @@ module.exports = (Bot) => {
 
   Bot.parse = (msg, data, val1, val2) => {
     if (typeof data != 'string') return data
-    const prefix = Bot.getConfig(msg.guild.id, 'prefix')
 
     data = data.split('{val1}').join(val1)
     data = data.split('{val2}').join(val2)
-    data = data.split('{pre}').join(prefix)
     data = data.split('{invite}').join(invite)
     data = data.split('{website}').join(website)
     data = data.split('{support}').join(support)
-    if (msg && msg.member) {
-      data = data.split('{user}').join(`<@${msg.member.id}>`)
-      data = data.split('{user.id}').join(msg.member.id)
-      data = data.split('{user.name}').join(msg.member.user.username)
+    if (msg) {
+      if (msg.member) {
+        data = data.split('{user}').join(`<@${msg.member.id}>`)
+        data = data.split('{user.id}').join(msg.member.id)
+        data = data.split('{user.name}').join(msg.member.user.username)
+      }
+      if (msg.guild) {
+        const prefix = Bot.getConfig(msg.guild.id, 'prefix')
+        data = data.split('{pre}').join(prefix)
+      }
     }
     // unescape escaped parse flags
     data = data.split('{/').join('{')

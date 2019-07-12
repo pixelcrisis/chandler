@@ -6,6 +6,11 @@ module.exports = (Bot) => {
 
   Bot.booted = false
 
+  Bot.no = ['off', 'false', 'disable']
+  Bot.yes = ['on', 'true', 'enable']
+
+  Bot.sleep = require("util").promisify(setTimeout);
+
   Bot.log = (message) => {
     console.info(message)
     // Always print logs in console
@@ -24,6 +29,18 @@ module.exports = (Bot) => {
 
   Bot.findCommand = (cmd) => {
     return Bot.commands[cmd] || Bot.commands[Bot.aliases[cmd]]
+  }
+
+  Bot.stripIDs = (str) => {
+    if (str.indexOf('<') == 0) {
+      let trim = str.indexOf('@&') == 1 ? 3 : 2
+      return str.substring(trim, str.length - 1)
+    } else return str
+  }
+
+  Bot.verifyChannel = (msg, data) => {
+    let id = Bot.stripIDs(data)
+    return msg.channel.guild.channels.get(id)
   }
 
 }
