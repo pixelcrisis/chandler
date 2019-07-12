@@ -37,8 +37,8 @@ module.exports = {
       name: "Testing {pre}help",
       desc: "`{pre}help` - Links\n" +
             "`{pre}help help` - Useage\n" +
-            "`{pre}help test` - Nothing (Perms 7)\n" +
-            "`{pre}help test` - Useage",
+            "`{pre}help test` - Nothing (level 7)\n" +
+            "`{pre}help test` - Useage (level 9)",
       color: 16549991
     })
 
