@@ -21,7 +21,7 @@ module.exports = {
   test: async function(Bot, msg) {
     Bot.reply(msg, {
       name: "Testing {pre}commands",
-      desc: "`{pre}commands` - List (Few, perm 1)" +
+      desc: "`{pre}commands` - List (Few, perm 1)\n" +
             "`{pre}commands` - List (All, perm 9)",
       color: 16549991
     })
