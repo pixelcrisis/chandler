@@ -31,6 +31,14 @@ module.exports = (Bot) => {
     return Bot.commands[cmd] || Bot.commands[Bot.aliases[cmd]]
   }
 
+  Bot.parseEmbed = (str) => {
+    try {
+      let obj = JSON.parse(str)
+      return obj.embed ? obj : { embed: obj }
+    }
+    catch(e) { return false }
+  }
+
   Bot.stripIDs = (str) => {
     if (str.indexOf('<') == 0) {
       let trim = str.indexOf('@&') == 1 ? 3 : 2
