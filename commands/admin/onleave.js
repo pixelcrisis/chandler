@@ -40,7 +40,7 @@ module.exports = {
     data.channel = channel.id
 
     Bot.setConfig(msg.guild.id, { onleave: data })
-    const escaped = data.message.split('{').join('{/')
+    const escaped = Bot.escape(data.message)
     return Bot.reply(msg, this.lang.done, data.channel, escaped)
   },
 
