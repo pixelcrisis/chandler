@@ -14,7 +14,7 @@ module.exports = {
     desc: "Sets an optional leave message for deparing users.\n" +
           "Example: `{pre}onleave #server-logs {/user} Left!`\n" +
           "Use `{pre}onleave false` to disable feature.\n" +
-          "`(message)` defaults to `{/user} left.`\n\n" +
+          "`(message)` defaults to `{/user.name} left.`\n\n" +
           "**Available Tags:**\n" +
           "`{/user}` - @User\n" +
           "`{/user.id}` and `{/user.name}` also work."
@@ -34,7 +34,7 @@ module.exports = {
       return Bot.reply(msg, this.resp.disabled)
     }
 
-    data.message = data.message ? data.message : "{user} left."
+    data.message = data.message ? data.message : "{user.name} left."
     const channel = Bot.verifyChannel(msg, data.channel)
     if (!channel) return Bot.reply(msg, this.resp.noChannel)
     data.channel = channel.id

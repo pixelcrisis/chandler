@@ -43,4 +43,9 @@ module.exports = (Bot) => {
     return msg.channel.guild.channels.get(id)
   }
 
+  Bot.verifyRole = (msg, data) => {
+    let id = Bot.stripIDs(data)
+    return msg.guild.roles.get(id)
+  }
+
 }
