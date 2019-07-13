@@ -4,7 +4,7 @@ module.exports = {
   
   level: 3,
 
-  resp: {
+  lang: {
     already: "This channel is already locked!",
     locked: "Channel was locked by {user} for: {val1}"
   },
@@ -20,7 +20,7 @@ module.exports = {
   fire: async function(Bot, msg, opts, lvl) {
     let perms = msg.channel.permissionOverwrites.array()
     let curr = Bot.getLock(msg.guild.id, msg.channel.id)
-    if (curr) return Bot.reply(msg, this.resp.already)
+    if (curr) return Bot.reply(msg, this.lang.already)
 
     Bot.setLock(msg.guild.id, {
       id: msg.channel.id,
@@ -40,7 +40,7 @@ module.exports = {
     })
 
     const reason = opts.length ? opts.join(' ') : 'No Reason'
-    return Bot.reply(msg, this.resp.locked, reason)
+    return Bot.reply(msg, this.lang.locked, reason)
   },
 
   test: async function(Bot, msg, data) {

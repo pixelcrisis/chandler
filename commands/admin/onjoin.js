@@ -3,7 +3,7 @@ module.exports = {
   name: 'onjoin',
   
   level: 5,
-  resp: {
+  lang: {
     noChannel: "Couldn't find that channel.",
     disabled: "No longer logging user joins.",
     switch: "Logging User Joins in <#{val1}> with: `{val2}`"
@@ -31,17 +31,17 @@ module.exports = {
     if (Bot.no.includes(data.channel)) {
       data.channel = false
       Bot.setConfig(msg.guild.id, { onjoin: data })
-      return Bot.reply(msg, this.resp.disabled)
+      return Bot.reply(msg, this.lang.disabled)
     }
 
     data.message = data.message ? data.message : "{user} joined."
     const channel = Bot.verifyChannel(msg, data.channel)
-    if (!channel) return Bot.reply(msg, this.resp.noChannel)
+    if (!channel) return Bot.reply(msg, this.lang.noChannel)
     data.channel = channel.id
 
     Bot.setConfig(msg.guild.id, { onjoin: data })
     const escaped = data.message.split('{').join('{/')
-    return Bot.reply(msg, this.resp.switch, data.channel, escaped)
+    return Bot.reply(msg, this.lang.switch, data.channel, escaped)
   },
 
   test: async function(Bot, msg, data) {

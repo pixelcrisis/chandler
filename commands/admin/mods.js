@@ -5,7 +5,7 @@ module.exports = {
   level: 5,
   alias: ['staff'],
 
-  resp: {
+  lang: {
     set: "Mods set to: <@&{val1}>",
     current: "Mods are currently set as: <@&{val1}>",
     none: "Mods haven't been set yet.",
@@ -21,15 +21,15 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) {
       const mods = Bot.getConfig(msg.guild.id, 'modsID')
-      if (mods) return Bot.reply(msg, this.resp.current, mods)
-      else return Bot.reply(msg, this.resp.none)
+      if (mods) return Bot.reply(msg, this.lang.current, mods)
+      else return Bot.reply(msg, this.lang.none)
     }
 
     else if (opts.length == 1) {
       const role = Bot.verifyRole(msg, opts[0])
-      if (!role) return Bot.reply(msg, this.resp.badRole, opts[0])
+      if (!role) return Bot.reply(msg, this.lang.badRole, opts[0])
       Bot.setConfig(msg.guild.id, { modsID: role.id })
-      return Bot.reply(msg, this.resp.set, role.id)
+      return Bot.reply(msg, this.lang.set, role.id)
     }
 
     else return Bot.reply(msg, this.help)

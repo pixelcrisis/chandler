@@ -5,7 +5,7 @@ module.exports = {
   level: 3,
   alias: ['move'],
 
-  resp: {
+  lang: {
     channel: "Sorry, couldn't find that channel.",
     done: "Moved {val1} messages to <#{val2}>"
   },
@@ -22,7 +22,7 @@ module.exports = {
     let amount = parseInt(opts[0])
     let channel = Bot.verifyChannel(msg, opts[1])
     if (isNaN(amount)) return Bot.reply(msg, this.help)
-    if (!channel) return Bot.reply(msg, this.resp.channel)
+    if (!channel) return Bot.reply(msg, this.lang.channel)
 
     await msg.channel.fetchMessages({ limit: amount + 1}).then(got => {
       got.forEach(message => {
@@ -36,7 +36,7 @@ module.exports = {
     let title = `Moved ${amount} Messages Here From ${msg.channel.name}`
     shifted = shifted.reverse() // preserve proper order w/loops
     Bot.listReply({ channel }, title, shifted, '\n\n')
-    return Bot.reply(msg, this.resp.done, amount, channel.id)
+    return Bot.reply(msg, this.lang.done, amount, channel.id)
   },
 
   test: async function(Bot, msg, data) {

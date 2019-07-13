@@ -5,7 +5,7 @@ module.exports = {
   level: 3,
   alias: ['clean', 'delete', 'remove'],
 
-  resp: {
+  lang: {
     done: "Cleared {val1} Messages.",
     over: "Can only clear 99 messages at a time."
   },
@@ -20,7 +20,7 @@ module.exports = {
     if (!opts.length || opts.length > 1) return Bot.reply(msg, this.help)
     const amount = parseInt(opts.shift())
     if (isNaN(amount)) return Bot.reply(msg, this.help)
-    if (amount > 99) return Bot.reply(msg, this.resp.over)
+    if (amount > 99) return Bot.reply(msg, this.lang.over)
 
     // todo - delete by user
     // todo - double check date (2 week limit)
@@ -28,7 +28,7 @@ module.exports = {
     await msg.channel.fetchMessages({ limit: amount + 1 })
           .then(async got => { await msg.channel.bulkDelete(got) })
 
-    return Bot.reply(msg, this.resp.done, amount - 1)
+    return Bot.reply(msg, this.lang.done, amount - 1)
   },
 
   test: async function(Bot, msg, data) {

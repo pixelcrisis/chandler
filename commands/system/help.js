@@ -5,7 +5,7 @@ module.exports = {
   level: 1,
   alias: [ 'invite' ],
 
-  resp: {
+  lang: {
     name: "Chandler Help",
     desc: "View the {website} for Docs\n" +
           "Join the {support} for Help\n" +
@@ -23,7 +23,7 @@ module.exports = {
     if (!opts.length) {
       // if no command specified,
       // print the general response
-      return Bot.reply(msg, this.resp)
+      return Bot.reply(msg, this.lang)
     }
     // otherwise get the help message for a command
     else if (opts.length == 1) {

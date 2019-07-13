@@ -4,7 +4,7 @@ module.exports = {
   
   level: 3,
 
-  resp: {
+  lang: {
     badParse: "Couldn't parse that embed.",
     noMessage: "Couldn't find that message."
   },
@@ -27,10 +27,10 @@ module.exports = {
       else {
         let embed = Bot.parseEmbed(newMsg)
         if (embed) m.edit(m.content, embed)
-        else return Bot.reply(msg, this.resp.badParse)
+        else return Bot.reply(msg, this.lang.badParse)
       }
     }).catch(() => {
-      return Bot.reply(msg, this.resp.noMessage)
+      return Bot.reply(msg, this.lang.noMessage)
     })
     return Bot.booted ? msg.delete() : true
   },
