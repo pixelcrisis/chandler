@@ -25,25 +25,29 @@ module.exports = (Bot) => {
   Bot.commands = {}
 
   Bot.loadCommands = async () => {
+    let total = 0
     const groups = await readDir('./commands/')
     // ignore template.js in count
     Bot.log(`Loading ${groups.length - 1} Command Groups...`)
     for (var g = 0; g < groups.length; g++) {
       // ignore template.js in processing
-      if (groups[g].endsWith('.js')) return
-      const files = await readDir(`./commands/${groups[g]}`)
-      Bot.log(`Loading ${files.length} Commands From Group: ${groups[g]}`)
-      for (var f = 0; f < files.length; f++) {
-        const command = require(`../commands/${groups[g]}/${files[f]}`)
-        Bot.commands[command.name] = command
-        Bot.commands[command.name].group = groups[g]
-        if (command.alias) {
-          for (var i = 0; i < command.alias.length; i++) {
-            Bot.aliases[command.alias[i]] = command.name
+      if (!groups[g].endsWith('.js')) {
+        const files = await readDir(`./commands/${groups[g]}`)
+        total += files.length
+        Bot.log(`Loading ${files.length} Commands From Group: ${groups[g]}`)
+        for (var f = 0; f < files.length; f++) {
+          const command = require(`../commands/${groups[g]}/${files[f]}`)
+          Bot.commands[command.name] = command
+          Bot.commands[command.name].group = groups[g]
+          if (command.alias) {
+            for (var i = 0; i < command.alias.length; i++) {
+              Bot.aliases[command.alias[i]] = command.name
+            }
           }
         }
       }
     }
+    Bot.log(`Loaded ${total} Commands Total.`)
   }
 
 }
