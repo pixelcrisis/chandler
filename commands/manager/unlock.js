@@ -7,8 +7,8 @@ module.exports = {
   level: 3,
 
   lang: {
-    already: "This channel is already unlocked!",
-    unlocked: "Channel was unlocked by {user}"
+    curr: "This channel is already unlocked!",
+    done: "Channel was unlocked by {user}"
   },
 
   help: {
@@ -19,7 +19,7 @@ module.exports = {
 
   fire: async function(Bot, msg, opts, lvl) {
     let curr = Bot.getLock(msg.guild.id, msg.channel.id)
-    if (!curr) return Bot.reply(msg, this.lang.already)
+    if (!curr) return Bot.reply(msg, this.lang.curr)
 
     let perms = []
     for (var i = 0; i < curr.perms.length; i++) {
@@ -37,7 +37,7 @@ module.exports = {
     })
 
     Bot.remLock(msg.guild.id, msg.channel.id)
-    return Bot.reply(msg, this.lang.unlocked)
+    return Bot.reply(msg, this.lang.done)
   },
 
   test: async function(Bot, msg, data) {

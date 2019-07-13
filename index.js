@@ -6,6 +6,9 @@ const Discord = require('discord.js')
 const Bot = new Discord.Client()
 
 Bot.conf = require('./config.json')
+// general system language
+// every command also has its own lang object
+Bot.lang = require('./language.json')
 
 // Load our everything
 // Changes to `Bot` happen here.

@@ -4,11 +4,6 @@ module.exports = {
   
   level: 3,
 
-  lang: {
-    badParse: "Couldn't parse that embed.",
-    noMessage: "Couldn't find that message."
-  },
-
   help: {
     name: "{pre}edit [messageID] [content]",
     desc: "Edits message with id `messageID` to `content`.\n" +
@@ -27,10 +22,10 @@ module.exports = {
       else {
         let embed = Bot.parseEmbed(newMsg)
         if (embed) m.edit(m.content, embed)
-        else return Bot.reply(msg, this.lang.badParse)
+        else return Bot.reply(msg, Bot.lang.badParse)
       }
     }).catch(() => {
-      return Bot.reply(msg, this.lang.noMessage)
+      return Bot.reply(msg, Bot.lang.badMsg, msgID)
     })
     return Bot.booted ? msg.delete() : true
   },

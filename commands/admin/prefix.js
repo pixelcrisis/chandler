@@ -4,8 +4,10 @@ module.exports = {
   
   level: 5,
 
-  lang: "Set Prefix to: `{val1}`\n" +
-        "Reminder: You can @Chandler as a prefix if something goes sideways.",
+  lang: {
+    done: "Set Prefix to: `{val1}`\n" +
+          "Reminder: You can @Chandler as a prefix if something goes sideways."
+  },
 
   help: {
     name: "{pre}prefix [symbol]",
@@ -16,7 +18,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
     Bot.setConfig(msg.guild.id, { prefix: opts.join(' ') })
-    return Bot.reply(msg, this.lang, opts.join(' '))
+    return Bot.reply(msg, this.lang.done, opts.join(' '))
   },
 
   test: async function(Bot, msg, data) {

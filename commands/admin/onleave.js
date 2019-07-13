@@ -3,10 +3,10 @@ module.exports = {
   name: 'onleave',
   
   level: 5,
+
   lang: {
-    noChannel: "Couldn't find that channel.",
-    disabled: "No longer logging user departures.",
-    switch: "Logging User Departures in <#{val1}> with: `{val2}`"
+    none: "No longer logging user departures.",
+    done: "Logging User Departures in <#{val1}> with: `{val2}`"
   },
 
   help: {
@@ -31,17 +31,17 @@ module.exports = {
     if (Bot.no.includes(data.channel)) {
       data.channel = false
       Bot.setConfig(msg.guild.id, { onleave: data })
-      return Bot.reply(msg, this.lang.disabled)
+      return Bot.reply(msg, this.lang.none)
     }
 
     data.message = data.message ? data.message : "{user.name} left."
     const channel = Bot.verifyChannel(msg, data.channel)
-    if (!channel) return Bot.reply(msg, this.lang.noChannel)
+    if (!channel) return Bot.reply(msg, Bot.lang.badChan, data.channel)
     data.channel = channel.id
 
     Bot.setConfig(msg.guild.id, { onleave: data })
     const escaped = data.message.split('{').join('{/')
-    return Bot.reply(msg, this.lang.switch, data.channel, escaped)
+    return Bot.reply(msg, this.lang.done, data.channel, escaped)
   },
 
   test: async function(Bot, msg, data) {

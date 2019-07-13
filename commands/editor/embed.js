@@ -4,10 +4,6 @@ module.exports = {
   
   level: 3,
 
-  lang: {
-    badEmbed: "I couldn't parse that embed, sorry."
-  },
-
   help: {
     name: "{pre}embed [embed]",
     desc: "Prints an embed.\n" +
@@ -17,7 +13,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
     const embed = Bot.parseEmbed(opts.join(' '))
-    if (!embed) Bot.reply(msg, this.lang.badEmbed)
+    if (!embed) Bot.reply(msg, Bot.lang.badParse)
     else msg.channel.send(embed)
     return Bot.booted ? msg.delete() : true
   },
