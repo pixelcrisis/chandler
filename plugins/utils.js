@@ -39,13 +39,19 @@ module.exports = (Bot) => {
   }
 
   Bot.verifyChannel = (msg, data) => {
-    let id = Bot.stripIDs(data)
-    return msg.channel.guild.channels.get(id)
+    let channel = msg.guild.channels.get(Bot.stripIDs(data))
+    if (!channel) {
+      channel = msg.guild.channels.find(by => by.name == data)
+    }
+    return channel
   }
 
   Bot.verifyRole = (msg, data) => {
-    let id = Bot.stripIDs(data)
-    return msg.guild.roles.get(id)
+    let role = msg.guild.roles.get(Bot.stripIDs(data))
+    if (!role) {
+      role = msg.guild.roles.find(by => by.name == data)
+    }
+    return role
   }
 
 }
