@@ -30,15 +30,6 @@ module.exports = {
       for (var i = 0; i < opts.length; i++) {
         let cmd = Bot.findCommand(opts[i])
         if (cmd) await cmd.test(Bot, msg, this.testData)
-        else {
-          // do by group
-          // todo: clean this up, loops in loops in loops in loops in loops in loo
-          for (var command in Bot.commands) {
-            if (Bot.commands[command].group == opts[i]) {
-              await Bot.commands[command].test(Bot, msg, this.testData)
-            }
-          }
-        }
       }
     }
 
