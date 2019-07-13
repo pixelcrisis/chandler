@@ -2,6 +2,8 @@
 // Core Features/Functions
 // Added to main Bot object.
 
+const Moment = require('moment')
+
 module.exports = (Bot) => {
 
   Bot.booted = false
@@ -9,7 +11,8 @@ module.exports = (Bot) => {
   Bot.no = ['off', 'false', 'disable']
   Bot.yes = ['on', 'true', 'enable']
 
-  Bot.sleep = require("util").promisify(setTimeout);
+  Bot.sleep = require("util").promisify(setTimeout)
+  Bot.when = time => Moment(time).fromNow()
 
   Bot.byID = (id) => { return el => el.id == id }
   Bot.byName = (name) => { return el => el.name == name }
