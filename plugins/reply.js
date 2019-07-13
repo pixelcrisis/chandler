@@ -7,7 +7,7 @@ module.exports = (Bot) => {
   const support = '[Support Server](https://discord.gg/tjRC7E4)'
   const invite = '[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
 
-  Bot.escape = (data) => return data.split('{').join('{/')
+  Bot.escape = (data) => data.split('{').join('{/')
 
   Bot.parse = (msg, data, val1, val2) => {
     if (typeof data != 'string') return data
