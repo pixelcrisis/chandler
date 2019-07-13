@@ -47,15 +47,15 @@ module.exports = (Bot) => {
   }
 
   Bot.getZone = (guild, id) => {
-    return Bot.state[guild].zones.find(Model.byID(id))
+    return Bot.state[guild].zones.find(Bot.byID(id))
   }
 
   Bot.getLock = (guild, id) => {
-    return Bot.state[guild].locks.find(Model.byID(id))
+    return Bot.state[guild].locks.find(Bot.byID(id))
   }
 
   Bot.getTag = (guild, id) => {
-    return Bot.state[guild].tags.find(Model.byID(id))
+    return Bot.state[guild].tags.find(Bot.byID(id))
   }
 
   Bot.setConfig = (guild, data) => {

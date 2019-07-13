@@ -9,8 +9,6 @@ module.exports = function(collection, defaults) {
   this.defaults = defaults
   const upgrade = { upsert: true }
 
-  this.byID = (id) => { return el => el.id == id }
-
   this.load = async (db) => {
     const coll = db.collection(this.coll)
     const docs = await coll.find({}).toArray()

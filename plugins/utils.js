@@ -11,6 +11,9 @@ module.exports = (Bot) => {
 
   Bot.sleep = require("util").promisify(setTimeout);
 
+  Bot.byID = (id) => { return el => el.id == id }
+  Bot.byName = (name) => { return el => el.name == name }
+
   Bot.log = (message) => {
     console.info(message)
     // Always print logs in console
@@ -46,19 +49,21 @@ module.exports = (Bot) => {
     } else return str
   }
 
+  Bot.verifyUser = (msg, data) => {
+    let user = msg.guild.members.get(Bot.stripIDs(data))
+    if (!user) user = msg.guild.members.find(Bot.byName(data))
+    return user
+  }
+
   Bot.verifyChannel = (msg, data) => {
-    let channel = msg.guild.channels.get(Bot.stripIDs(data))
-    if (!channel) {
-      channel = msg.guild.channels.find(by => by.name == data)
-    }
-    return channel
+    let chan = msg.guild.channels.get(Bot.stripIDs(data))
+    if (!chan) chan = msg.guild.channels.find(Bot.byName(data))
+    return chan
   }
 
   Bot.verifyRole = (msg, data) => {
     let role = msg.guild.roles.get(Bot.stripIDs(data))
-    if (!role) {
-      role = msg.guild.roles.find(by => by.name == data)
-    }
+    if (!role) role = msg.guild.roles.find(Bot.byName(data))
     return role
   }
 
