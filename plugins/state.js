@@ -42,6 +42,10 @@ module.exports = (Bot) => {
     }
   }
 
+  Bot.get = (guild, coll) => {
+    return Bot.state[guild][coll]
+  }
+
   Bot.getConfig = (guild, key) => {
     return Bot.state[guild].config[key]
   }
