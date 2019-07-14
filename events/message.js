@@ -20,8 +20,13 @@ module.exports = async (Bot, msg) => {
   // return help on empty commands
   let trigger = command ? command : 'help'
   const cmd = Bot.findCommand(trigger)
-  if (!cmd) return
+  if (cmd) {
+    // if has access, fire, else return
+    return access >= cmd.level ? cmd.fire(Bot, msg, options, access) : false
+  }
 
-  if (access >= cmd.level) cmd.fire(Bot, msg, options, access)
-
+  // check for tag
+  let alias = Bot.getTag(msg.guild.id, command)
+  alias = alias ? alias.message.split('{msg}') : false
+  if (alias) msg.channel.send(alias.join(options.join(' ')))
 }
