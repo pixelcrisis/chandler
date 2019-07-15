@@ -50,6 +50,12 @@ module.exports = (Bot) => {
     return msg.channel.send({ embed })
   }
 
+  Bot.replyFlash = async (msg, data, val1, val2) => {
+    const flashed = await Bot.reply(msg, data, val1, val2)
+    await Bot.sleep(5000)
+    flashed.delete()
+  }
+
   Bot.listReply = (msg, title, data, join = '\n') => {
     // due to discord text limits
     // if we're sending array data
