@@ -22,6 +22,15 @@ module.exports = (Bot) => {
     }
   }
 
+  // handle node.js events
+  process.on('uncaughtException', (error) => {
+    Bot.log(`UNCAUGHT EXCEPTION\n\n${error}`)
+  })
+
+  process.on('unhandledRejection', (error) => {
+    Bot.log(`UNHANDLED REJECTION\n\n${error}`)
+  })
+
   Bot.aliases = {}
   Bot.commands = {}
 
