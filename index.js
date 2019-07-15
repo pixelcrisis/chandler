@@ -1,6 +1,12 @@
 /*********************************/
 /**  Chandler - A Discord Bot.  **/
 /*********************************/
+/**                             **/
+/**   Inspriation From:         **/
+/**   KevinNovak/Friend-Time    **/
+/**   AnIdiotsGuide/guidebot    **/
+/**                             **/
+/*********************************/
 
 const Discord = require('discord.js')
 const Bot = new Discord.Client()
