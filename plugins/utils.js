@@ -7,12 +7,16 @@ const Moment = require('moment')
 module.exports = (Bot) => {
 
   Bot.booted = false
+  // don't execute commands unless bot is booted
 
   Bot.no = ['off', 'false', 'disable']
   Bot.yes = ['on', 'true', 'enable']
+  // use Bot.yes.includes(thing) to for yes/no check
+
 
   Bot.sleep = require("util").promisify(setTimeout)
   Bot.when = time => Moment(time).fromNow()
+  // use this to turn timestamps into "x ago"
 
   Bot.byID = (id) => { return el => el.id == id }
   Bot.byName = (name) => { return el => el.name == name }
