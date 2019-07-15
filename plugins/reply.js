@@ -50,7 +50,7 @@ module.exports = (Bot) => {
     return msg.channel.send({ embed })
   }
 
-  Bot.replyFlash = async (msg, data, val1, val2) => {
+  Bot.flashReply = async (msg, data, val1, val2) => {
     const flashed = await Bot.reply(msg, data, val1, val2)
     await Bot.sleep(5000)
     flashed.delete()

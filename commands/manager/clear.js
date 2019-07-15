@@ -28,7 +28,7 @@ module.exports = {
     await msg.channel.fetchMessages({ limit: amount + 1 })
           .then(async got => { await msg.channel.bulkDelete(got) })
 
-    return Bot.replyFlash(msg, this.lang.done, amount)
+    return Bot.flashReply(msg, this.lang.done, amount)
   },
 
   test: async function(Bot, msg, data) {

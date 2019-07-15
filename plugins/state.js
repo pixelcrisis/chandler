@@ -17,7 +17,7 @@ module.exports = (Bot) => {
 
   Bot.state = {}
 
-  Bot.loadGuilds = async (guilds) => {
+  Bot.getGuilds = async (guilds) => {
     // in case the bot restarts
     // close the connections before
     // opening a new one

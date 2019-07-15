@@ -15,7 +15,7 @@ module.exports = async (Bot) => {
   Bot.user.setActivity(status, active)
 
   // Start loading all the data
-  await Bot.loadGuilds(guilds)
+  await Bot.getGuilds(guilds)
 
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")

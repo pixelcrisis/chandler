@@ -6,7 +6,7 @@ module.exports = async (Bot, msg) => {
 
   const prefix = Bot.getConfig(msg.guild.id, 'prefix')
   const modsID = Bot.getConfig(msg.guild.id, 'modsID')
-  const access = Bot.getAccess(msg, modsID)
+  const access = Bot.verifyAccess(msg, modsID)
   const mention = `<@${Bot.user.id}>`
 
   const hasPrefix = msg.content.indexOf(prefix) === 0
