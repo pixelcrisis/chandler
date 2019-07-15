@@ -9,6 +9,7 @@ module.exports = (Bot) => {
   require('./reply.js')(Bot)
   require('./utils.js')(Bot)
   require('./state.js')(Bot)
+  require('./zones.js')(Bot)
 
   Bot.loadEvents = async () => {
     const files = await readDir('./events/')
