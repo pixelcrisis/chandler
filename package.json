@@ -5,9 +5,10 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "better-sqlite-pool": "^0.2.2",
     "discord.js": "^11.4.2",
+    "enmap": "^5.0.0",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.25",
-    "mongodb": "^3.2.7"
+    "moment-timezone": "^0.5.25"
   }
 }
