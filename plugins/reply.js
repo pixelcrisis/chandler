@@ -73,10 +73,11 @@ module.exports = (Bot) => {
     // now we have an array of messages plit at 2k characters
     // now we print them one by one
     for (var i = 0; i < messages.length; i++) {
+      let footer = `Page ${i + 1}/${messages.length}`
       let embed = {
         description: messages[i],
         author: { name: Bot.parse(msg, title) },
-        footer: { text: `Page ${i + 1}/${messages.length}` }
+        footer: { text: messages.length > 1 ? footer : '' }
       }
       return msg.channel.send({ embed })
     }

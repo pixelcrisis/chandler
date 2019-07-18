@@ -55,21 +55,23 @@ module.exports = (Bot) => {
     return 1
   }
 
+  const byName = (name) => { return el => el.name == name }
+
   Bot.verifyUser = (msg, data) => {
     let user = msg.guild.members.get(Bot.stripIDs(data))
-    if (!user) user = msg.guild.members.find(Bot.byName(data))
+    if (!user) user = msg.guild.members.find(byName(data))
     return user
   }
 
   Bot.verifyChannel = (msg, data) => {
     let chan = msg.guild.channels.get(Bot.stripIDs(data))
-    if (!chan) chan = msg.guild.channels.find(Bot.byName(data))
+    if (!chan) chan = msg.guild.channels.find(byName(data))
     return chan
   }
 
   Bot.verifyRole = (msg, data) => {
     let role = msg.guild.roles.get(Bot.stripIDs(data))
-    if (!role) role = msg.guild.roles.find(Bot.byName(data))
+    if (!role) role = msg.guild.roles.find(byName(data))
     return role
   }
 
