@@ -44,11 +44,14 @@ module.exports = (Bot) => {
   }
 
   Bot.verifyAccess = (msg, modsID) => {
-    const member = msg.member
+    let genericMod = msg.guild.roles.find(role => {
+      return ['mods', 'moderators'].includes(role.name.toLowerCase())
+    })
     if (msg.member.user.id == Bot.conf.owner) return 9
     if (msg.member.user.id == msg.member.guild.ownerID) return 7
     if (msg.member.hasPermission('ADMINISTRATOR')) return 5
-    if (msg.memeber.roles.has(modsID)) return 3
+    if (msg.member.roles.has(modsID)) return 3
+    if (genericMod && msg.member.roles.has(genericMod.id)) return 3
     return 1
   }
 
