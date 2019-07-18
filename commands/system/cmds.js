@@ -10,12 +10,23 @@ module.exports = {
     desc: "Prints a list of commands you have access to."
   },
 
-  fire: function(Bot, msg, opts, lvl) {
-    let list = []
+  fire: function(Bot, msg, opts, access) {
+    let pool = {}, list = []
+
     for (var cmd in Bot.commands) {
-      if (lvl >= Bot.commands[cmd].level) list.push(cmd)
+      const level = Bot.commands[cmd].level
+      const named = Bot.nameAccess(level)
+
+      if (access >= level) {
+        if (!pool[named]) pool[named] = []
+        pool[named].push(cmd)
+      }
     }
-    return Bot.listReply(msg, "Chandler Commands", list, ', ')
+
+    for (var level in pool) {
+      list.push(`**${level}**: ${pool[level].join(', ')}`)
+    }
+    return Bot.listReply(msg, "Chandler Commands", list, '\n')
   },
 
   test: async function(Bot, msg, data) {
