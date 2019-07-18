@@ -19,7 +19,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) {
-      const mods = Bot.getConfig(msg.guild.id, 'modsID')
+      const mods = Bot.getConf(msg.guild.id, 'modsID')
       if (mods) return Bot.reply(msg, this.lang.curr, mods)
       else return Bot.reply(msg, this.lang.none)
     }
@@ -27,7 +27,7 @@ module.exports = {
     else if (opts.length == 1) {
       const role = Bot.verifyRole(msg, opts[0])
       if (!role) return Bot.reply(msg, Bot.lang.badRole, opts[0])
-      Bot.setConfig(msg.guild.id, { modsID: role.id })
+      Bot.setConf(msg.guild.id, 'modsID', role.id)
       return Bot.reply(msg, this.lang.done, role.id)
     }
 

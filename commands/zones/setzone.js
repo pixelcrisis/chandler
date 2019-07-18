@@ -24,10 +24,10 @@ module.exports = {
     const user = Bot.verifyUser(msg, opts.shift())
     if (!user) return Bot.reply(msg, Bot.lang.badUser)
 
-    const zone = Bot.findZone(opts)
+    const zone = Bot.findTimeZone(opts)
     if (!zone) return Bot.reply(msg, this.lang.none, opts.join(' '))
 
-    Bot.setZone(msg.guild.id, { id: user.id, zone: zone.name })
+    Bot.setZone(msg.guild.id, user.id, zone.name)
     return Bot.reply(msg, this.lang.done, user.id, zone.name)
   },
 

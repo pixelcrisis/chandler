@@ -3,11 +3,11 @@
 
 module.exports = async (Bot, member) => {
 
-  const data = Bot.getConfig(member.guild.id, 'onleave')
-  if (data && data.channel) {
-    const channel = member.guild.channels.get(data.channel)
-    const message = Bot.reply({ member, channel }, data.message)
-  }
+  const onleave = Bot.getConf(member.guild.id, 'onleave')
 
+  if (onleave && onleave.channel) {
+    const channel = member.guild.channels.get(onleave.channel)
+    Bot.reply({ member, channel }, onleave.message)
+  }
 
 }

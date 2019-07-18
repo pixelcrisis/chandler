@@ -19,19 +19,19 @@ module.exports = {
     if (opts.length > 1) return Bot.reply(msg, this.help)
     let when = opts.length == 1
 
-    const user = Bot.getZone(msg.guild.id, msg.author.id)
-    if (!user) return Bot.reply(msg, this.lang.none)
+    const zone = Bot.getZone(msg.guild.id, msg.author.id)
+    if (!zone) return Bot.reply(msg, this.lang.none)
 
-    let zones = Bot.get(msg.guild.id, 'zones')
+    let zones = Bot.zones.get(msg.guild.id)
 
     // find time if any
     if (when) {
-      when = Bot.findTime(opts[0], user.zone)
+      when = Bot.findTime(opts[0], zone)
       if (!when) return Bot.reply(msg, this.lang.when, opts[0])
     }
 
     const title = when ? `Time @ ${opts[0]}` : 'Current Time'
-    const table = Bot.sortZones(zones, when)
+    const table = Bot.sortTimeZones(zones, when)
 
     // simply sort table
     let result = []

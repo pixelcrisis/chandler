@@ -12,7 +12,7 @@ const byTime = (a, b) => a.off > b.off ? 1 : -1
 
 module.exports = (Bot) => {
 
-  Bot.findZone = (name) => {
+  Bot.findTimeZone = (name) => {
     return Moment.tz.zone(name.join('_').toLowerCase())
   }
   
@@ -30,22 +30,22 @@ module.exports = (Bot) => {
     return Moment.tz(str, fullStr, zone)
   }
 
-  Bot.sortZones = (zones, time) => {
+  Bot.sortTimeZones = (zones, time) => {
     let table = {}
 
-    for (var i = 0; i < zones.length; i++) {
-      let user = zones[i]
-      let when = time ? time.tz(user.zone) : Moment.tz(user.zone)
+    for (var id in zones) {
+      let zone = zones[id]
+      let when = time ? time.tz(zone) : Moment.tz(zone)
 
-      if (!table.hasOwnProperty(user.zone)) {
-        table[user.zone] = {
-          name: user.zone.split('/')[1].split('_').join(' '),
+      if (!table.hasOwnProperty(zone)) {
+        table[zone] = {
+          name: zone.split('/')[1].split('_').join(' '),
           off: when._offset,
           time: when.format(timeStr),
-          users: [ user.id ]
+          users: [ id ]
         }
       }
-      else table[user.zone].push(user.id)
+      else table[zone].push(id)
     }
 
     let result = Object.values(table)

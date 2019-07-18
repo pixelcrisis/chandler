@@ -31,7 +31,6 @@ module.exports = {
     }
 
     await msg.channel.setName(curr.name)
-    await msg.channel.setTopic(curr.topic)
     await msg.channel.replacePermissionOverwrites({
       overwrites: perms, reason: "Channel was unlocked by Chandler."
     })

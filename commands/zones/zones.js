@@ -22,8 +22,8 @@ module.exports = {
 
     let fields = [] // for embed!
     
-    const zones = Bot.get(msg.guild.id, 'zones')
-    const table = Bot.sortZones(zones)
+    const zones = Bot.zones.get(msg.guild.id)
+    const table = Bot.sortTimeZones(zones)
 
     for (var i = 0; i < table.length; i++) {
       let field = { 

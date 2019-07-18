@@ -4,8 +4,8 @@
 module.exports = async (Bot, msg) => {
   if (!Bot.booted || !msg.member || msg.author.bot) return
 
-  const prefix = Bot.getConfig(msg.guild.id, 'prefix')
-  const modsID = Bot.getConfig(msg.guild.id, 'modsID')
+  const prefix = Bot.getConf(msg.guild.id, 'prefix')
+  const modsID = Bot.getConf(msg.guild.id, 'modsID')
   const access = Bot.verifyAccess(msg, modsID)
   const mention = `<@${Bot.user.id}>`
 
@@ -25,8 +25,8 @@ module.exports = async (Bot, msg) => {
     return access >= cmd.level ? cmd.fire(Bot, msg, options, access) : false
   }
 
-  // check for tag
-  let alias = Bot.getTag(msg.guild.id, command)
-  alias = alias ? alias.message.split('{msg}') : false
-  if (alias) msg.channel.send(alias.join(options.join(' ')))
+  // check for note
+  let note = Bot.getNote(msg.guild.id, command)
+  note = note ? note.split('{msg}').join(options.join( )) : false
+  if (note) return msg.channel.send(note)
 }

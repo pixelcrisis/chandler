@@ -18,22 +18,17 @@ module.exports = {
   },
 
   fire: async function(Bot, msg, opts, lvl) {
-    let perms = msg.channel.permissionOverwrites.array()
     let curr = Bot.getLock(msg.guild.id, msg.channel.id)
     if (curr) return Bot.reply(msg, this.lang.curr)
-
-    Bot.setLock(msg.guild.id, {
-      id: msg.channel.id,
-      name: msg.channel.name,
-      topic: msg.channel.topic,
-      perms: perms
-    })
+    
+    const perms = msg.channel.permissionOverwrites.array()
+    const store = { name: msg.channel.name, perms }
+    Bot.setLock(msg.guild.id, msg.channel.id, store)
 
     perms.forEach(perm => perm.delete())
 
     const everyone = msg.guild.defaultRole
     await msg.channel.setName('locked')
-    await msg.channel.setTopic('')
     await msg.channel.replacePermissionOverwrites({
       reason: "Channel was locked by Chandler.",
       overwrites: [{ id: everyone, denied: ['SEND_MESSAGES'] }]

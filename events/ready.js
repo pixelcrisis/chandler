@@ -14,9 +14,6 @@ module.exports = async (Bot) => {
   const status = `${guilds.length} Servers.`
   Bot.user.setActivity(status, active)
 
-  // Start loading all the data
-  await Bot.getGuilds(guilds)
-
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")
 

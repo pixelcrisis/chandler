@@ -30,7 +30,7 @@ module.exports = {
 
     if (Bot.no.includes(data.channel)) {
       data.channel = false
-      Bot.setConfig(msg.guild.id, { onjoin: data })
+      Bot.setConf(msg.guild.id, 'onjoin', data)
       return Bot.reply(msg, this.lang.none)
     }
 
@@ -39,7 +39,7 @@ module.exports = {
     if (!channel) return Bot.reply(msg, Bot.lang.badChan, data.channel)
     data.channel = channel.id
 
-    Bot.setConfig(msg.guild.id, { onjoin: data })
+    Bot.setConf(msg.guild.id, 'onjoin', data)
     const escaped = Bot.escape(data.message)
     return Bot.reply(msg, this.lang.done, data.channel, escaped)
   },

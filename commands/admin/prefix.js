@@ -17,7 +17,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
-    Bot.setConfig(msg.guild.id, { prefix: opts.join(' ') })
+    Bot.setConf(msg.guild.id, 'prefix', opts.join(' '))
     return Bot.reply(msg, this.lang.done, opts.join(' '))
   },
 

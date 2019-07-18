@@ -1,24 +1,25 @@
 module.exports = {
 
-  name: 'tags',
+  name: 'notes',
+  alias: [ 'tags' ],
   
   level: 3,
 
   lang: {
-    none: "Server has no aliases set."
+    none: "Server has no notes set."
   },
 
   help: {
-    name: "{pre}tags",
-    desc: "Returns a lits of tags in the server.\n" +
-          "Set with `{pre}tag`, remove with `{pre}untag`"
+    name: "{pre}notes",
+    desc: "Returns a lits of notes in the server.\n" +
+          "Set with `{pre}note`, remove with `{pre}erase`"
   },
 
   fire: function(Bot, msg, opts, lvl) {
     let list = []
-    const data = Bot.get(msg.guild.id, 'tags')
-    for (var i = 0; i < data.length; i++) {
-      list.push("**" + data[i].id + "**: `" + data[i].message + "`")
+    const notes = Bot.notes.get(msg.guild.id)
+    for (var title in notes) {
+      list.push("**" + title + "**: `" + notes[title] + "`")
     }
     if (!list.length) return Bot.reply(msg, this.lang.none)
     return Bot.listReply(msg, "Server Tags", list)

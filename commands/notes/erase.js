@@ -1,0 +1,42 @@
+module.exports = {
+
+  name: 'erase',
+  alias: [ 'untag' ],
+  
+  level: 3,
+
+  lang: {
+    none: "`{val1}` isn't a note.",
+    done: "Removed note: `{val1}`"
+  },
+
+  help: {
+    name: "{pre}erase [note]",
+    desc: "Removes `note`\n" +
+          "Use `{pre}note` to set a note."
+  },
+
+  fire: function(Bot, msg, opts, lvl) {
+    if (opts.length != 1) return Bot.reply(msg, this.help)
+
+    const note = Bot.getNote(msg.guild.id, opts[0])
+    if (!note) return Bot.reply(msg, this.lang.none, opts[0])
+    Bot.remNote(msg.guild.id, opts[0])
+    return Bot.reply(msg, this.lang.done, opts[0])
+  },
+
+  test: async function(Bot, msg, data) {
+    Bot.reply(msg, {
+      name: "Testing {pre}erase",
+      desc: "`{pre}erase` - Help\n" +
+            "`{pre}erase tester` - Remove/Delete",
+      color: 16549991
+    })
+
+    await this.fire(Bot, msg, [])
+    await this.fire(Bot, msg, ['tester'])
+    
+    return Bot.reply(msg, "{pre}erase test complete.")
+  }
+
+}

@@ -19,10 +19,10 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
 
-    let zone = Bot.findZone(opts)
+    let zone = Bot.findTimeZone(opts)
     if (!zone) return Bot.reply(msg, this.lang.none, opts.join(' '))
 
-    Bot.setZone(msg.guild.id, { id: msg.author.id, zone: zone.name })
+    Bot.setZone(msg.guild.id, msg.author.id, zone.name)
     return Bot.reply(msg, this.lang.done, opts.join(' '))
   },
 
