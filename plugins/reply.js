@@ -62,11 +62,12 @@ module.exports = (Bot) => {
     // split it at the 2k limit
     let text = '', messages = []
     for (var i = 0; i < data.length; i++) {
-      if (!text) text = data[i]
+      let message = Bot.parse(data[i])
+      if (!text) text = message
       else {
-        let len = text.length + data[i].length + join.length
+        let len = text.length + message.length + join.length
         if (len >= 1850) messages.push(text)
-        text = len < 1850 ? `${text}${join}${data[i]}` : `${data[i]}`        
+        text = len < 1850 ? `${text}${join}${message}` : `${message}`        
       }
     }
     if (text) messages.push(text)
