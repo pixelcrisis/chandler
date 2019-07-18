@@ -62,7 +62,7 @@ module.exports = (Bot) => {
     // split it at the 2k limit
     let text = '', messages = []
     for (var i = 0; i < data.length; i++) {
-      let message = Bot.parse(data[i])
+      let message = Bot.parse(msg, data[i])
       if (!text) text = message
       else {
         let len = text.length + message.length + join.length
