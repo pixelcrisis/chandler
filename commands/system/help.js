@@ -6,11 +6,14 @@ module.exports = {
   alias: [ 'invite' ],
 
   lang: {
-    name: "Chandler Help",
-    desc: "View the {website} for Docs\n" +
-          "Join the {support} for Help\n" +
-          "Or, {invite} to your server!\n\n" +
-          "`{pre}help command` will help with a `command`\n"
+    help: {
+      name: "Chandler Help",
+      desc: "View the {website} for Docs\n" +
+            "Join the {support} for Help\n" +
+            "Or, {invite} to your server!\n\n" +
+            "`{pre}help command` will help with a `command`\n\n{val1}"
+    },
+    extra: "See config details with `{pre}status`"
   },
 
   help: {
@@ -23,7 +26,9 @@ module.exports = {
     if (!opts.length) {
       // if no command specified,
       // print the general response
-      return Bot.reply(msg, this.lang)
+      // include status command if admin+
+      let extra = lvl >= 5 ? this.lang.extra : ''
+      return Bot.reply(msg, this.lang.help, extra)
     }
     // otherwise get the help message for a command
     else if (opts.length == 1) {
