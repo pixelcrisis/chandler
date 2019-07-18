@@ -43,6 +43,14 @@ module.exports = (Bot) => {
     } else return str
   }
 
+  Bot.nameAccess = (i) => {
+    if (i == 9) return 'Author'
+    if (i == 7) return 'Owner'
+    if (i == 5) return 'Admin'
+    if (i == 3) return 'Mod'
+    return 'User'
+  }
+
   Bot.verifyAccess = (msg, modsID) => {
     let genericMod = msg.guild.roles.find(role => {
       return ['mods', 'moderators'].includes(role.name.toLowerCase())
