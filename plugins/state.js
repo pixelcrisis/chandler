@@ -15,23 +15,23 @@ module.exports = (Bot) => {
   // getters
 
   Bot.getConf = (guild, key) => {
-    Bot.confs.ensure(guild, { prefix: '~/' })
-    return Bot.confs.get(guild, key)
+    Bot.confs.ensure(guild, { prefix: '~/', warnings: true })
+    return Bot.confs.get(guild, key ? key : null)
   }
 
   Bot.getLock = (guild, key) => {
     Bot.locks.ensure(guild, {})
-    return Bot.locks.get(guild, key)
+    return Bot.locks.get(guild, key ? key : null)
   }
 
   Bot.getZone = (guild, key) => {
     Bot.zones.ensure(guild, {})
-    return Bot.zones.get(guild, key)
+    return Bot.zones.get(guild, key ? key : null)
   }
 
   Bot.getNote = (guild, key) => {
     Bot.notes.ensure(guild, {})
-    return Bot.notes.get(guild, key)
+    return Bot.notes.get(guild, key ? key : null)
   }
 
   // setters
