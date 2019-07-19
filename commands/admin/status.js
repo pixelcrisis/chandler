@@ -5,6 +5,10 @@ module.exports = {
   level: 5,
   alias: [ 'setup', 'config', 'configs' ],
 
+  lang: {
+    admin: "*The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
+  },
+
   help: {
     name: "{pre}status",
     desc: "Reports back the status of the bot."
@@ -19,7 +23,7 @@ module.exports = {
     result.push(`**Mods** - ${config.modsID ? `<@&${config.modsID}>` : 'Unset'}`)
     result.push('Set Moderator Role with `{pre}mods [role]`\n')
 
-    result.push(`**Permission Warnings** - ${config.warnings}`)
+    result.push(`**Command Warnings** - ${config.warnings}`)
     result.push('Toggle Command Permission Warnings with `{pre}warnings`\n')
 
     result.push('**User Join**')
@@ -37,6 +41,18 @@ module.exports = {
       result.push(`Logging in <#${channel}> with **${message}**`)
     }
     result.push('Set Logging with `{pre}onleave [channel] [message]`\n')
+
+    result.push('**Chandler Permissions**')
+    const roles = msg.guild.me.permissions.has('MANAGE_ROLES', false)
+    const admin = msg.guild.me.permissions.has('ADMINISTRATOR', false)
+    const messages = msg.guild.me.permissions.has('MANAGE_MESSAGES', false)
+    const channels = msg.guild.me.permissions.has('MANAGE_CHANNELS', false)
+    result.push(`Manage Messages: **${messages}** *(required)*`)
+    result.push(`Manage Channels: **${channels}** *(required)*`)
+    result.push(`Manage Roles: **${roles}** *(required)*\n`)
+
+    result.push(`Administrator: **${admin}** (recommended)\n`)
+    if (!admin) result.push(this.lang.admin)
 
     return Bot.listReply(msg, "Chandler Status", result)
   },
