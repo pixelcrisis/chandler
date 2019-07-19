@@ -11,6 +11,7 @@ module.exports = {
       desc: "View the {website} for Docs\n" +
             "Join the {support} for Help\n" +
             "Or, {invite} to your server!\n\n" +
+            "`{pre}commands` to see commands you can use.\n" +
             "`{pre}help command` will help with a `command`\n\n{val1}"
     },
     extra: "See config details with `{pre}status`"
