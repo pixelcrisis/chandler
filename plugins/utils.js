@@ -9,8 +9,8 @@ module.exports = (Bot) => {
   Bot.booted = false
   // don't execute commands unless bot is booted
 
-  Bot.no = ['off', 'false', 'disable']
-  Bot.yes = ['on', 'true', 'enable']
+  Bot.no = ['n', 'no', 'off', 'false', 'disable']
+  Bot.yes = ['y', 'yes', 'on', 'true', 'enable']
   // use Bot.yes.includes(thing) to for yes/no check
 
   Bot.sleep = require("util").promisify(setTimeout)
