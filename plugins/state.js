@@ -48,6 +48,8 @@ module.exports = (Bot) => {
   Bot.remNote = (guild, key) => Bot.notes.delete(guild, key)
 
   // deletes ALL of our confs for a guild
-  Bot.remConf = (guild) => Bot.confs.delete(guild)
+  Bot.remConf = (guild) => {
+    if (Bot.confs.has(guild)) Bot.confs.delete(guild)
+  }
 
 }
