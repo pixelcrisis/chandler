@@ -49,7 +49,7 @@ module.exports = {
     const canRoles = Bot.canRoles(self, chan)
     const canMsgs  = Bot.canDelete(self, chan)
     const canChans = Bot.canChannel(self, chan)
-    result.push('\n**Required Permissions** [global/channel]')
+    result.push('\n**Required Permissions** [server/channel]')
 
     result.push('`Manage Roles` : [`' + hasRoles + '`/`' + canRoles + '`]')
     result.push('`Manage Messages` : [`' + hasChans + '`/`' + canChans + '`]')
