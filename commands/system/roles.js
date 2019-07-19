@@ -1,9 +1,8 @@
 module.exports = {
 
   name: 'roles',
-  // this is the trigger for the command
   
-  level: 5,
+  level: 3,
 
   help: {
     name: "{pre}roles",
