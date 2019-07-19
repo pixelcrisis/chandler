@@ -22,19 +22,19 @@ module.exports = {
       list.push("**" + title + "**: `" + notes[title] + "`")
     }
     if (!list.length) return Bot.reply(msg, this.lang.none)
-    return Bot.listReply(msg, "Server Tags", list)
+    return Bot.listReply(msg, "Server Notes", list)
   },
 
   test: async function(Bot, msg, data) {
     Bot.reply(msg, {
-      name: "Testing {pre}tags",
-      desc: "`{pre}tags` - List",
+      name: "Testing {pre}notes",
+      desc: "`{pre}notes` - List",
       color: 16549991
     })
 
     await this.fire(Bot, msg, [])
     
-    return Bot.reply(msg, "{pre}tags test complete.")
+    return Bot.reply(msg, "{pre}notes test complete.")
   }
 
 }
