@@ -7,7 +7,8 @@ module.exports = {
   lang: {
     name: "Active Time Zones",
     line: "-----------------",
-    none: "You need to add your zone first! `{pre}zone`"
+    none: "You need to add your zone first! `{pre}zone`",
+    full: "Too many users in this guild, try `{pre}time`"
   },
 
   help: {
@@ -25,6 +26,9 @@ module.exports = {
     const zones = Bot.zones.get(msg.guild.id)
     const table = Bot.sortTimeZones(zones)
 
+    if (table.length > 30) return Bot.reply(msg, this.lang.full)
+    // only print zone info if there's less than 30 users
+    
     for (var i = 0; i < table.length; i++) {
       let field = { 
         name: `${table[i].time} - ${table[i].name}`, 
