@@ -16,43 +16,47 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     const config = Bot.getConf(msg.guild.id)
-    const result = []
+    const result = [], self = msg.guild.me, chan = msg.channel
 
-    result.push(`**Prefix: ${config.prefix}**\n`)
+    result.push("Use `{pre}help command` for deatils.\n")
 
-    result.push(`**Mods** - ${config.modsID ? `<@&${config.modsID}>` : 'Unset'}`)
-    result.push('Set Moderator Role with `{pre}mods [role]`\n')
+    result.push('`{pre}prefix` : `' + config.prefix + '`')
 
-    result.push(`**Command Warnings** - ${config.warnings}`)
-    result.push('Toggle Command Permission Warnings with `{pre}warnings`\n')
+    let mods = config.modsID ? `<@&${config.modsID}>` : '`Unset`'
+    result.push('`{pre}mods` : ' + mods)
 
-    result.push('**User Join**')
+    let warn = "` - *(You can't use that command...)*"
+    result.push('`{pre}warnings` : `' + config.warnings + warn)
+
+    let onjoin = '`{pre}onjoin` : '
     if (config.onjoin && config.onjoin.channel) {
-      let channel = config.onjoin.channel
       let message = Bot.escape(config.onjoin.message)
-      result.push(`Logging in <#${channel}> with **${message}**`)
-    } 
-    result.push('Set Logging with `{pre}onjoin [channel] [message]`\n')
+      onjoin += `in <#${config.onjoin.channel}> with \`${message}**`
+    } else onjoin += '`Unset`'
+    result.push(onjoin)
 
-    result.push('**User Leave**')
+    let onleave = '`{pre}onleave` : '
     if (config.onleave && config.onleave.channel) {
-      let channel = config.onleave.channel
       let message = Bot.escape(config.onleave.message)
-      result.push(`Logging in <#${channel}> with **${message}**`)
-    }
-    result.push('Set Logging with `{pre}onleave [channel] [message]`\n')
+      onleave += `in <#${config.onleave.channel}> with **${message}**`
+    } else onleave += '`Unset`'
+    result.push(onleave)
 
-    result.push('**Chandler Permissions**')
-    const roles = msg.guild.me.permissions.has('MANAGE_ROLES', false)
-    const admin = msg.guild.me.permissions.has('ADMINISTRATOR', false)
-    const messages = msg.guild.me.permissions.has('MANAGE_MESSAGES', false)
-    const channels = msg.guild.me.permissions.has('MANAGE_CHANNELS', false)
-    result.push(`Manage Messages: **${messages}** *(required)*`)
-    result.push(`Manage Channels: **${channels}** *(required)*`)
-    result.push(`Manage Roles: **${roles}** *(required)*\n`)
+    const hasAdmin = self.permissions.has('ADMINISTRATOR', false)
+    const hasRoles = self.permissions.has('MANAGE_ROLES', false)
+    const hasMsgs  = self.permissions.has('MANAGE_MESSAGES', false)
+    const hasChans = self.permissions.has('MANAGE_CHANNELS', false)
+    const canRoles = Bot.canRoles(self, chan)
+    const canMsgs  = Bot.canDelete(self, chan)
+    const canChans = Bot.canChannel(self, chan)
+    result.push('\n**Required Permissions** [global/channel]')
 
-    result.push(`Administrator: **${admin}** (recommended)\n`)
-    if (!admin) result.push(this.lang.admin)
+    result.push('`Manage Roles` : [`' + hasRoles + '`/`' + canRoles + '`]')
+    result.push('`Manage Messages` : [`' + hasChans + '`/`' + canChans + '`]')
+    result.push('`Manage Channels` : [`' + hasMsgs + '`/`' + canMsgs + '`]')
+
+    result.push(`\n**Administrator:** \`${hasAdmin}\` (recommended)\n`)
+    if (!hasAdmin) result.push(this.lang.admin)
 
     return Bot.listReply(msg, "Chandler Status", result)
   },
