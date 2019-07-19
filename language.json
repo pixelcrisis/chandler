@@ -4,5 +4,9 @@
   "noChan": "`{val1}` doesn't seem to be a channel.",
   "noParse": "Couldn't seem to parse that embed.",
   "noUser": "Couldn't find that user, sorry.",
-  "noAccess": "Sorry you need to be a **{val1}** to access that command, you are currently marked as a **{val2}**"
+  "noAccess": "Sorry you need to be a **{val1}** to access that command, you are currently marked as a **{val2}**",
+  "cantRole": "I can't manage roles in <#{val1}>",
+  "cantSpeak": "I can't send messages in <#{val1}>",
+  "cantDelete": "Sorry, I can't manage messages in <#{val1}>",
+  "cantManage": "Sorry, I can't manage channel(s) <#{val1}>"
 }

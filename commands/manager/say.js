@@ -18,7 +18,7 @@ module.exports = {
     const id = Bot.confs.get(msg.guild.id, 'speak')
     if (!id) return Bot.reply(msg, this.lang.none)
     const chan = msg.guild.channels.get(id)
-    if (opts.length) return msg.channel.send(opts.join(' '))
+    if (opts.length) return chan.send(opts.join(' '))
   },
 
   test: async function(Bot, msg, data) {

@@ -83,4 +83,16 @@ module.exports = (Bot) => {
     return role
   }
 
+  Bot.canDelete = (self, channel) => {
+    return channel.permissionsFor(self).has("MANAGE_MESSAGES", false)
+  }
+
+  Bot.canChannel = (self, channel) => {
+    return channel.permissionsFor(self).has("MANAGE_CHANNELS", false)
+  }
+
+  Bot.canRoles = (self, channel) => {
+    return channel.permissionsFor(self).has("MANAGE_ROLES", false)
+  }
+
 }
