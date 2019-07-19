@@ -21,7 +21,7 @@ module.exports = {
     let amount = parseInt(opts[0])
     let channel = Bot.verifyChannel(msg, opts[1])
     if (isNaN(amount)) return Bot.reply(msg, this.help)
-    if (!channel) return Bot.reply(msg, Bot.lang.badChan, opts[1])
+    if (!channel) return Bot.reply(msg, Bot.lang.noChan, opts[1])
 
     await msg.channel.fetchMessages({ limit: amount + 1}).then(got => {
       got.forEach(message => {

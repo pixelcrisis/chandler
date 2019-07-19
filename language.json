@@ -1,8 +1,8 @@
 {
-  "badMsg": "`{val1}` doesn't seem to be a message.",
-  "badRole": "`{val1}` doesn't seem to be a role.",
-  "badChan": "`{val1}` doesn't seem to be a channel.",
-  "badParse": "Couldn't seem to parse that embed.",
-  "badUser": "Couldn't find that user, sorry.",
-  "warning": "Sorry you need to be a **{val1}** to access that command, you are currently marked as a **{val2}**"
+  "noMsg": "`{val1}` doesn't seem to be a message.",
+  "noRole": "`{val1}` doesn't seem to be a role.",
+  "noChan": "`{val1}` doesn't seem to be a channel.",
+  "noParse": "Couldn't seem to parse that embed.",
+  "noUser": "Couldn't find that user, sorry.",
+  "noAccess": "Sorry you need to be a **{val1}** to access that command, you are currently marked as a **{val2}**"
 }

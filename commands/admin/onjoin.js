@@ -36,7 +36,7 @@ module.exports = {
 
     data.message = data.message ? data.message : "{user} joined."
     const channel = Bot.verifyChannel(msg, data.channel)
-    if (!channel) return Bot.reply(msg, Bot.lang.badChan, data.channel)
+    if (!channel) return Bot.reply(msg, Bot.lang.noChan, data.channel)
     data.channel = channel.id
 
     Bot.setConf(msg.guild.id, 'onjoin', data)

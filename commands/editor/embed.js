@@ -13,7 +13,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
     const embed = Bot.parseEmbed(opts.join(' '))
-    if (!embed) Bot.reply(msg, Bot.lang.badParse)
+    if (!embed) Bot.reply(msg, Bot.lang.noParse)
     else msg.channel.send(embed)
     return Bot.booted ? msg.delete() : true
   },

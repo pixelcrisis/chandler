@@ -22,7 +22,7 @@ module.exports = {
     if (opts.length < 2) return Bot.reply(msg, this.help)
 
     const user = Bot.verifyUser(msg, opts.shift())
-    if (!user) return Bot.reply(msg, Bot.lang.badUser)
+    if (!user) return Bot.reply(msg, Bot.lang.noUser)
 
     const zone = Bot.findTimeZone(opts)
     if (!zone) return Bot.reply(msg, this.lang.none, opts.join(' '))
