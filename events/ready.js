@@ -5,8 +5,8 @@
 module.exports = async (Bot) => {
 
   // Set up our logger in server mode
-  if (Bot.serverMode && Bot.serverLogs) {
-    Bot._logger = Bot.channels.get(Bot.serverLogs)
+  if (Bot.conf.serverMode && Bot.conf.serverLogs) {
+    Bot._logger = Bot.channels.get(Bot.conf.serverLogs)
   }
 
   Bot.user.setActivity('@Chandler help', { type: 'PLAYING' })
