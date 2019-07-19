@@ -26,7 +26,7 @@ module.exports = async (Bot, msg) => {
     else if (config.warnings) {
       const hasLvl = Bot.nameAccess(access)
       const reqLvl = Bot.nameAccess(cmd.level)
-      return Bot.reply(msg, Bot.lang.warning, reqLvl, hasLvl)
+      return Bot.reply(msg, Bot.lang.noAccess, reqLvl, hasLvl)
     }
 
     else return
