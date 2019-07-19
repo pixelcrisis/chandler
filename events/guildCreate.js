@@ -2,6 +2,7 @@
 
 module.exports = async (Bot, guild) => {
 
-  Bot.log(`Added to **${guild.name}**`)
+  let guilds = Bot.guilds.keyArray()
+  Bot.log(`Added to **${guild.name}** - Now In ${guilds.length} Servers.`)
 
 }

@@ -2,7 +2,8 @@
 
 module.exports = async (Bot, guild) => {
 
-  Bot.log(`Removed from **${guild.name}**`)
+  let guilds = Bot.guilds.keyArray()
+  Bot.log(`Removed from **${guild.name}** - Now In ${guilds.length} Servers.`)
   Bot.remConfs(guild.id)
 
 }
