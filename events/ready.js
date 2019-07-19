@@ -9,10 +9,7 @@ module.exports = async (Bot) => {
     Bot._logger = Bot.channels.get(Bot.serverLogs)
   }
 
-  const guilds = Bot.guilds.keyArray()
-  const active = { type: 'LISTENING' }
-  const status = `${guilds.length} Servers.`
-  Bot.user.setActivity(status, active)
+  Bot.user.setActivity('@Chandler help', { type: 'PLAYING' })
 
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")
