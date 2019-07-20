@@ -37,7 +37,7 @@ module.exports = {
     let result = []
     for (var i = 0; i < table.length; i++) {
       let t = table[i]
-      result.push(`**${t.time}** - ${t.name} (${t.users.length})\n`)
+      result.push(`**${t.time}** - ${t.name} (${t.users.length})`)
     }
 
     Bot.listReply(msg, title, result)
