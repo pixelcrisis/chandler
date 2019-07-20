@@ -31,14 +31,14 @@ module.exports = {
     let onjoin = '\n`{pre}onjoin` : '
     if (config.onjoin && config.onjoin.channel) {
       let message = Bot.escape(config.onjoin.message)
-      onjoin += `in <#${config.onjoin.channel}> with \`${message}\``
+      onjoin += `in <#${config.onjoin.channel}> with **${message}**`
     } else onjoin += '`Unset`'
     result.push(onjoin)
 
     let onleave = '\n`{pre}onleave` : '
     if (config.onleave && config.onleave.channel) {
       let message = Bot.escape(config.onleave.message)
-      onleave += `in <#${config.onleave.channel}> with \`${message}\`\n`
+      onleave += `in <#${config.onleave.channel}> with **${message}**\n`
     } else onleave += '`Unset`\n'
     result.push(onleave)
 
