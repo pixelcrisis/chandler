@@ -45,7 +45,7 @@ module.exports = (Bot) => {
           users: [ id ]
         }
       }
-      else table[zone].push(id)
+      else table[zone].users.push(id)
     }
 
     let result = Object.values(table)
