@@ -3,6 +3,6 @@
 
 module.exports = async (Bot, error) => {
 
-  Bot.log(`DISCORD.JS ERROR\n\n${JSON.stringify(error)}`)
+  Bot.log(`DISCORD.JS ERROR\n\n\`\`\`${JSON.stringify(error)}\`\`\``)
 
 }
