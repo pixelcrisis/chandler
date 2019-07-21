@@ -2,5 +2,5 @@
 node_modules
 config.json
 sync.sh
-TODO.txt
+TODO.md
 data/*
