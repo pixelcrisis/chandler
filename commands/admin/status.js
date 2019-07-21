@@ -18,7 +18,7 @@ module.exports = {
     const config = Bot.getConf(msg.guild.id)
     const result = [], self = msg.guild.me, chan = msg.channel
 
-    result.push("Use `{pre}help command` for deatils.\n")
+    result.push("Use `{pre}help command` for details.\n")
 
     result.push('`{pre}prefix` : `' + config.prefix + '`')
 
