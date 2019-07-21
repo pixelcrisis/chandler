@@ -12,7 +12,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
     msg.channel.send(opts.join(' '))
-    return Bot.booted ? msg.delete() : true
+    return Bot.deleteTrigger(msg)
   },
 
   test: async function(Bot, msg, data) {

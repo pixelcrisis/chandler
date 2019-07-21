@@ -41,7 +41,7 @@ module.exports = {
     }
 
     Bot.listReply(msg, title, result)
-    return Bot.booted ? msg.delete() : true
+    return Bot.deleteTrigger(msg)
   },
 
   test: async function(Bot, msg, data) {

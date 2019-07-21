@@ -36,6 +36,12 @@ module.exports = (Bot) => {
     catch(e) { return false }
   }
 
+  Bot.deleteTrigger = (msg) => {
+    if (Bot.canDelete(msg.guild.me, msg.channel) && Bot.booted) {
+      return msg.delete()
+    }
+  }
+
   Bot.stripIDs = (str) => {
     if (str.indexOf('<') == 0) {
       let trim = str.indexOf('@&') == 1 ? 3 : 2

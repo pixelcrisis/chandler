@@ -27,7 +27,7 @@ module.exports = {
     }).catch(() => {
       return Bot.reply(msg, Bot.lang.noMsg, msgID)
     })
-    return Bot.booted ? msg.delete() : true
+    return Bot.deleteTrigger(msg)
   },
 
   test: async function(Bot, msg, data) {

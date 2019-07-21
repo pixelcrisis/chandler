@@ -15,7 +15,7 @@ module.exports = {
     const embed = Bot.parseEmbed(opts.join(' '))
     if (!embed) Bot.reply(msg, Bot.lang.noParse)
     else msg.channel.send(embed)
-    return Bot.booted ? msg.delete() : true
+    return Bot.deleteTrigger(msg)
   },
 
   test: async function(Bot, msg, data) {
