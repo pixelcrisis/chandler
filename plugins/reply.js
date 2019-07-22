@@ -3,6 +3,7 @@
 
 module.exports = (Bot) => {
 
+  const inspect = require('util').inspect
   const website = '[Website](https://chandler.12px.io)'
   const support = '[Support Server](https://discord.gg/tjRC7E4)'
   const invite = '[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
@@ -31,6 +32,12 @@ module.exports = (Bot) => {
     // unescape escaped parse flags
     data = data.split('{/').join('{')
     return data
+  }
+
+  Bot.clean = (data) => {
+    if (typeof data !== 'string') data = inspect(data, { depth: 1 })
+    data = data.split(Bot.token).join('t0k3n-n0t-f0r-s4l3')
+    return ['```js', data, '```'].join('\n')
   }
 
   Bot.reply = (msg, data, val1, val2) => {
