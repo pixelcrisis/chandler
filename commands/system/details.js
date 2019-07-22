@@ -1,5 +1,3 @@
-const exec = require("child_process").exec
-
 module.exports = {
 
   name: 'details',
@@ -13,7 +11,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
 
-    exec('pm2 list', (err, yay, nay) => {
+    Bot.exec('pm2 list', (err, yay, nay) => {
       if (err) return Bot.reply(msg, 'Nay')
       yay = yay.split('online')[1].split('root')[0]
       yay = yay.replace(/ +(?= )/g,'').split('│').join(' - ')

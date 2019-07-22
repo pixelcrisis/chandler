@@ -15,6 +15,8 @@ Bot.conf = require('./config.json')
 // general system language
 // every command also has its own lang object
 Bot.lang = require('./language.json')
+// we need this for some system commands
+Bot.exec = require('child_process').exec
 
 // Load our everything
 // Changes to `Bot` happen here.
