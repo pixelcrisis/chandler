@@ -37,6 +37,8 @@ module.exports = (Bot) => {
   Bot.clean = (data) => {
     if (typeof data !== 'string') data = inspect(data, { depth: 1 })
     data = data.split(Bot.token).join('t0k3n-n0t-f0r-s4l3')
+    data = data.split(Bot.conf.dbl.auth).join('f@keAuth')
+    data = data.split(Bot.conf.dbl.token).join('th1s-0n3-4ls0-n4S')
     return ['```js', data, '```'].join('\n')
   }
 
