@@ -25,15 +25,7 @@ module.exports = {
   },
 
   test: async function(Bot, msg, data) {
-    Bot.reply(msg, {
-      name: "Testing {pre}details",
-      desc: "`{pre}details` - De",
-      color: 16549991
-    })
-
-    await this.fire(Bot, msg, [])
-
-    return Bot.reply(msg, "{pre}details test complete.")
+    Bot.reply(msg, "No tests.")
   }
 
 }
