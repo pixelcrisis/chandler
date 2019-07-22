@@ -3,5 +3,10 @@
   "serverLogs": "",
 
   "owner": "",
-  "token": ""
+  "token": "",
+
+  "dbl": {
+    "use": false,
+    "token": ""
+  }
 }

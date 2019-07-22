@@ -28,6 +28,11 @@ chownr@^1.1.1:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.2.tgz#a18f1e0b269c8a6a5d3c86eb298beb14c3dd7bf6"
   integrity sha512-GkfeAQh+QNy3wquu9oIZr6SS5x7wGdSgNQvD10X3r+AZr1Oys22HW8kAmDMvNg2+Dm0TeGaEuO8gFwdBXxwO8A==
 
+dblapi.js@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/dblapi.js/-/dblapi.js-2.3.0.tgz#9c600cedc9af0a27c9fd770d85e6c25b71cfa43d"
+  integrity sha512-8uZQMBg1coJsL5SEN1oPj2dgjgfm0DW7FhP8XWnG2V/xcOJnQNM2kCId1g/pyqm8PYH9346olL1IrLJQ6m0wOg==
+
 discord.js@^11.4.2:
   version "11.5.1"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-11.5.1.tgz#910fb9f6410328581093e044cafb661783a4d9e8"

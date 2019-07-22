@@ -6,6 +6,8 @@ const readDir = promisify(require("fs").readdir)
 
 module.exports = (Bot) => {
 
+  require('./dbl.js')(Bot)
+
   require('./reply.js')(Bot)
   require('./utils.js')(Bot)
   require('./state.js')(Bot)
