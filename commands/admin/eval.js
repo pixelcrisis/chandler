@@ -16,7 +16,7 @@ module.exports = {
       const ran = await eval(code)
       msg.channel.send(`Yay\n${Bot.clean(ran)}`)
     } catch (err) {
-      msg.channel.send(`Yay\n${Bot.clean(err)}`)
+      msg.channel.send(`Nay\n${Bot.clean(err)}`)
     }
     
   },
