@@ -26,7 +26,7 @@ module.exports = {
       // just check the deets
       exec('pm2 list', (err, yay, nay) => {
         if (err) return msg.channel.send('Nay```js\n' + clean(nay) + '```')
-        yay = yay.split('online')[1].split('px').shift().trim()
+        yay = yay.split('online')[1].split('root').shift().trim()
         yay = yay.replace(/ +(?= )/g,'').split('│').join(' - ')
         return msg.channel.send('```js\n'+ clean(yay) + '```')
       })
