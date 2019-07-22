@@ -9,7 +9,7 @@ module.exports = (Bot) => {
     const options = { webhookPort: 5000, webhookAuth: Bot.conf.dbl.auth }
     Bot.dbl = new DBL(Bot.conf.dbl.token, options, Bot)
 
-    Bot.dbl.on('posted', () => Bot.log('DBL count posted.'))
+    Bot.dbl.on('posted', () => console.log('DBL count posted.'))
     Bot.dbl.on('error', (e) => Bot.log(`DBL error: ${e}`))
 
     Bot.dbl.webhook.on('ready', (e) => console.log(`Webhook running.`));
