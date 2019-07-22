@@ -13,8 +13,7 @@ module.exports = (Bot) => {
     Bot.dbl.on('error', (e) => Bot.log(`DBL error: ${e}`))
 
     Bot.dbl.webhook.on('ready', (e) => console.log(`Webhook running.`));
-    Bot.dbl.webhook.on('vote', (e) => console.log(`${e.user} voted.`));
-    Bot.dbl.webhook.on('test', (e) => console.log(`Test: ${e}.`));
+    Bot.dbl.webhook.on('vote', (e) => Bot.setVote(e.user, Date.now()));
   }
 
   Bot.hasVoted = (user) => {
