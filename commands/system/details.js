@@ -2,7 +2,7 @@ module.exports = {
 
   name: 'details',
   
-  level: 5,
+  level: 9,
 
   help: {
     name: "{pre}details",
@@ -15,11 +15,16 @@ module.exports = {
       if (err) return Bot.reply(msg, 'Nay')
       yay = yay.split('online')[1].split('root')[0]
       yay = yay.replace(/ +(?= )/g,'').split('│').join(' - ')
+      const total = Bot.guilds.keyArray().length
 
-      return Bot.listReply(msg, 'Chandler Details', [
-        '```js\n' + yay + '```',
-        `Total Guilds: ${Bot.guilds.keyArray().length}`
-      ])
+      const result = [
+        '```js',
+        'Guilds - ' + total,
+        'Details' + yay,
+        '```'
+      ]
+
+      return Bot.listReply(msg, 'Chandler Details', result)
     })
 
   },
