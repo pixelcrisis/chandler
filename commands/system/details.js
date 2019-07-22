@@ -13,14 +13,15 @@ module.exports = {
 
     Bot.exec('pm2 list', (err, yay, nay) => {
       if (err) return Bot.reply(msg, 'Nay')
-      yay = yay.split('online')[1].split('root')[0]
-      yay = yay.replace(/ +(?= )/g,'').split('│').join(' - ')
-      const total = Bot.guilds.keyArray().length
+      yay = yay.split('online')[1].split(' ').join('').split('│')
 
       const result = [
         '```js',
-        'Guilds - ' + total,
-        'Details' + yay,
+        `Guilds:       ${Bot.guilds.keyArray().length}`,
+        `Restarts:     ${yay[1]}`,
+        `Uptime:       ${yay[2]}`,
+        `CPU Use:      ${yay[3]}`,
+        `Memory:       ${yay[4]}`,
         '```'
       ]
 
