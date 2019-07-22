@@ -11,6 +11,7 @@ module.exports = (Bot) => {
   Bot.locks = new Enmap({ name: 'locks', ...encfg })
   Bot.zones = new Enmap({ name: 'zones', ...encfg })
   Bot.notes = new Enmap({ name: 'notes', ...encfg })
+  Bot.votes = new Enmap({ name: 'votes', ...encfg })
 
   // getters
 
@@ -34,12 +35,16 @@ module.exports = (Bot) => {
     return Bot.notes.get(guild, key ? key : null)
   }
 
+  Bot.getVote = (user) => Bot.votes.ensure(user, 0)
+
   // setters
 
   Bot.setConf = (guild, key, val) => Bot.confs.set(guild, val, key)
   Bot.setLock = (guild, key, val) => Bot.locks.set(guild, val, key)
   Bot.setZone = (guild, key, val) => Bot.zones.set(guild, val, key)
   Bot.setNote = (guild, key, val) => Bot.notes.set(guild, val, key)
+
+  Bot.setVote = (user, now) => Bot.votes.set(user, now)
 
   // deletters
 
