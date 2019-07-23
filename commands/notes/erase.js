@@ -18,11 +18,12 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     if (opts.length != 1) return Bot.reply(msg, this.help)
+    const command = opts[0].toLowerCase()
 
-    const note = Bot.getNote(msg.guild.id, opts[0])
-    if (!note) return Bot.reply(msg, this.lang.none, opts[0])
-    Bot.remNote(msg.guild.id, opts[0])
-    return Bot.reply(msg, this.lang.done, opts[0])
+    const note = Bot.getNote(msg.guild.id, command)
+    if (!note) return Bot.reply(msg, this.lang.none, command)
+    Bot.remNote(msg.guild.id, command)
+    return Bot.reply(msg, this.lang.done, command)
   },
 
   test: async function(Bot, msg, data) {
