@@ -10,19 +10,17 @@ module.exports = {
   },
 
   fire: async function(Bot, msg, opts, lvl) {
-    const code = opts.join(' ')
-
     try {
-      const ran = await eval(code)
-      msg.channel.send(`Yay\n${Bot.clean(ran)}`)
-    } catch (err) {
-      msg.channel.send(`Nay\n${Bot.clean(err)}`)
+      const ran = await eval(opts.join(' '))
+      msg.channel.send(Bot.clean(ran))
     }
-    
+    catch (err) {
+      msg.channel.send(Bot.clean(err))
+    }
   },
 
   test: async function(Bot, msg) {
-    return Bot.reply(msg, "how about no")
+    return Bot.reply(msg, "No Tests.")
   }
 
 }

@@ -22,7 +22,7 @@ module.exports = {
       list.push("**" + title + "**: `" + notes[title] + "`")
     }
     if (!list.length) return Bot.reply(msg, this.lang.none)
-    list.push(Bot.getLove(msg.author.id))
+    list.push(Bot.gotLove(msg.author.id))
     return Bot.listReply(msg, "Server Notes", list)
   },
 

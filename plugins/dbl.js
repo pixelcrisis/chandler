@@ -28,9 +28,9 @@ module.exports = (Bot) => {
     return voted
   }
 
-  Bot.getLove = (user, detail) => {
+  Bot.gotLove = (user, detail) => {
     let voted = Bot.hasVoted(user)
-    let loved = voted ? `ily ♡ <@${user}>` : Bot.lang.noLove
+    let loved = voted ? `ily ♡ <@${user}>` : Bot.lang.gotLove
     detail = detail ? ` · ${detail}` : ''
     return `\n${loved}${detail}`
   }

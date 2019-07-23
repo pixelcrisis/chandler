@@ -34,7 +34,9 @@ module.exports = {
     // otherwise get the help message for a command
     else if (opts.length == 1) {
       let cmd = Bot.findCommand(opts[0])
-      if (cmd && lvl >= cmd.level) return Bot.reply(msg, cmd.help)
+      const loved = Bot.gotLove(msg.author.id)
+      const result = { name: cmd.help.name, desc: cmd.help.desc + '\n' + loved }
+      if (cmd && lvl >= cmd.level) return Bot.reply(msg, result)
     }
   },
 

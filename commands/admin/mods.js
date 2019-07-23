@@ -26,7 +26,7 @@ module.exports = {
 
     else if (opts.length == 1) {
       const role = Bot.verifyRole(msg, opts[0])
-      if (!role) return Bot.reply(msg, Bot.lang.noRole, opts[0])
+      if (!role) return Bot.reply(msg, Bot.lang.badRole, opts[0])
       Bot.setConf(msg.guild.id, 'modsID', role.id)
       return Bot.reply(msg, this.lang.done, role.id)
     }

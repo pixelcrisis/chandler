@@ -1,13 +1,24 @@
 {
-  "noMsg": "`{val1}` doesn't seem to be a message.",
-  "noRole": "`{val1}` doesn't seem to be a role.",
-  "noChan": "`{val1}` doesn't seem to be a channel.",
-  "noParse": "Couldn't seem to parse that embed.",
-  "noUser": "Couldn't find that user, sorry.",
-  "noAccess": "Sorry you need to be a **{val1}** to access that command, you are currently marked as a **{val2}**",
-  "cantRole": "I can't manage roles in <#{val1}>",
-  "cantSpeak": "I can't send messages in <#{val1}>",
-  "cantDelete": "Sorry, I can't manage messages in <#{val1}>",
-  "cantManage": "Sorry, I can't manage channel(s) <#{val1}>",
-  "noLove": "[Got Love?](https://discordbots.org/bot/596194094275887116/vote)"
+  "badArgs": "I couldn't find `{val1}`",
+  "badUser": "I couldn't find `@{val1}`",
+  "badRole": "I couldn't find role: `{val1}`",
+  "badChan": "I couldn't find channel: `{val1}`",
+
+  "noZone": "You need to add your zone first! `{pre}zone`",
+
+  "badEmbed": "I couldn't seem to parse that embed.",
+  "badLevel": "Oops! You're a **{val1}**, only **{val2}s** can do that.",
+
+  "cantMessage": "Oops! I can't speak in <#{val1}>",
+  "cantDoClear": "Oops! I can't manage channels in <#{val1}>",
+  "cantChannel": "Oops! I can't manage channel <#{val1}>",
+  "cantDoPerms": "Oops! I can't manage roles in <#{val1}>",
+
+  "gotLove": "[Got Love?](https://discordbots.org/bot/596194094275887116/vote)",
+
+  "online": "[Website](https://chandler.12px.io)",
+  "server": "[Support Server](https://discord.gg/tjRC7E4)",
+  "invite": "[Invite Me](https://discordapp.com/oauth2/authorize?client_id=596194094275887116&scope=bot&permissions=268512312)",
+
+  "timezones": "Find timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>"
 }

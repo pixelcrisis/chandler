@@ -7,7 +7,7 @@ module.exports = async (Bot, member) => {
 
   if (onleave && onleave.channel) {
     const channel = member.guild.channels.get(onleave.channel)
-    Bot.reply({ member, channel }, onleave.message)
+    Bot.reply({ guild: member.guild, member, channel }, onleave.message)
   }
 
 }

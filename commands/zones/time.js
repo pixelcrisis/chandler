@@ -5,8 +5,6 @@ module.exports = {
   level: 1,
 
   lang: {
-    none: "You need to add your zone first! `{pre}zone`",
-    what: "Couldn't figure out what `{val1}` is.",
     user: "<@{val1}> hasn't set a timezone yet. `{pre}zone`"
   },
 
@@ -20,7 +18,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     const zone = Bot.getZone(msg.guild.id, msg.author.id)
-    if (!zone) return Bot.reply(msg, this.lang.none)
+    if (!zone) return Bot.reply(msg, Bot.lang.noZone)
 
     let zones = Bot.zones.get(msg.guild.id)
     opts = opts.join(' ')
@@ -30,7 +28,7 @@ module.exports = {
     let when = false, user = false
     if (opts) when = Bot.findTime(opts, zone)
     if (opts && !when) user = Bot.verifyUser(msg, opts)
-    if (opts && !when && !user) return Bot.reply(msg, this.lang.what, opts)
+    if (opts && !when && !user) return Bot.reply(msg, Bot.lang.badArgs, opts)
 
     let title = 'Current Time', result = []
 
@@ -39,8 +37,7 @@ module.exports = {
       const target = Bot.getZone(msg.guild.id, user.id)
       if (!target) return Bot.reply(msg, this.lang.user, user.id)
       const time = Bot.timeFor(target)
-      const name = target.split('/')[1].split('_').join(' ')
-      result.push(`**${time}** for <@${user.id}> in ${name}`)
+      result.push(`**${time.timeStr}** for <@${user.id}> in ${time.nameStr}`)
     }
 
     // else get all the zones
@@ -53,7 +50,7 @@ module.exports = {
       }
     }
 
-    result.push(Bot.getLove(msg.author.id, '`{pre}help time`'))
+    result.push(Bot.gotLove(msg.author.id, '`{pre}help time`'))
 
     Bot.listReply(msg, title, result)
     return Bot.deleteTrigger(msg)

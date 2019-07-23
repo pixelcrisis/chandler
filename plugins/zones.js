@@ -10,12 +10,17 @@ const fullStr = `${dateStr} ${timeStr}`
 
 const byTime = (a, b) => a.off > b.off ? 1 : -1
 
+const continents = [ 
+  'africa', 'america', 'asia', 'atlantic', 'australia', 'europe', 'indian', 'pacific'
+]
+
 module.exports = (Bot) => {
 
-  Bot.timeFor = (zone) => Moment.tz(zone).format(timeStr)
-
-  Bot.findTimeZone = (name) => {
-    return Moment.tz.zone(name.join('_').toLowerCase())
+  Bot.timeFor = (zone, time) => {
+    let result = time ? time.tz(zone) : Moment.tz(zone)
+    result.timeStr = result.format(timeStr)
+    result.nameStr = zone.split('/')[1].split('_').join(' ')
+    return result
   }
   
   Bot.findTime = (time, zone) => {
@@ -32,18 +37,28 @@ module.exports = (Bot) => {
     return Moment.tz(str, fullStr, zone)
   }
 
+  Bot.findTimeZone = (name) => {
+    name = name.join('_').toLowerCase()
+    if (name.indexOf('/') > -1) return Moment.tz.zone(name)
+    for (var i = 0; i < continents.length; i++) {
+      let zone = Moment.tz.zone(`${continents[i]}/${name}`)
+      if (zone) return zone
+    }
+    return false
+  }
+
   Bot.sortTimeZones = (zones, time) => {
     let table = {}
 
     for (var id in zones) {
       let zone = zones[id]
-      let when = time ? time.tz(zone) : Moment.tz(zone)
+      let when = Bot.timeFor(zone, time)
 
       if (!table.hasOwnProperty(zone)) {
         table[zone] = {
-          name: zone.split('/')[1].split('_').join(' '),
+          name: when.nameStr,
           off: when._offset,
-          time: when.format(timeStr),
+          time: when.timeStr,
           users: [ id ]
         }
       }

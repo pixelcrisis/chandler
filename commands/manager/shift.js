@@ -21,7 +21,12 @@ module.exports = {
     let amount = parseInt(opts[0])
     let channel = Bot.verifyChannel(msg, opts[1])
     if (isNaN(amount)) return Bot.reply(msg, this.help)
-    if (!channel) return Bot.reply(msg, Bot.lang.noChan, opts[1])
+    if (!channel) return Bot.reply(msg, Bot.lang.badChan, opts[1])
+
+    const chat = Bot.canChat(msg.guild.me, channel)
+    const clear = Bot.canDelete(msg.guild.me, msg.channel)
+    if (!chat) return Bot.reply(msg, Bot.lang.cantMessage, msg.channel.id)
+    if (!clear) return Bot.reply(msg, Bot.lang.cantDoClear, msg.channel.id)
 
     await msg.channel.fetchMessages({ limit: amount + 1}).then(got => {
       got.forEach(message => {
@@ -34,7 +39,7 @@ module.exports = {
     let trigger = shifted.shift() // don't reprint command
     let title = `Moved ${amount} Messages Here From ${msg.channel.name}`
     shifted = shifted.reverse() // preserve proper order w/loops
-    Bot.listReply({ channel }, title, shifted, '\n\n')
+    Bot.listReply({ guild: msg.guild, channel }, title, shifted, '\n\n')
     return Bot.reply(msg, this.lang.done, amount, channel.id)
   },
 

@@ -5,15 +5,13 @@ module.exports = {
   level: 3,
 
   lang: {
-    none: "Couldn't find `{val1}` as a timezone.",
     done: "Set <@{val1}> timezone to `{val2}`"
   },
 
   help: {
     name: "{pre}setzone [user] [timezone]",
     desc: "Sets `timezone` for `user`." +
-          "Step 1: Find timezone code here:\n" +
-          "<http://kevalbhatt.github.io/timezone-picker/>\n\n" +
+          "Step 1: {timezones}\n\n" +
           "Step 2: Use `>setzone !user America/Chicago`\n" +
           "But replace with their timezone!"
   },
@@ -21,11 +19,12 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (opts.length < 2) return Bot.reply(msg, this.help)
 
-    const user = Bot.verifyUser(msg, opts.shift())
-    if (!user) return Bot.reply(msg, Bot.lang.noUser)
+    const userID = opts.shift()
+    const user = Bot.verifyUser(msg, userID)
+    if (!user) return Bot.reply(msg, Bot.lang.badUser, userID)
 
     const zone = Bot.findTimeZone(opts)
-    if (!zone) return Bot.reply(msg, this.lang.none, opts.join(' '))
+    if (!zone) return Bot.reply(msg, Bot.lang.badArgs, opts.join(' '))
 
     Bot.setZone(msg.guild.id, user.id, zone.name)
     return Bot.reply(msg, this.lang.done, user.id, zone.name)

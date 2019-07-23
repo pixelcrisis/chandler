@@ -7,7 +7,6 @@ module.exports = {
   lang: {
     name: "Active Time Zones",
     line: "··································",
-    none: "You need to add your zone first! `{pre}zone`",
     full: "Too many users in this guild, try `{pre}time`"
   },
 
@@ -19,7 +18,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     const user = Bot.getZone(msg.guild.id, msg.author.id)
-    if (!user) return Bot.reply(msg, this.lang.none)
+    if (!user) return Bot.reply(msg, Bot.lang.noZone)
 
     let fields = [] // for embed!
     
@@ -42,7 +41,7 @@ module.exports = {
 
     Bot.reply(msg, {
       name: this.lang.name,
-      desc: Bot.getLove(msg.author.id, this.lang.line),
+      desc: Bot.gotLove(msg.author.id, this.lang.line),
       fields: fields
     })
 

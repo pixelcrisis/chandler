@@ -3,11 +3,6 @@
 
 module.exports = (Bot) => {
 
-  const inspect = require('util').inspect
-  const website = '[Website](https://chandler.12px.io)'
-  const support = '[Support Server](https://discord.gg/tjRC7E4)'
-  const invite = '[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=596194094275887116&permissions=8&scope=bot)'
-
   Bot.escape = (data) => data ? data.split('{').join('{/') : data
 
   Bot.parse = (msg, data, val1, val2) => {
@@ -15,27 +10,29 @@ module.exports = (Bot) => {
 
     data = data.split('{val1}').join(val1)
     data = data.split('{val2}').join(val2)
-    data = data.split('{invite}').join(invite)
-    data = data.split('{website}').join(website)
-    data = data.split('{support}').join(support)
-    if (msg) {
-      if (msg.member) {
-        data = data.split('{user}').join(`<@${msg.member.id}>`)
-        data = data.split('{user.id}').join(msg.member.id)
-        data = data.split('{user.name}').join(msg.member.user.username)
-      }
-      if (msg.guild) {
-        const prefix = Bot.getConf(msg.guild.id, 'prefix')
-        data = data.split('{pre}').join(prefix)
-      }
+    data = data.split('{invite}').join(Bot.lang.invite)
+    data = data.split('{website}').join(Bot.lang.online)
+    data = data.split('{support}').join(Bot.lang.server)
+
+    if (msg && msg.member) {
+      data = data.split('{user}').join(`<@${msg.member.id}>`)
+      data = data.split('{user.id}').join(msg.member.id)
+      data = data.split('{user.name}').join(msg.member.user.username)
     }
+    if (msg && msg.guild) {
+      const prefix = Bot.getConf(msg.guild.id, 'prefix')
+      data = data.split('{pre}').join(prefix)
+    }
+
     // unescape escaped parse flags
     data = data.split('{/').join('{')
     return data
   }
 
+
   Bot.clean = (data) => {
-    if (typeof data !== 'string') data = inspect(data, { depth: 1 })
+    const inspect = (data) => require('util').inspect(data, { depth: 1 })
+    if (typeof data !== 'string') data = inspect(data)
     data = data.split(Bot.token).join('t0k3n-n0t-f0r-s4l3')
     data = data.split(Bot.conf.dbl.auth).join('f@keAuth')
     data = data.split(Bot.conf.dbl.token).join('th1s-0n3-4ls0-n4S')
@@ -43,6 +40,8 @@ module.exports = (Bot) => {
   }
 
   Bot.reply = (msg, data, val1, val2) => {
+    if (!Bot.canChat(msg.guild.me, msg.channel)) return false
+
     let embed = { author: {} }
     if (typeof data == 'string') {
       embed.description = Bot.parse(msg, data, val1, val2)
@@ -62,10 +61,11 @@ module.exports = (Bot) => {
   Bot.flashReply = async (msg, data, val1, val2) => {
     const flashed = await Bot.reply(msg, data, val1, val2)
     await Bot.sleep(5000)
-    flashed.delete()
+    if (flashed) flashed.delete()
   }
 
   Bot.listReply = (msg, title, data, join = '\n') => {
+    if (!Bot.canChat(msg.guild.me, msg.channel)) return false
     // due to discord text limits
     // if we're sending array data
     // split it at the 2k limit
