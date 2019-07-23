@@ -10,6 +10,7 @@ module.exports = (Bot) => {
 
     data = data.split('{val1}').join(val1)
     data = data.split('{val2}').join(val2)
+    data = data.split('{guides}').join(Bot.lang.guides)
     data = data.split('{invite}').join(Bot.lang.invite)
     data = data.split('{website}').join(Bot.lang.online)
     data = data.split('{support}').join(Bot.lang.server)
