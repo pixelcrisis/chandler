@@ -46,7 +46,8 @@ module.exports = {
       const table = Bot.sortTimeZones(zones, when)
       for (var i = 0; i < table.length; i++) {
         let t = table[i]
-        result.push(`**${t.time}** - ${t.name} (${t.users.length})`)
+        let ping = t.name == zone.split('/')[1] ? `<@${msg.author.id}>` : ''
+        result.push(`**${t.time}** - ${t.name} (${t.users.length}) ${ping}`)
       }
     }
 
