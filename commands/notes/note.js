@@ -20,7 +20,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     if (opts.length < 2) return Bot.reply(msg, this.help)
 
-    let command = opts.shift()
+    let command = opts.shift().toLowerCase()
     let message = opts.join(' ')
 
     const isCommand = Bot.findCommand(command)
