@@ -9,19 +9,24 @@ module.exports = async (Bot) => {
     Bot._logger = Bot.channels.get(Bot.conf.serverLogs)
   }
 
-  const updateStatus = () => {
+  // Set a random status with helpful tips!
+  Bot.updateStatus = () => {
     const status = [
-      '@Chandler time',
-      '@Chandler help',
-      '@Chandler zones'
-    ], random = Math.floor(Math.random() * status.length)
+      `in ${Bot.guilds.keyArray().length} Servers`,
+      '@Chandler time', '@Chandler help', '@Chandler zones'
+    ]
 
+    const random = Math.floor(Math.random() + status.length)
     Bot.user.setActivity(status[random], { type: 'PLAYING' })
   }
-  updateStatus()
 
+  // Update To Our Default Status
+  let count = Bot.guilds.keyArray().length
+  Bot.user.setActivity(`in ${count} Servers`, { type: 'PLAYING' })
+
+  // Set a random status every 5 minutes
   const fiveMin = 1000 * 60 * 5
-  Bot.statusUpdates = setInterval(updateStatus, fiveMin)
+  Bot.statusUpdates = setInterval(Bot.updateStatus, fiveMin)
 
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")
