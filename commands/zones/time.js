@@ -6,43 +6,54 @@ module.exports = {
 
   lang: {
     none: "You need to add your zone first! `{pre}zone`",
-    when: "Couldn't figure out when `{val1}` is."
+    what: "Couldn't figure out what `{val1}` is.",
+    user: "<@{val1}> hasn't set a timezone yet. `{pre}zone`"
   },
 
   help: {
-    name: "{pre}time (time)",
+    name: "{pre}time (time/username)",
     desc: "Gets current time in all tracked timezones.\n" +
-          "Can pass a `time` to see what time it would be."
+          "Can pass a `time` to see what time it would be.\n" +
+          "Can pass `username` to see what time it is for them.\n" +
+          "(only works if they've set it - don't @ them in case it's late!)"
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    if (opts.length > 1) return Bot.reply(msg, this.help)
-    let when = opts.length == 1
-
     const zone = Bot.getZone(msg.guild.id, msg.author.id)
     if (!zone) return Bot.reply(msg, this.lang.none)
 
     let zones = Bot.zones.get(msg.guild.id)
+    opts = opts.join(' ')
 
-    // find time if any
-    if (when) {
-      when = Bot.findTime(opts[0], zone)
-      if (!when) return Bot.reply(msg, this.lang.when, opts[0])
+    // find time? or user?
+
+    let when = false, user = false
+    if (opts) when = Bot.findTime(opts, zone)
+    if (opts && !when) user = Bot.verifyUser(msg, opts)
+    if (opts && !when && !user) return Bot.reply(msg, this.lang.what, opts)
+
+    let title = 'Current Time', result = []
+
+    // if user, just look them up
+    if (user) {
+      const target = Bot.getZone(msg.guild.id, user.id)
+      if (!target) return Bot.reply(msg, this.lang.user, user.id)
+      const time = Bot.timeFor(target)
+      const name = target.split('/')[1].split('_').join(' ')
+      result.push(`**${time}** for <@${user.id}> in ${name}`)
     }
 
-    const title = when ? `Time @ ${opts[0]}` : 'Current Time'
-    const table = Bot.sortTimeZones(zones, when)
-
-    // simply sort table
-    let result = []
-    for (var i = 0; i < table.length; i++) {
-      let t = table[i]
-      result.push(`**${t.time}** - ${t.name} (${t.users.length})`)
+    // else get all the zones
+    else {
+      if (when) title = `Time @ ${opts}`
+      const table = Bot.sortTimeZones(zones, when)
+      for (var i = 0; i < table.length; i++) {
+        let t = table[i]
+        result.push(`**${t.time}** - ${t.name} (${t.users.length})`)
+      }
     }
 
-    // Love Message
-    const love = Bot.getLove(msg.author.id)
-    result.push(`_ _\n${love} · ` + '`{pre}time username/time`')
+    result.push(Bot.getLove(msg.author.id, '`{pre}help time`'))
 
     Bot.listReply(msg, title, result)
     return Bot.deleteTrigger(msg)
