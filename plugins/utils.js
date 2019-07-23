@@ -75,10 +75,14 @@ module.exports = (Bot) => {
   const byUser = (name) => { 
     return el => el.user.username.toLowerCase() == name.toLowerCase() 
   }
+  const byNick = (name) => { 
+    return el => el.nickname && el.nickname.toLowerCase() == name.toLowerCase() 
+  }
 
   Bot.verifyUser = (msg, data) => {
     let user = msg.guild.members.get(Bot.stripIDs(data))
     if (!user) user = msg.guild.members.find(byUser(data))
+    if (!user) user = msg.guild.members.find(byNick(data))
     return user
   }
 
