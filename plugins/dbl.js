@@ -19,10 +19,10 @@ module.exports = (Bot) => {
   Bot.hasVoted = (user) => {
     if (!Bot.dbl) return true
     const now = Date.now()
-    const weekAgo = now - 604800000
     const lastVote = Bot.getVote(user)
+    const threeDaysAgo = now - 259200000
 
-    if (lastVote > weekAgo) return true
+    if (lastVote > threeDaysAgo) return true
     const voted = Bot.dbl.hasVoted(user)
     if (voted) Bot.setVote(user, now)
     return voted
