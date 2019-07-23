@@ -25,7 +25,7 @@ module.exports = async (Bot) => {
 
   // Set a random status every 5 minutes
   const fiveMin = 1000 * 60 * 5
-  Bot.statusUpdates = setInterval(Bot.updateStatus, 30000)
+  Bot.statusUpdates = setInterval(Bot.updateStatus, fiveMin)
 
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")
