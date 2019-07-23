@@ -5,8 +5,12 @@ module.exports = {
   level: 5,
 
   lang: {
+    prefix: "Set Prefix to `{val1}`\nReminder: You can @Chandler as a prefix if something goes sideways.",
     modsID: "Set Mods to <@&{val1}>",
-    prefix: "Set Prefix to `{val1}`\nReminder: You can @Chandler as a prefix if something goes sideways."
+    warnings: {
+      on: "Enabled Command Permission Warnings.",
+      off: "Disabled Command Permission Warnings."
+    }
   },
 
   help: {
@@ -34,13 +38,24 @@ module.exports = {
       Bot.setConf(msg.guild.id, 'modsID', role.id)
       return Bot.reply(msg, this.lang.modsID, role.id)
     }
+
+    if (opt == 'warnings' || opts == 'warning') {
+      if (Bot.yes.includes(val.toLowerCase())) {
+        Bot.setConf(msg.guild.id, 'warnings', true)
+        return Bot.reply(msg, this.lang.warnings.on)
+      }
+      if (Bot.no.includes(val.toLowerCase())) {
+        Bot.setConf(msg.guild.id, 'warnings', false)
+        return Bot.reply(msg, this.lang.warnings.off)
+      }
+    }
   },
 
   test: async function(Bot, msg, data) {
     Bot.reply(msg, {
       name: "Testing {pre}set",
       desc: "`{pre}set` - Help\n" +
-            "`{pre}set prefix ~` - Set",
+            "`{pre}set prefix ~` - Set" +
             "`{pre}set mods developer` - Set",
       color: 16549991
     })
