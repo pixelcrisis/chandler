@@ -9,9 +9,9 @@ module.exports = {
     desc: "Updates the bot."
   },
 
-  fire: async function(Bot, msg, opts, lvl) {
+  fire: function(Bot, msg, opts, lvl) {
 
-    Bot.exec('git pull', (err, yay, nay) => {
+    Bot.exec('git pull', async (err, yay, nay) => {
       if (err) return Bot.reply(msg, 'Nay')
       await msg.channel.send(Bot.clean(yay))
       if (yay.indexOf('up-to-date') == -1) {
