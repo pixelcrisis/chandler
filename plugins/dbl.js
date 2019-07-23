@@ -31,7 +31,7 @@ module.exports = (Bot) => {
   Bot.getLove = (user, detail = '') => {
     let voted = Bot.hasVoted(user)
     let loved = voted ? `ily <@${user}>` : Bot.lang.noLove
-    return `_ _\n${loved} · ${detail}`
+    return `\n${loved} · ${detail}`
   }
 
 }
