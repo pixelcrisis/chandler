@@ -12,6 +12,8 @@ const byTime = (a, b) => a.off > b.off ? 1 : -1
 
 module.exports = (Bot) => {
 
+  Bot.timeFor = (zone) => Moment.tz(zone).format(timeStr)
+
   Bot.findTimeZone = (name) => {
     return Moment.tz.zone(name.join('_').toLowerCase())
   }
