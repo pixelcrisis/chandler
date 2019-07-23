@@ -6,7 +6,7 @@ module.exports = {
 
   lang: {
     name: "Active Time Zones",
-    line: "-----------------",
+    line: "··································",
     none: "You need to add your zone first! `{pre}zone`",
     full: "Too many users in this guild, try `{pre}time`"
   },
@@ -42,9 +42,11 @@ module.exports = {
 
     Bot.reply(msg, {
       name: this.lang.name,
-      desc: this.lang.line,
+      desc: Bot.getLove(msg.author.id, this.lang.line),
       fields: fields
     })
+
+    return Bot.deleteTrigger(msg)
   },
 
   test: async function(Bot, msg, data) {
