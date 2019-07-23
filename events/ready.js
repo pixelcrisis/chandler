@@ -10,9 +10,9 @@ module.exports = async (Bot) => {
   }
 
   // Set a random status with helpful tips!
-  Bot.updateStatus = () => {
+  Bot.updateStatus = (bot) => {
     const status = [
-      `in ${Bot.guilds.keyArray().length} Servers`,
+      `in ${bot.guilds.keyArray().length} Servers`,
       '@Chandler time', '@Chandler help', '@Chandler zones'
     ]
 
@@ -26,7 +26,7 @@ module.exports = async (Bot) => {
 
   // Set a random status every 5 minutes
   const fiveMin = 1000 * 60 * 5
-  Bot.statusUpdates = setInterval(Bot.updateStatus, fiveMin)
+  Bot.statusUpdates = setInterval(Bot.updateStatus(Bot), fiveMin)
 
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")
