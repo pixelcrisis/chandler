@@ -6,6 +6,7 @@ module.exports = {
   alias: [ 'setup', 'config', 'configs' ],
 
   lang: {
+    warn: "*(You can't use that command...)*",
     admin: "*The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
   },
 
@@ -16,33 +17,27 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     const config = Bot.getConf(msg.guild.id)
-    const result = [], self = msg.guild.me, chan = msg.channel
+    const result = ['_ _'], self = msg.guild.me, chan = msg.channel
 
-    result.push(`Version ${Bot.version}`)
+    const mods = config.modsID ? `<@&${config.modsID}>` : '`Unset`'
+    const warn = `\`${config.warnings}\` ${this.lang.warn}`
+    let onjoin = '`false`', onleave = '`false`'
 
-    result.push("Use `{pre}help command` for details.\n")
-
-    result.push('`{pre}prefix` : `' + config.prefix + '`')
-
-    let mods = config.modsID ? `<@&${config.modsID}>` : '`Unset`'
-    result.push('`{pre}mods` : ' + mods)
-
-    let warn = "` - *(You can't use that command...)*"
-    result.push('`{pre}warnings` : `' + config.warnings + warn)
-
-    let onjoin = '\n`{pre}onjoin` : '
     if (config.onjoin && config.onjoin.channel) {
       let message = Bot.escape(config.onjoin.message)
-      onjoin += `in <#${config.onjoin.channel}> with \`${message}\``
-    } else onjoin += '`Unset`'
-    result.push(onjoin)
+      onjoin = `<#${config.onjoin.channel}> \`${message}\``
+    }
 
-    let onleave = '\n`{pre}onleave` : '
     if (config.onleave && config.onleave.channel) {
       let message = Bot.escape(config.onleave.message)
-      onleave += `in <#${config.onleave.channel}> with \`${message}\`\n`
-    } else onleave += '`Unset`\n'
-    result.push(onleave)
+      onleave = `<#${config.onleave.channel}> \`${message}\``
+    }
+
+    result.push('`{pre}set prefix` `{pre}`')
+    result.push('`{pre}set mods` ' + mods)
+    result.push('`{pre}set warnings` ' + warn)
+    result.push('\n`{pre}set onjoin` ' + onjoin)
+    result.push('\n`{pre}set onleave` ' + onleave)
 
     const hasAdmin = self.permissions.has('ADMINISTRATOR', false)
     const hasRoles = self.permissions.has('MANAGE_ROLES', false)
@@ -60,7 +55,7 @@ module.exports = {
     result.push(`\n**Administrator:** \`${hasAdmin}\` (recommended)\n`)
     if (!hasAdmin) result.push(this.lang.admin)
 
-    return Bot.listReply(msg, "Chandler Status", result)
+    return Bot.listReply(msg, `Chandler v${Bot.version}`, result)
   },
 
   test: async function(Bot, msg, data) {
