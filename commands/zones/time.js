@@ -40,6 +40,10 @@ module.exports = {
       result.push(`**${t.time}** - ${t.name} (${t.users.length})`)
     }
 
+    // Love Message
+    const love = Bot.getLove(msg.author.id)
+    result.push(`_ _\n${love} · ` + '`{pre}time username/time`')
+
     Bot.listReply(msg, title, result)
     return Bot.deleteTrigger(msg)
   },

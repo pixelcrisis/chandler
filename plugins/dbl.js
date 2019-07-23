@@ -28,4 +28,8 @@ module.exports = (Bot) => {
     return voted
   }
 
+  Bot.getLove = (user) => {
+    return Bot.hasVoted(user) ? `ily <@${user}>` : Bot.lang.noLove
+  }
+
 }

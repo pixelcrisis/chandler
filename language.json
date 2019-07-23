@@ -8,5 +8,6 @@
   "cantRole": "I can't manage roles in <#{val1}>",
   "cantSpeak": "I can't send messages in <#{val1}>",
   "cantDelete": "Sorry, I can't manage messages in <#{val1}>",
-  "cantManage": "Sorry, I can't manage channel(s) <#{val1}>"
+  "cantManage": "Sorry, I can't manage channel(s) <#{val1}>",
+  "noLove": "[Love Me?](https://discordbots.org/bot/596194094275887116/vote)"
 }
