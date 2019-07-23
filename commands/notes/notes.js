@@ -3,10 +3,10 @@ module.exports = {
   name: 'notes',
   alias: [ 'tags' ],
   
-  level: 3,
+  level: 1,
 
   lang: {
-    none: "Server has no notes set."
+    none: "Server has no notes set. Mods can set some with `{pre}note`"
   },
 
   help: {
