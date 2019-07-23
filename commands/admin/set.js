@@ -4,10 +4,12 @@ module.exports = {
   
   level: 5,
 
-  lang: {},
+  lang: {
+    prefix: "Set Prefix to `{val1}`\nReminder: You can @Chandler as a prefix if something goes sideways."
+  },
 
   help: {
-    name: "{pre}set [config] [option]",
+    name: "{pre}set [option] [value]",
     desc: "Changes Chandler Settings - {guides}\n\n" +
           "Available Options:\n" +
           "`prefix`, `mods`, `warnings`, `onjoin`, `onleave`\n\n" +
@@ -15,7 +17,14 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
+    if (opts.length < 2) return Bot.reply(msg, this.help)
+    const opt = opts.shift().toLowerCase()
+    const val = opts.join(' ')
 
+    if (opt == 'prefix') {
+      Bot.setConf(msg.guild.id, 'prefix', val)
+      return Bot.reply(msg, this.lang.prefix, val)
+    }
   },
 
   test: async function(Bot, msg, data) {
