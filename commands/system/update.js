@@ -16,6 +16,7 @@ module.exports = {
       await msg.channel.send(Bot.clean(yay))
       if (yay.indexOf('up-to-date') == -1) {
         // if we updated, reboot!
+        Bot.log('Updating...')
         Bot.exec('pm2 restart 0')
       }
     })
