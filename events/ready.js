@@ -12,21 +12,20 @@ module.exports = async (Bot) => {
   // Set a random status with helpful tips!
   Bot.updateStatus = (bot) => {
     const status = [
-      `in ${bot.guilds.keyArray().length} Servers`,
+      `with v${Bot.version}`, `in ${Bot.guilds.keyArray().length} Servers`,
       '@Chandler time', '@Chandler help', '@Chandler zones'
     ]
 
-    const random = Math.floor(Math.random() + status.length)
+    const random = Math.floor(Math.random() * status.length)
     Bot.user.setActivity(status[random], { type: 'PLAYING' })
   }
 
   // Update To Our Default Status
-  let count = Bot.guilds.keyArray().length
-  Bot.user.setActivity(`in ${count} Servers`, { type: 'PLAYING' })
+  Bot.user.setActivity(`with v${Bot.version}`, { type: 'PLAYING' })
 
   // Set a random status every 5 minutes
   const fiveMin = 1000 * 60 * 5
-  Bot.statusUpdates = setInterval(Bot.updateStatus(Bot), fiveMin)
+  Bot.statusUpdates = setInterval(Bot.updateStatus, 30000)
 
   Bot.booted = true
   Bot.log("Loaded Everything, Booted Up.")

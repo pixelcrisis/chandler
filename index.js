@@ -1,12 +1,11 @@
-/*********************************/
-/**  Chandler - A Discord Bot.  **/
-/*********************************/
-/**                             **/
-/**   Inspriation From:         **/
-/**   KevinNovak/Friend-Time    **/
-/**   AnIdiotsGuide/guidebot    **/
-/**                             **/
-/*********************************/
+/**********************************/
+/**   Chandler - A Discord Bot.  **/
+/**------------------------------**/
+/**   Inspriation From:          **/
+/**   KevinNovak/Friend-Time     **/
+/**   AnIdiotsGuide/guidebot     **/
+/**------------------------------**/
+/**********************************/
 
 const Discord = require('discord.js')
 const Bot = new Discord.Client()
@@ -17,6 +16,8 @@ Bot.conf = require('./config.json')
 Bot.lang = require('./language.json')
 // we need this for some system commands
 Bot.exec = require('child_process').exec
+
+Bot.version = require('./package.json').version
 
 // Load our everything
 // Changes to `Bot` happen here.
