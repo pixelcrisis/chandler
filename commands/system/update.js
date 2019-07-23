@@ -13,7 +13,11 @@ module.exports = {
 
     Bot.exec('git pull', (err, yay, nay) => {
       if (err) return Bot.reply(msg, 'Nay')
-      return msg.channel.send(Bot.clean(yay))
+      await msg.channel.send(Bot.clean(yay))
+      if (yay.indexOf('up-to-date') == -1) {
+        // if we updated, reboot!
+        Bot.exec('pm2 restart 0')
+      }
     })
 
   },
