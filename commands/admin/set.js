@@ -8,6 +8,7 @@ module.exports = {
     prefix: "Set Prefix to `{val1}`\nReminder: You can @Chandler as a prefix if something goes sideways.",
     modsID: "Set Mods to <@&{val1}>",
     onjoin: "Logging User Joins in <#{val1}> with `{val2}`",
+    onleave: "Logging User Left in <#{val1}> with `{val2}`",
     enabled: "Disabled {val1}",
     disabled: "Disabled {val1}"
   },
@@ -65,6 +66,18 @@ module.exports = {
       return Bot.reply(msg, this.lang.onjoin, channel.id, Bot.escape(str))
     }
 
+    if (opt == 'onleave') {
+      if (Bot.no.includes(key.toLowerCase())) {
+        Bot.setConf(msg.guild.id, 'onleave', false)
+        return Bot.reply(msg, this.lang.disabled, 'onleave')
+      }
+      const channel = Bot.verifyChannel(msg, key)
+      if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
+      str = str ? str : '{user.name} left.'
+      Bot.setConf(msg.guild.id, 'onleave', { channel: channel.id, message: str })
+      return Bot.reply(msg, this.lang.onleave, channel.id, Bot.escape(str))
+    }
+
     return Bot.reply(msg, this.help)
   },
 
@@ -78,7 +91,10 @@ module.exports = {
             "`{pre}set onjoin test` - Set\n" +
             "`{pre}set onjoin test message` - Set\n" +
             "`guildMemberAdd() - message\n" +
-            "`{pre}set onjoin off` - Disabled",
+            "`{pre}set onjoin off` - Disabled\n" +
+            "`{pre}set onleave test` - Set\n" +
+            "`guildMemberDelete() - message\n" +
+            "`{pre}set onleave off` - Disabled",
       color: 16549991
     })
 
@@ -87,10 +103,14 @@ module.exports = {
     await this.fire(Bot, msg, ['mods', 'developer'])
     await this.fire(Bot, msg, ['warnings', 'off'])
     await this.fire(Bot, msg, ['onjoin', data.channel])
-    await this.fire(Bot, msg, ['onjoin', data.channel, '{user} joined with {user.id}'])
+    await this.fire(Bot, msg, ['onjoin', data.channel, '{user} joined {user.id}'])
     await Bot.emit('guildMemberAdd', msg.member)
     await Bot.sleep(2000)
     await this.fire(Bot, msg, ['onjoin', 'off'])
+    await this.fire(Bot, msg, ['onleave', data.channel])
+    await Bot.emit('guildMemberRemove', msg.member)
+    await Bot.sleep(2000)
+    await this.fire(Bot, msg, ['onleave', 'off'])
 
     return Bot.reply(msg, "{pre}set test complete.")
   }
