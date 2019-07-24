@@ -33,11 +33,11 @@ module.exports = {
       onleave = `<#${config.onleave.channel}> \`${message}\``
     }
 
-    result.push('`{pre}set prefix` `{pre}`')
-    result.push('`{pre}set mods` ' + mods)
-    result.push('`{pre}set warnings` ' + warn)
-    result.push('\n`{pre}set onjoin` ' + onjoin)
-    result.push('\n`{pre}set onleave` ' + onleave)
+    result.push('`{pre}config prefix` `{pre}`')
+    result.push('`{pre}config mods` ' + mods)
+    result.push('`{pre}config warnings` ' + warn)
+    result.push('\n`{pre}config onjoin` ' + onjoin)
+    result.push('\n`{pre}config onleave` ' + onleave)
 
     const hasAdmin = self.permissions.has('ADMINISTRATOR', false)
     const hasRoles = self.permissions.has('MANAGE_ROLES', false)
