@@ -1,9 +1,9 @@
 module.exports = {
 
-  name: 'status',
+  name: 'configs',
   
   level: 5,
-  alias: [ 'config', 'configs' ],
+  alias: [ 'status' ],
 
   lang: {
     warn: "*(You can't use that command...)*",
@@ -11,8 +11,8 @@ module.exports = {
   },
 
   help: {
-    name: "{pre}status",
-    desc: "Reports back the status of the bot."
+    name: "{pre}configs",
+    desc: "Reports back the configs of the bot."
   },
 
   fire: function(Bot, msg, opts, lvl) {
@@ -60,14 +60,14 @@ module.exports = {
 
   test: async function(Bot, msg, data) {
     Bot.reply(msg, {
-      name: "Testing {pre}status",
-      desc: "`{pre}status` - Status",
+      name: "Testing {pre}configs",
+      desc: "`{pre}configs` - Status",
       color: 16549991
     })
 
     await this.fire(Bot, msg, [])
 
-    return Bot.reply(msg, "{pre}status test complete.")
+    return Bot.reply(msg, "{pre}configs test complete.")
   }
 
 }
