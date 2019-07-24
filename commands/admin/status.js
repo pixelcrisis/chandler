@@ -3,7 +3,7 @@ module.exports = {
   name: 'status',
   
   level: 5,
-  alias: [ 'setup', 'config', 'configs' ],
+  alias: [ 'config', 'configs' ],
 
   lang: {
     warn: "*(You can't use that command...)*",
