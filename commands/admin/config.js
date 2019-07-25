@@ -1,7 +1,7 @@
 module.exports = {
 
   name: 'config',
-  alias: [ 'set' ]
+  alias: [ 'set' ],
   
   level: 5,
 
