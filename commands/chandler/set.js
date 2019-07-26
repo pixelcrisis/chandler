@@ -1,7 +1,7 @@
 module.exports = {
 
-  name: 'config',
-  alias: [ 'set' ],
+  name: 'set',
+  alias: [ 'config' ],
   
   level: 5,
 
@@ -15,11 +15,11 @@ module.exports = {
   },
 
   help: {
-    name: "{pre}config [option] [value]",
+    name: "{pre}set [option] [value]",
     desc: "Changes Chandler Settings - {guides}\n\n" +
           "Available Options:\n" +
           "`prefix`, `mods`, `warnings`, `onjoin`, `onleave`\n\n" +
-          "Example: `{pre}config prefix !` or `{pre}config mods @Staff`\n" +
+          "Example: `{pre}set prefix !` or `{pre}set mods @Staff`\n" +
           "See current values with `{pre}status"
   },
 
@@ -84,18 +84,18 @@ module.exports = {
 
   test: async function(Bot, msg, data) {
     Bot.reply(msg, {
-      name: "Testing {pre}config",
-      desc: "`{pre}config` - Help\n" +
-            "`{pre}config prefix ~` - Set\n" +
-            "`{pre}config mods developer` - Set\n" +
-            "`{pre}config warnings off` - Set\n" +
-            "`{pre}config onjoin test` - Set\n" +
-            "`{pre}config onjoin test message` - Set\n" +
+      name: "Testing {pre}set",
+      desc: "`{pre}set` - Help\n" +
+            "`{pre}set prefix ~` - Set\n" +
+            "`{pre}set mods developer` - Set\n" +
+            "`{pre}set warnings off` - Set\n" +
+            "`{pre}set onjoin test` - Set\n" +
+            "`{pre}set onjoin test message` - Set\n" +
             "`guildMemberAdd() - message\n" +
-            "`{pre}config onjoin off` - Disabled\n" +
-            "`{pre}config onleave test` - Set\n" +
+            "`{pre}set onjoin off` - Disabled\n" +
+            "`{pre}set onleave test` - Set\n" +
             "`guildMemberDelete() - message\n" +
-            "`{pre}config onleave off` - Disabled",
+            "`{pre}set onleave off` - Disabled",
       color: 16549991
     })
 
@@ -113,7 +113,7 @@ module.exports = {
     await Bot.sleep(2000)
     await this.fire(Bot, msg, ['onleave', 'off'])
 
-    return Bot.reply(msg, "{pre}config test complete.")
+    return Bot.reply(msg, "{pre}set test complete.")
   }
 
 }
