@@ -6,7 +6,6 @@ module.exports = {
   alias: [ 'configs' ],
 
   lang: {
-    warn: "*(You can't use that command...)*",
     admin: "*The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
   },
 
@@ -17,10 +16,9 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     const config = Bot.confs.get(msg.guild.id)
-    const result = ['_ _'], self = msg.guild.me, chan = msg.channel
+    const self = msg.guild.me, chan = msg.channel
 
     const mods = config.modsID ? `<@&${config.modsID}>` : '`Unset`'
-    const warn = `\`${config.warnings}\` ${this.lang.warn}`
     let onjoin = '`false`', onleave = '`false`'
 
     if (config.onjoin && config.onjoin.channel) {
@@ -33,29 +31,25 @@ module.exports = {
       onleave = `<#${config.onleave.channel}> \`${message}\``
     }
 
-    result.push('`{pre}config prefix` `{pre}`')
-    result.push('`{pre}config mods` ' + mods)
-    result.push('`{pre}config warnings` ' + warn)
-    result.push('\n`{pre}config onjoin` ' + onjoin)
-    result.push('\n`{pre}config onleave` ' + onleave)
+    const hasAdmin = self.permissions.has('ADMINISTRATOR', false) ? '✓' : '✗'
+    const hasRoles = self.permissions.has('MANAGE_ROLES', false) ? '✓' : '✗'
+    const hasMsgs  = self.permissions.has('MANAGE_MESSAGES', false) ? '✓' : '✗'
+    const hasChans = self.permissions.has('MANAGE_CHANNELS', false) ? '✓' : '✗'
+    const canRoles = Bot.canRoles(self, chan) ? '✓' : '✗'
+    const canMsgs  = Bot.canDelete(self, chan) ? '✓' : '✗'
+    const canChans = Bot.canChannel(self, chan) ? '✓' : '✗'
 
-    const hasAdmin = self.permissions.has('ADMINISTRATOR', false)
-    const hasRoles = self.permissions.has('MANAGE_ROLES', false)
-    const hasMsgs  = self.permissions.has('MANAGE_MESSAGES', false)
-    const hasChans = self.permissions.has('MANAGE_CHANNELS', false)
-    const canRoles = Bot.canRoles(self, chan)
-    const canMsgs  = Bot.canDelete(self, chan)
-    const canChans = Bot.canChannel(self, chan)
-    result.push('\n**Required Permissions** [server/channel]')
+    const perms = `${hasRoles}${canRoles}${hasChans}${canChans}${hasMsgs}${canMsgs}`
 
-    result.push('`Manage Roles` : [`' + hasRoles + '`/`' + canRoles + '`]')
-    result.push('`Manage Messages` : [`' + hasChans + '`/`' + canChans + '`]')
-    result.push('`Manage Channels` : [`' + hasMsgs + '`/`' + canMsgs + '`]')
+    let status = []
+    status.push("Change values with **set**. Use `{pre}help set` for more info.\n")
+    status.push("**mods**: " + mods)
+    status.push("**warnings**: `" + config.warnings + "`")
+    status.push("**onjoin**: `" + onjoin + "`")
+    status.push("**onleave**: `" + onleave + "`\n")
+    status.push(`**Permissions**: ${perms} - ${hasAdmin} - [Wat?](${Bot.lang.guides})`)
 
-    result.push(`\n**Administrator:** \`${hasAdmin}\` (recommended)\n`)
-    if (!hasAdmin) result.push(this.lang.admin)
-
-    return Bot.listReply(msg, 'Chandler v{version}', result)
+    Bot.listReply(msg, `${msg.guild.name} Status`, status)
   },
 
   test: async function(Bot, msg, data) {

@@ -16,11 +16,18 @@ module.exports = {
 
   help: {
     name: "{pre}set [option] [value]",
-    desc: "Changes Chandler Settings - {guides}\n\n" +
-          "Available Options:\n" +
-          "`prefix`, `mods`, `warnings`, `onjoin`, `onleave`\n\n" +
-          "Example: `{pre}set prefix !` or `{pre}set mods @Staff`\n" +
-          "See current values with `{pre}status"
+    desc: "*Available Options:*\n\n" +
+          "**prefix** - Changes Chandler's prefix in the server.\n" +
+          "`{pre}set prefix ~`\n\n" +
+          "**mods** - Marks a role as moderators.\n" +
+          "`{pre}set mods @Staff`\n\n" +
+          "**warnings** - Toggles command permission warnings.\n" +
+          "`{pre}set warnings on/off`\n\n" +
+          "**onjoin** - set user logging in a channel with an optional message.\n" +
+          "`{pre}set onjoin #channel {/user} joined.`\n\n" +
+          "**onleave** - set user logging in a channel with an optional message.\n" +
+          "`{pre}set onleave #channel {/user.name} left.`\n\n" +
+          "See current values with `{pre}status`"
   },
 
   fire: function(Bot, msg, opts, lvl) {

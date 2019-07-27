@@ -8,11 +8,11 @@ module.exports = {
 
   help: {
     name: "{pre}rule [option] (value)",
-    desc: "**Available Options:**\n\n" +
+    desc: "*Available Options:*\n\n" +
           "`add` - add *value* as a new rule.\n" +
           "`#` - Changes Rule # `option` to *value*\n\n" +
-          "*the official post automatically updates with new rules!*\n\n" +
           "`post` - print out the official rules post.\n" +
+          "*the official post automatically updates with new rules!*\n\n" +
           "`title` - changes title of official rules post.\n" +
           "`color` - changes color of official rules post.\n" +
           "`image` - changes image of official rules post.\n" +

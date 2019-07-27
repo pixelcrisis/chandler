@@ -12,9 +12,9 @@ module.exports = (Bot) => {
     data = data.split('{val2}').join(val2)
     data = data.split('{guides}').join(Bot.lang.guides)
     data = data.split('{invite}').join(Bot.lang.invite)
-    data = data.split('{website}').join(Bot.lang.online)
-    data = data.split('{support}').join(Bot.lang.server)
-    data = data.split('{version}').join(Bot.version)
+    data = data.split('{docs}').join(Bot.lang.docs)
+    data = data.split('{server}').join(Bot.lang.server)
+    data = data.split('{ver}').join(Bot.version)
 
     if (msg && msg.member) {
       data = data.split('{user}').join(`<@${msg.member.id}>`)

@@ -3,7 +3,7 @@ module.exports = {
   name: 'help',
   
   level: 1,
-  alias: [ 'invite' ],
+  alias: [ 'invite', 'support' ],
 
   lang: {
     help: {
@@ -12,7 +12,7 @@ module.exports = {
       desc: "`{pre}commands` to see commands you can use.\n" +
             "`{pre}help command` will help with any `command`\n\n" +
             "Track times with `{pre}time` and `{pre}zone`\n\n" +
-            "{val1} {website} | {invite} | {support}"
+            "{val1} [Online Docs]({docs}) | [Invite Link]({invite}) | [Support + Suggestions Server]({server})"
     },
     extra: "See config details with `{pre}status`\n" +
            "Set custom commands with `{pre}note`\n\n"
