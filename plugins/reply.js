@@ -14,6 +14,7 @@ module.exports = (Bot) => {
     data = data.split('{invite}').join(Bot.lang.invite)
     data = data.split('{website}').join(Bot.lang.online)
     data = data.split('{support}').join(Bot.lang.server)
+    data = data.split('{version}').join(Bot.version)
 
     if (msg && msg.member) {
       data = data.split('{user}').join(`<@${msg.member.id}>`)
