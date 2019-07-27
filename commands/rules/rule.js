@@ -7,9 +7,17 @@ module.exports = {
   lang: {},
 
   help: {
-    name: "{pre}rule [required] (optional)",
-    desc: "This is just an empty command.\n" +
-          "It isn't supposed to do anything."
+    name: "{pre}rule [option] (value)",
+    desc: "**Available Options:**\n\n" +
+          "`add` - add *value* as a new rule.\n" +
+          "`#` - Changes Rule # `option` to *value*\n\n" +
+          "*the official post automatically updates with new rules!*\n\n" +
+          "`post` - print out the official rules post.\n" +
+          "`title` - changes title of official rules post.\n" +
+          "`color` - changes color of official rules post.\n" +
+          "`image` - changes image of official rules post.\n" +
+          "`intro` - adds intro to the official rules post.\n" +
+          "`outro` - adds outro to the official rules post."
   },
 
   fire: function(Bot, msg, opts, lvl) {
