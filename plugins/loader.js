@@ -52,7 +52,7 @@ module.exports = (Bot) => {
   }
 
   Bot.loadCommand = (group, name) => {
-    Bot.log(`Loading Command: ${name}`)
+    console.info(`Loading Command: ${name}`)
     const cmd = require(`../commands/${group}/${name}`)
     cmd.group = group
     Bot.commands.set(cmd.name, cmd)
