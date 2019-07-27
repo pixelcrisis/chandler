@@ -8,13 +8,14 @@ module.exports = {
   lang: {
     help: {
       name: "Chandler Help",
-      desc: "View the {website} for Docs\n" +
-            "Join the {support} for Help\n" +
-            "Or, {invite} to your server!\n\n" +
+      desc: "{website} | {invite} | {support}\n\n" +
             "`{pre}commands` to see commands you can use.\n" +
-            "`{pre}help command` will help with a `command`\n\n{val1}"
+            "`{pre}help command` will help with any `command`\n\n" +
+            "Track Times with `{pre}time` and `{pre}zone`" +
+            "\n\n{val1}"
     },
-    extra: "See config details with `{pre}status`"
+    extra: "See config details with `{pre}status`\n" +
+           "Set custom commands with `{pre}note`"
   },
 
   help: {
@@ -35,8 +36,7 @@ module.exports = {
     else if (opts.length == 1) {
       let cmd = Bot.findCommand(opts[0])
       const loved = Bot.gotLove(msg.author.id)
-      const result = { name: cmd.help.name, desc: cmd.help.desc + '\n' + loved }
-      if (cmd && lvl >= cmd.level) return Bot.reply(msg, result)
+      if (cmd && lvl >= cmd.level) return Bot.reply(msg, cmd.help)
     }
   },
 

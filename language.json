@@ -16,10 +16,10 @@
 
   "gotLove": "[Got Love?](https://discordbots.org/bot/596194094275887116/vote)",
 
-  "online": "[Website](https://chandler.12px.io)",
+  "online": "[Online Docs](https://chandler.12px.io)",
   "guides": "[Guides](https://chandler.12px.io/guides.html)",
-  "server": "[Support Server](https://discord.gg/tjRC7E4)",
-  "invite": "[Invite Me](https://discordapp.com/oauth2/authorize?client_id=596194094275887116&scope=bot&permissions=268512312)",
+  "server": "[Support/Suggestion Server](https://discord.gg/tjRC7E4)",
+  "invite": "[Invite Link](https://discordapp.com/oauth2/authorize?client_id=596194094275887116&scope=bot&permissions=268512312)",
 
   "timezones": "Find timezone code here:\n<http://kevalbhatt.github.io/timezone-picker/>"
 }
