@@ -15,31 +15,40 @@ module.exports = async (Bot, msg) => {
   const hasMention = msg.content.indexOf(mention) === 0
 
   if (!hasPrefix && !hasMention) return
+  const trim  = hasPrefix ? prefix.length : mention.length
 
-  const amount  = hasPrefix ? prefix.length : mention.length
-  const options = msg.content.slice(amount).trim().split(/ +/g)
-  const command = options.shift().toLowerCase()
+  const chained = msg.content.split(' && ')
+  Bot.chaining = chained.length > 1
 
-  // return help on empty commands
-  let trigger = command ? command : 'help'
-  const cmd = Bot.findCommand(trigger)
+  for (var i = 0; i < chained.length; i++) {
+    const options = chained[i].slice(trim).trim().split(/ +/g)
+    const command = options.shift().toLowerCase()
 
-  if (cmd) {
-    if (access >= cmd.level) cmd.fire(Bot, msg, options, access)
+    // return help on empty commands
+    let trigger = command ? command : 'help'
+    const cmd = Bot.findCommand(trigger)
 
-    else if (warning) {
-      const hasLvl = Bot.nameAccess(access)
-      const reqLvl = Bot.nameAccess(cmd.level)
-      return Bot.reply(msg, Bot.lang.noAccess, reqLvl, hasLvl)
+    if (!cmd) {
+      // check for a note
+      const notes = Bot.notes.ensure(msg.guild.id, {})
+      if (notes[command]) {
+        const note = notes[command].split('{msg}').join(options.join(' '))
+        return msg.channel.send(note)
+      }
     }
 
-    else return
+    else {
+      if (access >= cmd.level) await cmd.fire(Bot, msg, options, access)
+
+      else if (warning) {
+        const hasLvl = Bot.nameAccess(access)
+        const reqLvl = Bot.nameAccess(cmd.level)
+        return Bot.reply(msg, Bot.lang.noAccess, reqLvl, hasLvl)
+      }
+
+      else return
+    }
   }
 
-  // check for note
-  const notes = Bot.notes.ensure(msg.guild.id, {})
-  if (notes[command]) {
-    const note = notes[command].split('{msg}').join(options.join(' '))
-    return msg.channel.send(note)
-  }
+  Bot.chaining = false
 }

@@ -33,7 +33,7 @@ module.exports = (Bot) => {
   }
 
   Bot.deleteTrigger = (msg) => {
-    if (Bot.canDelete(msg.guild.me, msg.channel) && Bot.booted) {
+    if (Bot.canDelete(msg.guild.me, msg.channel) && Bot.booted && !Bot.chaining) {
       return msg.delete()
     }
   }
