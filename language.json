@@ -9,6 +9,8 @@
   "badEmbed": "I couldn't seem to parse that embed.",
   "badLevel": "Oops! You're a **{val1}**, only **{val2}s** can do that.",
 
+  "badChain": "Can only chain up to 3 commands.",
+
   "cantMessage": "Oops! I can't speak in <#{val1}>",
   "cantDoClear": "Oops! I can't manage channels in <#{val1}>",
   "cantChannel": "Oops! I can't manage channel <#{val1}>",

@@ -18,6 +18,7 @@ module.exports = async (Bot, msg) => {
   const trim  = hasPrefix ? prefix.length : mention.length
 
   const chained = msg.content.split(' && ')
+  if (chained.length > 3) return Bot.reply(msg, Bot.lang.badChain)
   Bot.chaining = chained.length > 1
 
   for (var i = 0; i < chained.length; i++) {
