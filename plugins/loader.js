@@ -28,6 +28,7 @@ module.exports = (Bot) => {
   const loadFolder = async (folder, callback) => {
     const files = await readDir(folder)
     for (var i = 0; i < files.length; i++) { callback(files[i]) }
+    return false
   }
 
   Bot.loadEvents = async () => {
@@ -38,6 +39,7 @@ module.exports = (Bot) => {
       // bind events with `Bot`
       Bot.on(name, event.bind(null, Bot))
     })
+    return false
   }
 
   Bot.loadCommands = async () => {
@@ -49,6 +51,7 @@ module.exports = (Bot) => {
         Bot.loadCommand(group, file)
       })
     })
+    return false
   }
 
   Bot.loadCommand = (group, name) => {
@@ -78,6 +81,7 @@ module.exports = (Bot) => {
         break;
       }
     }
+    return false
   }
 
   // handle node.js events
