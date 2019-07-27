@@ -24,10 +24,6 @@ module.exports = (Bot) => {
     if (Bot._logger) Bot._logger.send(message)
   }
 
-  Bot.findCommand = (cmd) => {
-    return Bot.commands[cmd] || Bot.commands[Bot.aliases[cmd]]
-  }
-
   Bot.parseEmbed = (str) => {
     try {
       let obj = JSON.parse(str)
