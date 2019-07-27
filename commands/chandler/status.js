@@ -55,7 +55,7 @@ module.exports = {
     result.push(`\n**Administrator:** \`${hasAdmin}\` (recommended)\n`)
     if (!hasAdmin) result.push(this.lang.admin)
 
-    return Bot.listReply(msg, `Chandler v${Bot.version}`, result)
+    return Bot.listReply(msg, 'Chandler v{version}', result)
   },
 
   test: async function(Bot, msg, data) {

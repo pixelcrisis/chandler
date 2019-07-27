@@ -7,15 +7,15 @@ module.exports = {
 
   lang: {
     help: {
+      color: 48268,
       name: "Chandler Help",
-      desc: "{website} | {invite} | {support}\n\n" +
-            "`{pre}commands` to see commands you can use.\n" +
+      desc: "`{pre}commands` to see commands you can use.\n" +
             "`{pre}help command` will help with any `command`\n\n" +
-            "Track Times with `{pre}time` and `{pre}zone`" +
-            "\n\n{val1}"
+            "Track times with `{pre}time` and `{pre}zone`\n\n" +
+            "{val1} {website} | {invite} | {support}"
     },
     extra: "See config details with `{pre}status`\n" +
-           "Set custom commands with `{pre}note`"
+           "Set custom commands with `{pre}note`\n\n"
   },
 
   help: {
