@@ -13,18 +13,18 @@ module.exports = (Bot) => {
     Bot.dbl.on('error', (e) => Bot.log(`DBL error: ${e}`))
 
     Bot.dbl.webhook.on('ready', (e) => console.log(`Webhook running.`));
-    Bot.dbl.webhook.on('vote', (e) => Bot.setVote(e.user, Date.now()));
+    Bot.dbl.webhook.on('vote', (e) => Bot.votes.set(e.user, Date.now()));
   }
 
   Bot.hasVoted = (user) => {
     if (!Bot.dbl) return true
     const now = Date.now()
-    const lastVote = Bot.getVote(user)
+    const lastVote = Bot.votes.ensure(user, 0)
     const threeDaysAgo = now - 259200000
 
     if (lastVote > threeDaysAgo) return true
     const voted = Bot.dbl.hasVoted(user)
-    if (voted) Bot.setVote(user, now)
+    if (voted) Bot.votes.set(user, now)
     return voted
   }
 

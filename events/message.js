@@ -4,15 +4,19 @@
 module.exports = async (Bot, msg) => {
   if (!Bot.booted || !msg.member || msg.author.bot) return
 
-  const config = Bot.getConf(msg.guild.id)
-  const access = Bot.verifyAccess(msg, config.modsID)
+  const prefix  = Bot.confs.ensure(msg.guild.id, '~/', 'prefix')
+  const warning = Bot.confs.ensure(msg.guild.id, true, 'warnings')
+  const modsID  = Bot.confs.get(msg.guild.id, 'modsID')
+
+  const access  = Bot.verifyAccess(msg, modsID)
   const mention = `<@${Bot.user.id}>`
 
-  const hasPrefix = msg.content.indexOf(config.prefix) === 0
+  const hasPrefix  = msg.content.indexOf(prefix) === 0
   const hasMention = msg.content.indexOf(mention) === 0
+
   if (!hasPrefix && !hasMention) return
 
-  const amount = hasPrefix ? config.prefix.length : mention.length
+  const amount  = hasPrefix ? prefix.length : mention.length
   const options = msg.content.slice(amount).trim().split(/ +/g)
   const command = options.shift().toLowerCase()
 
@@ -23,7 +27,7 @@ module.exports = async (Bot, msg) => {
   if (cmd) {
     if (access >= cmd.level) cmd.fire(Bot, msg, options, access)
 
-    else if (config.warnings) {
+    else if (warning) {
       const hasLvl = Bot.nameAccess(access)
       const reqLvl = Bot.nameAccess(cmd.level)
       return Bot.reply(msg, Bot.lang.noAccess, reqLvl, hasLvl)
@@ -33,7 +37,9 @@ module.exports = async (Bot, msg) => {
   }
 
   // check for note
-  let note = Bot.getNote(msg.guild.id, command)
-  note = note ? note.split('{msg}').join(options.join( )) : false
-  if (note) return msg.channel.send(note)
+  const notes = Bot.notes.ensure(msg.guild.id, {})
+  if (notes[command]) {
+    const note = notes[command].split('{msg}').join(options.join(' '))
+    return msg.channel.send(note)
+  }
 }

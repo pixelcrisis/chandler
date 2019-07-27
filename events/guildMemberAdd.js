@@ -3,7 +3,7 @@
 
 module.exports = async (Bot, member) => {
 
-  const onjoin = Bot.getConf(member.guild.id, 'onjoin')
+  const onjoin = Bot.confs.get(member.guild.id, 'onjoin')
 
   if (onjoin && onjoin.channel) {
     const channel = member.guild.channels.get(onjoin.channel)

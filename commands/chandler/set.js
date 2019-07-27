@@ -28,25 +28,27 @@ module.exports = {
     const opt = opts.shift().toLowerCase()
     const val = opts.join(' ')
 
+    const guild = msg.guild.id
+
     if (opt == 'prefix') {
-      Bot.setConf(msg.guild.id, 'prefix', val)
+      Bot.confs.set(guild, val, 'prefix')
       return Bot.reply(msg, this.lang.prefix, val)
     }
 
     if (opt == 'mods') {
       const role = Bot.verifyRole(msg, val)
       if (!role) return Bot.reply(msg, Bot.lang.badRole, val)
-      Bot.setConf(msg.guild.id, 'modsID', role.id)
+      Bot.confs.set(guild, role.id, 'modsID')
       return Bot.reply(msg, this.lang.modsID, role.id)
     }
 
     if (opt == 'warnings' || opts == 'warning') {
       if (Bot.yes.includes(val.toLowerCase())) {
-        Bot.setConf(msg.guild.id, 'warnings', true)
+        Bot.confs.set(guild, true, 'warnings')
         return Bot.reply(msg, this.lang.enabled, 'Command Permission Warnings')
       }
       if (Bot.no.includes(val.toLowerCase())) {
-        Bot.setConf(msg.guild.id, 'warnings', false)
+        Bot.confs.set(guild, false, 'warnings')
         return Bot.reply(msg, this.lang.disabled, 'Command Permission Warnings')
       }
     }
@@ -57,25 +59,25 @@ module.exports = {
 
     if (opt == 'onjoin') {
       if (Bot.no.includes(key.toLowerCase())) {
-        Bot.setConf(msg.guild.id, 'onjoin', false)
+        Bot.confs.set(guild, false, 'onjoin')
         return Bot.reply(msg, this.lang.disabled, 'onjoin')
       }
       const channel = Bot.verifyChannel(msg, key)
       if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
       str = str ? str : '{user} joined.'
-      Bot.setConf(msg.guild.id, 'onjoin', { channel: channel.id, message: str })
+      Bot.confs.set(guild, { channel: channel.id, message: str }, 'onjoin')
       return Bot.reply(msg, this.lang.onjoin, channel.id, Bot.escape(str))
     }
 
     if (opt == 'onleave') {
       if (Bot.no.includes(key.toLowerCase())) {
-        Bot.setConf(msg.guild.id, 'onleave', false)
+        Bot.confs.set(guild, false, 'onleave')
         return Bot.reply(msg, this.lang.disabled, 'onleave')
       }
       const channel = Bot.verifyChannel(msg, key)
       if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
       str = str ? str : '{user.name} left.'
-      Bot.setConf(msg.guild.id, 'onleave', { channel: channel.id, message: str })
+      Bot.confs.set(guild, { channel: channel.id, message: str }, 'onleave')
       return Bot.reply(msg, this.lang.onleave, channel.id, Bot.escape(str))
     }
 

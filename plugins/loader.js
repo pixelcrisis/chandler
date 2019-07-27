@@ -1,8 +1,11 @@
-// Chandler File Loader
-// Loading Commands/Events
+// Chandler Loader
+// Loads Command/Event files
+// Loads Data
 
 const { promisify } = require("util")
 const readDir = promisify(require("fs").readdir)
+const Enmap = require('enmap')
+const encfg = { fetchAll: false, autoFetch: true, cloneLevel: 'deep' }
 
 module.exports = (Bot) => {
 
@@ -10,8 +13,14 @@ module.exports = (Bot) => {
 
   require('./reply.js')(Bot)
   require('./utils.js')(Bot)
-  require('./state.js')(Bot)
   require('./zones.js')(Bot)
+
+  // load our data objects
+  Bot.confs = new Enmap({ name: 'confs', ...encfg })
+  Bot.locks = new Enmap({ name: 'locks', ...encfg })
+  Bot.zones = new Enmap({ name: 'zones', ...encfg })
+  Bot.notes = new Enmap({ name: 'notes', ...encfg })
+  Bot.votes = new Enmap({ name: 'votes', ...encfg })
 
   Bot.loadEvents = async () => {
     const files = await readDir('./events/')
@@ -23,15 +32,6 @@ module.exports = (Bot) => {
       Bot.on(name, event.bind(null, Bot))
     }
   }
-
-  // handle node.js events
-  process.on('uncaughtException', (error) => {
-    Bot.log(`UNCAUGHT EXCEPTION\n\`\`\`${error.stack || error}\`\`\``)
-  })
-
-  process.on('unhandledRejection', (error) => {
-    Bot.log(`UNHANDLED REJECTION\n\`\`\`${error.stack || error}\`\`\``)
-  })
 
   Bot.aliases = {}
   Bot.commands = {}
@@ -61,5 +61,14 @@ module.exports = (Bot) => {
     }
     Bot.log(`Loaded ${total} Commands Total.`)
   }
+
+  // handle node.js events
+  process.on('uncaughtException', (error) => {
+    Bot.log(`UNCAUGHT EXCEPTION\n\`\`\`${error.stack || error}\`\`\``)
+  })
+
+  process.on('unhandledRejection', (error) => {
+    Bot.log(`UNHANDLED REJECTION\n\`\`\`${error.stack || error}\`\`\``)
+  })
 
 }

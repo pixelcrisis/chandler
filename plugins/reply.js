@@ -21,7 +21,7 @@ module.exports = (Bot) => {
       data = data.split('{user.name}').join(msg.member.user.username)
     }
     if (msg && msg.guild) {
-      const prefix = Bot.getConf(msg.guild.id, 'prefix')
+      const prefix = Bot.confs.get(msg.guild.id, 'prefix')
       data = data.split('{pre}').join(prefix)
     }
 

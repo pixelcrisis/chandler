@@ -16,7 +16,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const config = Bot.getConf(msg.guild.id)
+    const config = Bot.confs.get(msg.guild.id)
     const result = ['_ _'], self = msg.guild.me, chan = msg.channel
 
     const mods = config.modsID ? `<@&${config.modsID}>` : '`Unset`'

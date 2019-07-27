@@ -22,7 +22,7 @@ module.exports = {
     const chan = Bot.canChannel(msg.guild.me, msg.channel)
     if (!role) return Bot.reply(msg, Bot.lang.cantDoPerms, msg.channel.id)
     if (!chan) return Bot.reply(msg, Bot.lang.cantChannel, msg.channel.id)
-    let curr = Bot.getLock(msg.guild.id, msg.channel.id)
+    let curr = Bot.locks.get(msg.guild.id, msg.channel.id)
     if (curr) return Bot.reply(msg, this.lang.curr)
     
     const perms = msg.channel.permissionOverwrites.array()

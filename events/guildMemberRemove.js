@@ -3,7 +3,7 @@
 
 module.exports = async (Bot, member) => {
 
-  const onleave = Bot.getConf(member.guild.id, 'onleave')
+  const onleave = Bot.confs.get(member.guild.id, 'onleave')
 
   if (onleave && onleave.channel) {
     const channel = member.guild.channels.get(onleave.channel)

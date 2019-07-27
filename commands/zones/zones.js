@@ -17,7 +17,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const user = Bot.getZone(msg.guild.id, msg.author.id)
+    const user = Bot.zones.get(msg.guild.id, msg.author.id)
     if (!user) return Bot.reply(msg, Bot.lang.noZone)
 
     let fields = [] // for embed!

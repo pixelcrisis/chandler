@@ -16,12 +16,12 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const chan = Bot.getConf(msg.guild.id, 'speak')
+    const chan = Bot.confs.get(msg.guild.id, 'speak')
 
     if (opts.length == 1) {
       const newCh = Bot.verifyChannel(msg, opts[0])
       if (!newCh) return Bot.reply(msg, Bot.lang.badChan, opts[0])
-      Bot.setConf(msg.guild.id, 'speak', newCh.id)
+      Bot.confs.set(msg.guild.id, newCh.id, 'speak')
       return Bot.reply(msg, this.lang.curr, newCh.id)
     }
 
