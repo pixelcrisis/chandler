@@ -68,9 +68,7 @@ module.exports = (Bot) => {
     return Bot.commands.get(name) || Bot.commands.get(Bot.aliases.get(name))
   }
 
-  Bot.unloadCommand = (name) => {
-    const cmd = Bot.findCommand(name)
-    if (!cmd) return `Well ${name} didn't exist.`
+  Bot.unloadCommand = (cmd) => {
     let path = `../commands/${cmd.group}/${cmd.name}`
 
     const old = require.cache[require.resolve(path)];
