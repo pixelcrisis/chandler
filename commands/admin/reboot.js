@@ -9,7 +9,7 @@ module.exports = {
     desc: "Reboots the bot."
   },
 
-  fire: function(Bot, msg, opts, lvl) {
+  fire: function(Bot, msg, opts, access) {
 
     msg.react('✅')
     Bot.log("Going Dark.")

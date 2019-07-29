@@ -3,7 +3,90 @@
 
 module.exports = (Bot) => {
 
+  Bot.reply = (msg, data, val1, val2) => {
+    if (!Bot.canChat(msg)) return false
+    const response = Bot.response(msg, data, val1, val2)
+    if (response.length == 1) return msg.channel.send(response[0])
+    for (var i = 0; i < response.length; i++) {
+      msg.channel.send(response[i])
+    }
+  }
+
+  Bot.replyFlash = async (msg, data, val1, val2) => {
+    const flashed = await Bot.reply(msg, data, val1, val2)
+    await Bot.sleep(5000)
+    if (flashed) flashed.delete()
+  }
+
+  Bot.deleteTrigger = (msg) => {
+    if (Bot.canDelete(msg) && Bot.booted && !Bot.chaining) {
+      return msg.delete()
+    }
+  }
+
+  Bot.response = (msg, data, val1, val2) => {
+    let result = [], desc = ''
+    let embed = { author: {} }
+
+    if (typeof data == 'string') {
+      embed.description = Bot.parse(msg, data, val1, val2)
+    }
+
+    else {
+      for (var prop in data) {
+        let it = data[prop]
+
+        if (prop != 'fields') {
+          if (Array.isArray(it)) it = it.join('ch&ler')
+          if (typeof it == 'string') {
+            it = Bot.parse(msg, it, val1, val2)
+            if (it.indexOf('ch&ler') > -1) it = it.split('ch&ler')
+          }
+        }
+
+        if (prop == 'name') embed.author.name = it
+        else if (prop == 'desc') embed.description = it
+        else embed[prop] = it
+      }
+    }
+
+    return Bot.splitResponse(embed)
+  }
+
+  Bot.splitResponse = (data) => {
+    if (!Array.isArray(data.description)) return [ { embed: data } ]
+    let str = '', messages = [], result = []
+    for (var i = 0; i < data.description.length; i++) {
+      if (str) {
+        let len = str.length + data.description[i].length + 2
+        if (len >= 1850) messages.push(str)
+        str = len < 1850 ? `${str}\n${data.description[i]}` : data.description[i]
+      }
+      else str = data.description[i]
+    }
+    if (str) messages.push(str)
+
+    for (var i = 0; i < messages.length; i++) {
+      let embed = JSON.parse(JSON.stringify(data))
+      const footer = { text: `Page ${i + 1}/${messages.length}` }
+      embed.description = messages[i]
+      if (messages.length > 1) embed.footer = footer
+      result.push({ embed })
+    }
+
+    return result
+  }
+
   Bot.escape = (data) => data ? data.split('{').join('{/') : data
+
+  Bot.clean = (data) => {
+    const inspect = (data) => require('util').inspect(data, { depth: 1 })
+    if (typeof data !== 'string') data = inspect(data)
+    data = data.split(Bot.token).join('t0k3n-n0t-f0r-s4l3')
+    data = data.split(Bot.conf.dbl.auth).join('f@keAuth')
+    data = data.split(Bot.conf.dbl.token).join('th1s-0n3-4ls0-n4S')
+    return ['```js', data, '```'].join('\n')
+  }
 
   Bot.parse = (msg, data, val1, val2) => {
     if (typeof data != 'string') return data
@@ -16,83 +99,20 @@ module.exports = (Bot) => {
     data = data.split('{server}').join(Bot.lang.server)
     data = data.split('{ver}').join(Bot.version)
 
-    if (msg && msg.member) {
-      data = data.split('{user}').join(`<@${msg.member.id}>`)
-      data = data.split('{user.id}').join(msg.member.id)
-      data = data.split('{user.name}').join(msg.member.user.username)
-    }
-    if (msg && msg.guild) {
-      const prefix = Bot.confs.get(msg.guild.id, 'prefix')
-      data = data.split('{pre}').join(prefix)
+    if (msg) {
+      data = data.split('{love}').join(Bot.gotLove(msg.author.id))
+      data = data.split('{user}').join(`<@${msg.author.id}>`)
+      data = data.split('{user.id}').join(msg.author.id)
+      data = data.split('{user.name}').join(msg.author.username)
+      if (msg.guild) {
+        const prefix = Bot.confs.get(msg.guild.id, 'prefix')
+        data = data.split('{pre}').join(prefix)
+      }
     }
 
     // unescape escaped parse flags
     data = data.split('{/').join('{')
     return data
-  }
-
-
-  Bot.clean = (data) => {
-    const inspect = (data) => require('util').inspect(data, { depth: 1 })
-    if (typeof data !== 'string') data = inspect(data)
-    data = data.split(Bot.token).join('t0k3n-n0t-f0r-s4l3')
-    data = data.split(Bot.conf.dbl.auth).join('f@keAuth')
-    data = data.split(Bot.conf.dbl.token).join('th1s-0n3-4ls0-n4S')
-    return ['```js', data, '```'].join('\n')
-  }
-
-  Bot.reply = (msg, data, val1, val2) => {
-    if (!Bot.canChat(msg.guild.me, msg.channel)) return false
-
-    let embed = { author: {} }
-    if (typeof data == 'string') {
-      embed.description = Bot.parse(msg, data, val1, val2)
-    } else {
-      for (var prop in data) {
-        if (prop != 'fields') {
-          data[prop] = Bot.parse(msg, data[prop], val1, val2)
-        }
-        if (prop == 'name') embed.author.name = data[prop]
-        else if (prop == 'desc') embed.description = data[prop]
-        else embed[prop] = data[prop]
-      }
-    }
-    return msg.channel.send({ embed })
-  }
-
-  Bot.flashReply = async (msg, data, val1, val2) => {
-    const flashed = await Bot.reply(msg, data, val1, val2)
-    await Bot.sleep(5000)
-    if (flashed) flashed.delete()
-  }
-
-  Bot.listReply = (msg, title, data, join = '\n') => {
-    if (!Bot.canChat(msg.guild.me, msg.channel)) return false
-    // due to discord text limits
-    // if we're sending array data
-    // split it at the 2k limit
-    let text = '', messages = []
-    for (var i = 0; i < data.length; i++) {
-      let message = Bot.parse(msg, data[i])
-      if (!text) text = message
-      else {
-        let len = text.length + message.length + join.length
-        if (len >= 1850) messages.push(text)
-        text = len < 1850 ? `${text}${join}${message}` : `${message}`        
-      }
-    }
-    if (text) messages.push(text)
-    // now we have an array of messages plit at 2k characters
-    // now we print them one by one
-    for (var i = 0; i < messages.length; i++) {
-      let footer = `Page ${i + 1}/${messages.length}`
-      let embed = {
-        description: messages[i],
-        author: { name: Bot.parse(msg, title) },
-        footer: { text: messages.length > 1 ? footer : '' }
-      }
-      return msg.channel.send({ embed })
-    }
   }
 
 }

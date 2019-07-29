@@ -30,30 +30,28 @@ module.exports = {
     if (opts && !when) user = Bot.verifyUser(msg, opts)
     if (opts && !when && !user) return Bot.reply(msg, Bot.lang.badArgs, opts)
 
-    let title = 'Current Time', result = []
+    let response = { title: 'Current Time', desc: [] }
 
     // if user, just look them up
     if (user) {
       const target = Bot.zones.get(msg.guild.id, user.id)
       if (!target) return Bot.reply(msg, this.lang.user, user.id)
       const time = Bot.timeFor(target)
-      result.push(`**${time.timeStr}** for <@${user.id}> in ${time.nameStr}`)
+      response.desc.push(`**${time.timeStr}** for <@${user.id}> in ${time.nameStr}`)
     }
 
     // else get all the zones
     else {
-      if (when) title = `Time @ ${opts}`
+      if (when) response.title = `Time @ ${opts}`
       const table = Bot.sortTimeZones(zones, when)
       for (var i = 0; i < table.length; i++) {
         let t = table[i]
         let ping = t.name == zone.split('/')[1] ? `<@${msg.author.id}>` : ''
-        result.push(`**${t.time}** - ${t.name} (${t.users.length}) ${ping}`)
+        response.desc.push(`**${t.time}** - ${t.name} (${t.users.length}) ${ping}`)
       }
     }
 
-    result.push(Bot.gotLove(msg.author.id, '`{pre}help time`'))
-
-    Bot.listReply(msg, title, result)
+    Bot.reply(msg, response)
     return Bot.deleteTrigger(msg)
   },
 

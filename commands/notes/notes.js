@@ -16,14 +16,13 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    let list = []
     const notes = Bot.notes.get(msg.guild.id)
+    let response = { name: `${msg.guild.name} Notes`, desc: [] }
     for (var title in notes) {
-      list.push("**" + title + "**: `" + notes[title] + "`")
+      response.desc.push("**" + title + "**: `" + notes[title] + "`")
     }
-    if (!list.length) return Bot.reply(msg, this.lang.none)
-    list.push(Bot.gotLove(msg.author.id))
-    return Bot.listReply(msg, "Server Notes", list)
+    if (!response.desc.length) return Bot.reply(msg, this.lang.none)
+    return Bot.reply(msg, response)
   },
 
   test: async function(Bot, msg, data) {

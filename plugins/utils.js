@@ -24,18 +24,21 @@ module.exports = (Bot) => {
     if (Bot._logger) Bot._logger.send(message)
   }
 
+  Bot.getColor = (str) => {
+    if (val.indexOf('#') != 0) return 0
+    val = val.slice(1).trim()
+    if (val.length == 3) {
+      val = `${val[0]}${val[0]}${val[1]}${val[1]}${val[2]}${val[2]}`
+    }
+    return val.length == 6 ? parseInt(val, 16) : 0
+  }
+
   Bot.parseEmbed = (str) => {
     try {
       let obj = JSON.parse(str)
       return obj.embed ? obj : { embed: obj }
     }
     catch(e) { return false }
-  }
-
-  Bot.deleteTrigger = (msg) => {
-    if (Bot.canDelete(msg.guild.me, msg.channel) && Bot.booted && !Bot.chaining) {
-      return msg.delete()
-    }
   }
 
   Bot.stripIDs = (str) => {
@@ -94,20 +97,24 @@ module.exports = (Bot) => {
     return role
   }
 
-  Bot.canChat = (self, channel) => {
-    return channel.permissionsFor(self).has("SEND_MESSAGES", false)
+  Bot.canChat = (msg, channel) => {
+    channel = channel ? channel : msg.channel
+    return channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES", false)
   }
 
-  Bot.canRoles = (self, channel) => {
-    return channel.permissionsFor(self).has("MANAGE_ROLES", false)
+  Bot.canRoles = (msg, channel) => {
+    channel = channel ? channel : msg.channel
+    return channel.permissionsFor(msg.guild.me).has("MANAGE_ROLES", false)
   }
 
-  Bot.canDelete = (self, channel) => {
-    return channel.permissionsFor(self).has("MANAGE_MESSAGES", false)
+  Bot.canDelete = (msg, channel) => {
+    channel = channel ? channel : msg.channel
+    return channel.permissionsFor(msg.guild.me).has("MANAGE_MESSAGES", false)
   }
 
-  Bot.canChannel = (self, channel) => {
-    return channel.permissionsFor(self).has("MANAGE_CHANNELS", false)
+  Bot.canChannel = (msg, channel) => {
+    channel = channel ? channel : msg.channel
+    return channel.permissionsFor(msg.guild.me).has("MANAGE_CHANNELS", false)
   }
 
 }

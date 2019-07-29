@@ -10,11 +10,13 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    let list = [], roles = msg.guild.roles.array()
+    const roles  = msg.guild.roles.array()
+    let response = { name: `${msg.guild.name} Roles`, desc: [] } 
+
     for (var i = 0; i < roles.length; i++) {
-      list.push("`" + roles[i].id + "` - " + roles[i].name)
+      response.desc.push("`" + roles[i].id + "` - " + roles[i].name)
     }
-    return Bot.listReply(msg, "Server Roles", list)
+    return Bot.reply(msg, response)
   },
 
   test: async function(Bot, msg, data) {

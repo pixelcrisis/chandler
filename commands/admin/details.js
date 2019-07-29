@@ -9,7 +9,7 @@ module.exports = {
     desc: "Reports back the details of the bot."
   },
 
-  fire: function(Bot, msg, opts, lvl) {
+  fire: function(Bot, msg, opts, access) {
 
     Bot.exec('pm2 list', (err, yay, nay) => {
       if (err) return Bot.reply(msg, 'Nay')

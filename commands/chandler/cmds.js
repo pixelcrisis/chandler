@@ -11,22 +11,20 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, access) {
-    let pool = {}, list = []
+    let pool = {}, response = { name: "Chandler Commands", desc: [] }
+    const commands = Bot.commands.filter(cmd => access >= cmd.level)
 
-    for (var cmd in Bot.commands) {
-      const level = Bot.commands[cmd].level
-      const named = Bot.nameAccess(level)
-
-      if (access >= level) {
-        if (!pool[named]) pool[named] = []
-        pool[named].push(cmd)
-      }
-    }
+    commands.forEach(cmd => {
+      const level = Bot.nameAccess(cmd.level)
+      if (!pool[level]) pool[level] = [ cmd.name ]
+      else pool[level].push(cmd.name)
+    })
 
     for (var level in pool) {
-      list.push(`**${level}**: ${pool[level].join(', ')}`)
+      response.desc.push(`**${level}**: ${pool[level].join(', ')}`)
     }
-    return Bot.listReply(msg, "Chandler Commands", list, '\n')
+
+    return Bot.reply(msg, response)
   },
 
   test: async function(Bot, msg, data) {

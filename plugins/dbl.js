@@ -17,6 +17,7 @@ module.exports = (Bot) => {
   }
 
   Bot.hasVoted = (user) => {
+    if (!user) return false
     if (!Bot.dbl) return true
     const now = Date.now()
     const lastVote = Bot.votes.ensure(user, 0)

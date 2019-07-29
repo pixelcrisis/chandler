@@ -16,18 +16,17 @@ module.exports = {
 
   help: {
     name: "{pre}set [option] [value]",
-    desc: "*Available Options:*\n\n" +
-          "**prefix** - Changes Chandler's prefix in the server.\n" +
-          "`{pre}set prefix ~`\n\n" +
-          "**mods** - Marks a role as moderators.\n" +
-          "`{pre}set mods @Staff`\n\n" +
-          "**warnings** - Toggles command permission warnings.\n" +
-          "`{pre}set warnings on/off`\n\n" +
-          "**onjoin** - set user logging in a channel with an optional message.\n" +
-          "`{pre}set onjoin #channel {/user} joined.`\n\n" +
-          "**onleave** - set user logging in a channel with an optional message.\n" +
-          "`{pre}set onleave #channel {/user.name} left.`\n\n" +
-          "See current values with `{pre}status`"
+    desc: "See current values with `{pre}status`\n\n" +
+          "`{pre}set prefix ~`\n" +
+          "Changes Chandler's prefix in the server.\n\n" +
+          "`{pre}set mods @Staff`\n" +
+          "Marks a role as moderators.\n\n" +
+          "`{pre}set warnings on/off`\n" +
+          "Toggles command permission warnings.\n\n" +
+          "`{pre}set onjoin #channel {/user} joined.`\n" +
+          "set user logging in a channel with an optional message.\n\n" +
+          "`{pre}set onleave #channel {/user.name} left.`\n" +
+          "set user logging in a channel with an optional message."
   },
 
   fire: function(Bot, msg, opts, lvl) {
@@ -35,60 +34,62 @@ module.exports = {
     const opt = opts.shift().toLowerCase()
     const val = opts.join(' ')
 
-    const guild = msg.guild.id
+    if (this[`__${opt}`]) return this[`__${opt}`](Bot, msg, val, opt)
+    if (opt == 'warning') return this.__warnings(Bot, msg, val)
+    return Bot.reply(msg, this.help)
+  },
 
-    if (opt == 'prefix') {
-      Bot.confs.set(guild, val, 'prefix')
-      return Bot.reply(msg, this.lang.prefix, val)
+  __prefix: function(Bot, msg, val) {
+    Bot.confs.set(msg.guild.id, val, 'prefix')
+    return Bot.reply(msg, this.lang.prefix, val)
+  },
+
+  __mods: function(Bot, msg, val) {
+    const role = Bot.verifyRole(msg, val)
+    if (!role) return Bot.reply(msg, Bot.lang.badRole, val)
+    Bot.confs.set(msg.guild.id, role.id, 'modsID')
+    return Bot.reply(msg, this.lang.modsID, role.id)
+  },
+
+  __warnings: function(Bot, msg, val) {
+    if (Bot.yes.includes(val.toLowerCase())) {
+      Bot.confs.set(msg.guild.id, true, 'warnings')
+      return Bot.reply(msg, this.lang.enabled, 'Command Permission Warnings')
     }
-
-    if (opt == 'mods') {
-      const role = Bot.verifyRole(msg, val)
-      if (!role) return Bot.reply(msg, Bot.lang.badRole, val)
-      Bot.confs.set(guild, role.id, 'modsID')
-      return Bot.reply(msg, this.lang.modsID, role.id)
+    if (Bot.no.includes(val.toLowerCase())) {
+      Bot.confs.set(msg.guild.id, false, 'warnings')
+      return Bot.reply(msg, this.lang.disabled, 'Command Permission Warnings')
     }
+  },
 
-    if (opt == 'warnings' || opts == 'warning') {
-      if (Bot.yes.includes(val.toLowerCase())) {
-        Bot.confs.set(guild, true, 'warnings')
-        return Bot.reply(msg, this.lang.enabled, 'Command Permission Warnings')
-      }
-      if (Bot.no.includes(val.toLowerCase())) {
-        Bot.confs.set(guild, false, 'warnings')
-        return Bot.reply(msg, this.lang.disabled, 'Command Permission Warnings')
-      }
-    }
-
+  __onjoin: function(Bot, msg, val, opt) {
     const getKey = val.split(' ')
     let key = getKey.shift().toLowerCase()
     let str = getKey.join(' ')
-
-    if (opt == 'onjoin') {
-      if (Bot.no.includes(key.toLowerCase())) {
-        Bot.confs.set(guild, false, 'onjoin')
-        return Bot.reply(msg, this.lang.disabled, 'onjoin')
-      }
-      const channel = Bot.verifyChannel(msg, key)
-      if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
-      str = str ? str : '{user} joined.'
-      Bot.confs.set(guild, { channel: channel.id, message: str }, 'onjoin')
-      return Bot.reply(msg, this.lang.onjoin, channel.id, Bot.escape(str))
+    if (Bot.no.includes(key.toLowerCase())) {
+      Bot.confs.set(msg.guild.id, false, 'onjoin')
+      return Bot.reply(msg, this.lang.disabled, 'onjoin')
     }
+    const channel = Bot.verifyChannel(msg, key)
+    if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
+    str = str ? str : '{user} joined.'
+    Bot.confs.set(msg.guild.id, { channel: channel.id, message: str }, 'onjoin')
+    return Bot.reply(msg, this.lang.onjoin, channel.id, Bot.escape(str))
+  },
 
-    if (opt == 'onleave') {
-      if (Bot.no.includes(key.toLowerCase())) {
-        Bot.confs.set(guild, false, 'onleave')
-        return Bot.reply(msg, this.lang.disabled, 'onleave')
-      }
-      const channel = Bot.verifyChannel(msg, key)
-      if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
-      str = str ? str : '{user.name} left.'
-      Bot.confs.set(guild, { channel: channel.id, message: str }, 'onleave')
-      return Bot.reply(msg, this.lang.onleave, channel.id, Bot.escape(str))
+  __onleave: function(Bot, msg, val, opt) {
+    const getKey = val.split(' ')
+    let key = getKey.shift().toLowerCase()
+    let str = getKey.join(' ')
+    if (Bot.no.includes(key.toLowerCase())) {
+      Bot.confs.set(msg.guild.id, false, 'onleave')
+      return Bot.reply(msg, this.lang.disabled, 'onleave')
     }
-
-    return Bot.reply(msg, this.help)
+    const channel = Bot.verifyChannel(msg, key)
+    if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
+    str = str ? str : '{user.name} left.'
+    Bot.confs.set(msg.guild.id, { channel: channel.id, message: str }, 'onleave')
+    return Bot.reply(msg, this.lang.onleave, channel.id, Bot.escape(str))
   },
 
   test: async function(Bot, msg, data) {

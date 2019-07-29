@@ -9,7 +9,7 @@ module.exports = {
     desc: "Updates the bot."
   },
 
-  fire: function(Bot, msg, opts, lvl) {
+  fire: function(Bot, msg, opts, access) {
 
     Bot.exec('git pull', async (err, yay, nay) => {
       if (err) return Bot.reply(msg, 'Nay')

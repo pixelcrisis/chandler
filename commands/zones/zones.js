@@ -7,7 +7,7 @@ module.exports = {
   lang: {
     name: "Active Time Zones",
     line: "··································",
-    full: "Too many users in this guild, try `{pre}time`"
+    full: "Too many users in this server, try `{pre}time`"
   },
 
   help: {
@@ -41,7 +41,7 @@ module.exports = {
 
     Bot.reply(msg, {
       name: this.lang.name,
-      desc: Bot.gotLove(msg.author.id, this.lang.line),
+      desc: this.lang.line,
       fields: fields
     })
 

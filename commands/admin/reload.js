@@ -9,7 +9,7 @@ module.exports = {
     desc: "Reloads a cmd."
   },
 
-  fire: function(Bot, msg, opts, lvl) {
+  fire: function(Bot, msg, opts, access) {
 
     if (opts.length) {
       const cmd = Bot.findCommand(opts[0])

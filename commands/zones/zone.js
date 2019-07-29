@@ -18,9 +18,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const loved = Bot.gotLove(msg.author.id)
-    const help = { name: this.help.name, desc: this.help.desc + '\n' + loved }
-    if (!opts.length) return Bot.reply(msg, help)
+    if (!opts.length) return Bot.reply(msg, this.help)
 
     let zone = Bot.findTimeZone(opts)
     if (!zone) return Bot.reply(msg, Bot.lang.badArgs, opts.join(' '))

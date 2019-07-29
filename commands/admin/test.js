@@ -20,7 +20,7 @@ module.exports = {
     channel: '596837986356690954'
   },
 
-  fire: async function(Bot, msg, opts, lvl) {
+  fire: async function(Bot, msg, opts, access) {
     if (!opts.length) return Bot.reply(msg, this.help)
 
     Bot.reply(msg, this.lang.start, opts.length)

@@ -9,7 +9,7 @@ module.exports = {
     desc: "If you don't know what this does..."
   },
 
-  fire: async function(Bot, msg, opts, lvl) {
+  fire: async function(Bot, msg, opts, access) {
     try {
       const ran = await eval(opts.join(' '))
       msg.channel.send(Bot.clean(ran))

@@ -17,6 +17,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     const config = Bot.confs.get(msg.guild.id)
     const self = msg.guild.me, chan = msg.channel
+    const response = { name: `${msg.guild.name} Status`, desc: [] }
 
     const mods = config.modsID ? `<@&${config.modsID}>` : '`Unset`'
     let onjoin = '`false`', onleave = '`false`'
@@ -41,7 +42,7 @@ module.exports = {
 
     const perms = `${hasRoles}${canRoles}${hasChans}${canChans}${hasMsgs}${canMsgs}`
 
-    let status = []
+    let status = response.desc
     status.push("Change values with **set**. Use `{pre}help set` for more info.\n")
     status.push("**mods**: " + mods)
     status.push("**warnings**: `" + config.warnings + "`")
@@ -49,7 +50,7 @@ module.exports = {
     status.push("**onleave**: `" + onleave + "`\n")
     status.push(`**Permissions**: ${perms} - ${hasAdmin} - [Wat?](${Bot.lang.guides})`)
 
-    Bot.listReply(msg, `${msg.guild.name} Status`, status)
+    Bot.reply(msg, response)
   },
 
   test: async function(Bot, msg, data) {

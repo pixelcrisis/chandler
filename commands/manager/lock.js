@@ -27,7 +27,7 @@ module.exports = {
     
     const perms = msg.channel.permissionOverwrites.array()
     const store = { name: msg.channel.name, perms }
-    Bot.setLock(msg.guild.id, msg.channel.id, store)
+    Bot.locks.set(msg.guild.id, store, msg.channel.id)
 
     perms.forEach(perm => perm.delete())
 

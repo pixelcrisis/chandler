@@ -70,7 +70,6 @@ module.exports = (Bot) => {
 
   Bot.unloadCommand = (cmd) => {
     let path = `../commands/${cmd.group}/${cmd.name}`
-
     const old = require.cache[require.resolve(path)];
     delete require.cache[require.resolve(`${path}.js`)];
     for (let i = 0; i < old.parent.children.length; i++) {
