@@ -3,6 +3,7 @@
 // Added to main Bot object.
 
 const Moment = require('moment')
+const { Permissions } = require('discord.js')
 
 module.exports = (Bot) => {
 
@@ -16,6 +17,8 @@ module.exports = (Bot) => {
   Bot.sleep = require("util").promisify(setTimeout)
   Bot.when = time => Moment(time).fromNow()
   // use this to turn timestamps into "x ago"
+
+  Bot.getPerms = (str) => new Permissions(str)
 
   Bot.log = (message) => {
     console.info(message)

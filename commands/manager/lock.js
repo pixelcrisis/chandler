@@ -14,7 +14,7 @@ module.exports = {
     desc: "Locks the current channel.\n" +
           "Cache channel permissions and replace with:\n\n" +
           "`@everyone` - `Send Messages: False`\n\n" +
-          "Restore with `>unlock`"
+          "Restore with `{pre}unlock`"
   },
 
   fire: async function(Bot, msg, opts, lvl) {
@@ -26,20 +26,27 @@ module.exports = {
     if (curr) return Bot.reply(msg, this.lang.curr)
     
     const perms = msg.channel.permissionOverwrites.array()
-    const store = { name: msg.channel.name, perms }
+    const store = { name: msg.channel.name, topic: msg.channel.topic, perms }
     Bot.locks.set(msg.guild.id, store, msg.channel.id)
 
-    perms.forEach(perm => perm.delete())
+    const denied = (id) => {
+      let view = msg.channel.permissionsFor(id).has('READ_MESSAGES')
+      return view ? [ 'SEND_MESSAGES' ] : [ 'SEND_MESSAGES', 'READ_MESSAGES' ]
+    }
 
-    const everyone = msg.guild.defaultRole
-    await msg.channel.setName('locked')
-    await msg.channel.replacePermissionOverwrites({
-      reason: "Channel was locked by Chandler.",
-      overwrites: [
-        { id: everyone, denied: ['SEND_MESSAGES'] },
-        { id: Bot.user.id, allowed: ['SEND_MESSAGES'] }
-      ]
+    let overwrites = []
+    perms.forEach(perm => {
+      perm.denied.add('SEND_MESSAGES')
+      perm.allowed.remove('SEND_MESSAGES')
+      overwrites.push(perm)
+      perm.delete()
     })
+
+    overwrites.push({ id: Bot.user.id, allow: ['SEND_MESSAGES']})
+
+    await msg.channel.setTopic(msg.channel.name)
+    await msg.channel.setName('locked')
+    await msg.channel.replacePermissionOverwrites({ reason: "Locked.", overwrites })
 
     const reason = opts.length ? opts.join(' ') : 'No Reason'
     return Bot.reply(msg, this.lang.done, reason)

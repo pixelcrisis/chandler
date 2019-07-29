@@ -1,5 +1,3 @@
-const { Permissions } = require('discord.js')
-
 module.exports = {
 
   name: 'unlock',
@@ -29,12 +27,13 @@ module.exports = {
     for (var i = 0; i < curr.perms.length; i++) {
       perms.push({
         id: curr.perms[i].id,
-        deny: new Permissions(curr.perms[i].deny),
-        allow: new Permissions(curr.perms[i].allow)
+        deny: Bot.getPerms(curr.perms[i].deny),
+        allow: Bot.getPerms(curr.perms[i].allow)
       })
     }
     
     await msg.channel.setName(curr.name)
+    await msg.channel.setTopic(curr.topic)
     await msg.channel.replacePermissionOverwrites({
       overwrites: perms, reason: "Channel was unlocked by Chandler."
     })
