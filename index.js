@@ -10,10 +10,10 @@
 const Discord = require('discord.js')
 const Bot = new Discord.Client()
 
-Bot.conf = require('./config.json')
+Bot.conf = require('./config/config.json')
 // general system language
 // every command also has its own lang object
-Bot.lang = require('./language.json')
+Bot.lang = require('./config/language.json')
 // we need this for some system commands
 Bot.exec = require('child_process').exec
 
