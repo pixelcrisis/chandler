@@ -1,5 +1,2 @@
 .DS_Store
-TODO.md
 node_modules
-config/config.json
-data/*
