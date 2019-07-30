@@ -4,18 +4,17 @@
 module.exports = async (Bot, msg) => {
   if (!Bot.booted || !msg.member || msg.author.bot) return
 
-  const prefix  = Bot.confs.ensure(msg.guild.id, '~/', 'prefix')
-  const warning = Bot.confs.ensure(msg.guild.id, true, 'warnings')
-  const modsID  = Bot.confs.get(msg.guild.id, 'modsID')
+  const defaults = { prefix: '~/', warnings: true }
+  const config = Bot.confs.ensure(msg.guild.id, defaults)
 
-  const access  = Bot.verifyAccess(msg, modsID)
+  const access  = Bot.verifyAccess(msg, config.modsID)
   const mention = `<@${Bot.user.id}>`
 
-  const hasPrefix  = msg.content.indexOf(prefix) === 0
+  const hasPrefix  = msg.content.indexOf(config.prefix) === 0
   const hasMention = msg.content.indexOf(mention) === 0
 
   if (!hasPrefix && !hasMention) return
-  const trim  = hasPrefix ? prefix.length : mention.length
+  const trim  = hasPrefix ? config.prefix.length : mention.length
 
   const chained = msg.content.split(' && ')
   if (chained.length > 3) return Bot.reply(msg, Bot.lang.badChain)
@@ -41,7 +40,7 @@ module.exports = async (Bot, msg) => {
     else {
       if (access >= cmd.level) await cmd.fire(Bot, msg, options, access)
 
-      else if (warning) {
+      else if (config.warnings) {
         const hasLvl = Bot.nameAccess(access)
         const reqLvl = Bot.nameAccess(cmd.level)
         return Bot.reply(msg, Bot.lang.noAccess, reqLvl, hasLvl)
