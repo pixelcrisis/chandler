@@ -16,7 +16,7 @@
   "cantChannel": "Oops! I can't manage channel <#{val1}>",
   "cantDoPerms": "Oops! I can't manage roles in <#{val1}>",
 
-  "gotLove": "[Vote If You Love Me <3]({vote})",
+  "gotLove": "[Vote If U <3 Me](https://discordbots.org/bot/596194094275887116/vote)",
 
   "docs": "https://chandler.12px.io",
   "guides": "https://chandler.12px.io/guides.html",

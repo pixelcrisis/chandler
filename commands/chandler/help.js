@@ -12,16 +12,18 @@ module.exports = {
       desc: "`{pre}commands` to see commands you can use.\n" +
             "`{pre}help command` will help with any `command`\n\n" +
             "Track times with `{pre}time` and `{pre}zone`\n\n" +
-            "{val1} [Online Docs]({docs}) | [Invite Link]({invite}) | [Support + Suggestions Server]({server})\n{love}"
+            "{val1} {val2}"
     },
+    links: "\n\n[Docs]({docs}) | [Invite Me]({invite}) | " +
+          "[Help Server]({server}) | {love}",
     extra: "See config details with `{pre}status`\n" +
            "Set custom commands with `{pre}help note`\n" +
-           "Set your server rules with `{pre}help rules`\n\n"
+           "Set your server rules with `{pre}help rules`"
   },
 
   help: {
     name: "{pre}help (command)",
-    desc: "Without a `command`, returns a link to the website and support server. " +
+    desc: "Without a `command`, returns general support information. " +
           "Otherwise, returns the help documentation for `command`"
   },
 
@@ -31,7 +33,7 @@ module.exports = {
       // print the general response
       // include status command if admin+
       let extra = access >= 5 ? this.lang.extra : ''
-      return Bot.reply(msg, this.lang.help, extra)
+      return Bot.reply(msg, this.lang.help, extra, this.lang.links)
     }
     // otherwise get the help message for a command
     else if (opts.length == 1) {
@@ -40,6 +42,7 @@ module.exports = {
         let help = cmd.help
         if (cmd.helpMod && access >= 3) help = cmd.helpMod
         if (cmd.helpAdmin && access >= 5) help = cmd.helpAdmin
+        help.desc += this.lang.links
         return Bot.reply(msg, help)
       }
     }
