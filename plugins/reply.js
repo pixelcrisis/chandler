@@ -97,6 +97,7 @@ module.exports = (Bot) => {
     data = data.split('{invite}').join(Bot.lang.invite)
     data = data.split('{docs}').join(Bot.lang.docs)
     data = data.split('{server}').join(Bot.lang.server)
+    data = data.split('{vote}').join(Bot.lang.vote)
     data = data.split('{ver}').join(Bot.version)
 
     if (msg) {

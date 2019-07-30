@@ -1,18 +1,18 @@
 module.exports = {
 
-  name: 'clear',
+  name: 'rmrf',
   
   level: 3,
-  alias: ['clean', 'delete', 'remove'],
 
   lang: {
-    done: "Cleared {val1} Messages.",
-    over: "Can only clear 99 messages at a time.",
-    old: "These messages are over 14 days old, discord won't let me bulk delete them. Try using `{pre}rmrf` instead"
+    done: "Removed {val1} Messages.",
+    over: "Can only remove 99 messages at a time.",
+    start: "Deleting messages, please wait...",
+    vote: "[You'll need to vote]({vote}) to use `{pre}rmrf`, as it is an intensive process."
   },
 
   help: {
-    name: "{pre}clear [amount]",
+    name: "{pre}rmrf [amount]",
     desc: "Delete `amount` of messages from the channel.\n" +
           "Due to discord limits, can only delete 99 messages at a time."
   },
@@ -21,32 +21,37 @@ module.exports = {
     const can = Bot.canDelete(msg.guild.me, msg.channel)
     if (!can) return Bot.reply(msg, Bot.lang.cantDoClear, msg.channel.id)
     if (!opts.length || opts.length > 1) return Bot.reply(msg, this.help)
+    if (!Bot.hasVoted(msg.author.id)) return Bot.reply(msg, this.lang.vote)
     const amount = parseInt(opts.shift())
     if (isNaN(amount)) return Bot.reply(msg, this.help)
     if (amount > 99) return Bot.reply(msg, this.lang.over)
 
+    Bot.booted = false
+    msg.channel.startTyping()
     const fetched = await msg.channel.fetchMessages({ limit: amount + 1 })
-    
-    msg.channel.bulkDelete(fetched)
-      .then(msgs => Bot.replyFlash(msg, this.lang.done, amount))
-      .catch(err => Bot.replyFlash(msg, this.lang.old))
+    const started = await Bot.reply(msg, this.lang.start)
+    for (const msg of fetched) { await msg[1].delete() }
+    started.delete()
+    Bot.replyFlash(msg, this.lang.done, amount)
+    Bot.booted = true
+    msg.channel.stopTyping()
   },
 
   test: async function(Bot, msg, data) {
     Bot.reply(msg, {
-      name: "Testing {pre}clear",
-      desc: "`{pre}clear 2` - Cleared Messages\n" +
-            "`{pre}clear arg` - Help",
+      name: "Testing {pre}rmrf",
+      desc: "`{pre}rmrf 2` - Removed Messages\n" +
+            "`{pre}rmrf arg` - Help",
       color: 16549991
     })
 
     await msg.channel.send('Deleted 1')
     await msg.channel.send('Deleted 2')
-    await msg.channel.send('sim >clear')
+    await msg.channel.send('sim >rmrf')
     await this.fire(Bot, msg, ['2'])
     await this.fire(Bot, msg, [])
     
-    return Bot.reply(msg, "{pre}clear test complete.")
+    return Bot.reply(msg, "{pre}rmrf test complete.")
   }
 
 }
