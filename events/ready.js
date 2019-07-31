@@ -28,6 +28,6 @@ module.exports = async (Bot) => {
   Bot.statusUpdates = setInterval(Bot.updateStatus, fiveMin)
 
   Bot.booted = true
-  Bot.log("Loaded Everything, Booted Up.")
+  Bot.log("Loaded Everything, Booted Up v" + Bot.version)
 
 }
