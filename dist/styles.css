@@ -1,0 +1,66 @@
+.content {
+  padding: 100px 0;
+}
+.chunk {;
+  margin: 0 auto;
+  max-width: 700px
+}
+.navbar-brand img {
+  width: 60px;
+  margin: -10px 0;
+}
+
+.accordion {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.accordion h5 {
+  margin-top: 30px;
+}
+code {
+  color: #fff;
+}
+.card-header {
+  cursor: pointer;
+}
+.badge {
+  margin-left: 15px;
+}
+.alias, .example, .options, .outputs {
+  display: block;
+  margin-top: 15px;
+}
+.alias, .example {
+  color: #00bc8c;
+}
+.options, .outputs {
+  color: #3498DB;
+}
+.alias::before, .example::before, .options::before, .outputs::before {
+  color: #999;
+}
+.alias::before {
+  content: "Alias: ";
+}
+.example::before {
+  content: "Example: ";
+}
+.options::before {
+  content: "Options: ";
+}
+.outputs::before {
+  content: "Outputs: ";
+}
+
+#framed {
+  width: 100%;
+  height: 1450px;
+}
+
+@media (min-width: 992px) {
+  #framed { height: 950px; }
+}
+
+@media (min-width: 1199px) {
+  #framed { height: 875px; }
+}

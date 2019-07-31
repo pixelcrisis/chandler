@@ -1,5 +1,19 @@
 {
+  "poi": {
+    "output": {
+      "html": {
+        "title": "Chandler Docs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "poi",
+    "local": "poi --serve",
+    "deploy": "git subtree split --prefix dist -b gh-pages && git push -f origin gh-pages:gh-pages && git branch -D gh-pages"
+  },
   "devDependencies": {
-    "poi": "^12.7.1"
+    "poi": "^12.7.1",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
   }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- HTML Meta Tags -->
+  <title>Chandler - A Discord Bot</title>
+
+  <link rel="shortcut icon" href="/logo.png" />
+  <meta name="description" content="Chandler handles channels. He can lock them, move conversations between them. He also keeps track of users's timezones.">
+
+  <!-- Google / Search Engine Tags -->
+  <meta itemprop="name" content="Chandler - A Discord Bot">
+  <meta itemprop="description" content="Chandler handles channels. He can lock them, move conversations between them. He also keeps track of users's timezones.">
+  <meta itemprop="image" content="/icon.png">
+
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="http://chandler.12px.io">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Chandler - A Discord Bot">
+  <meta property="og:description" content="Chandler handles channels. He can lock them, move conversations between them. He also keeps track of users's timezones.">
+  <meta property="og:image" content="/icon.png">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chandler - A Discord Bot">
+  <meta name="twitter:description" content="Chandler handles channels. He can lock them, move conversations between them. He also keeps track of users's timezones.">
+  <meta name="twitter:image" content="/icon.png">
+
+  <!-- Meta Tags Generated via http://heymeta.com -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- We Use Bootstrap Cuase I'm Lazy -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= html.title %></title>
+
+  <% if (pkg.description) { %>
+    <meta name="description" content="<%= pkg.description %>">
+  <% } %>
+
+</head>
+<body>
+  <noscript>
+    We're sorry but <%= html.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.
+  </noscript>
+  <div id="app"></div>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
