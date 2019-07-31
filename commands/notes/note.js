@@ -26,7 +26,8 @@ module.exports = {
     const isCommand = Bot.findCommand(command)
     if (isCommand) return Bot.reply(msg, this.lang.command, command)
 
-    const curr = Bot.notes.get(msg.guild.id, command)
+    const notes = Bot.notes.ensure(msg.guild.id, {})
+    const curr = notes[command]
     Bot.notes.set(msg.guild.id, message, command)
 
     const oldMsg = curr ? Bot.escape(curr) : curr

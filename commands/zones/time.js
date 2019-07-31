@@ -17,10 +17,10 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const zone = Bot.zones.get(msg.guild.id, msg.author.id)
+    const zones = Bot.zones.ensure(msg.guild.id, {})
+    const zone = zones[msg.author.id]
     if (!zone) return Bot.reply(msg, Bot.lang.noZone)
 
-    let zones = Bot.zones.get(msg.guild.id)
     opts = opts.join(' ')
 
     // find time? or user?
@@ -34,7 +34,7 @@ module.exports = {
 
     // if user, just look them up
     if (user) {
-      const target = Bot.zones.get(msg.guild.id, user.id)
+      const target = zones[user.id]
       if (!target) return Bot.reply(msg, this.lang.user, user.id)
       const time = Bot.timeFor(target)
       response.desc.push(`**${time.timeStr}** for <@${user.id}> in ${time.nameStr}`)

@@ -17,12 +17,11 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const user = Bot.zones.get(msg.guild.id, msg.author.id)
+    const zones = Bot.zones.ensure(msg.guild.id, {})
+    const user = zones[msg.author.id]
     if (!user) return Bot.reply(msg, Bot.lang.noZone)
 
     let fields = [] // for embed!
-    
-    const zones = Bot.zones.get(msg.guild.id)
     const table = Bot.sortTimeZones(zones)
 
     if (table.length > 30) return Bot.reply(msg, this.lang.full)
