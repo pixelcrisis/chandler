@@ -179,7 +179,7 @@ module.exports = {
     Bot.deleteTrigger(msg)
   },
 
-  test: async function(Bot, msg, data) {\
+  test: async function(Bot, msg, data) {
     Bot.reply(msg, {
       name: "Testing {pre}rules",
       desc: "`{pre}rules` - response\n" +
@@ -192,7 +192,7 @@ module.exports = {
 
     await this.fire(Bot, msg, ['post'])
     await this.fire(Bot, msg, ['add', 'testing rule'])
-    await this.fire(Bot, msg, ['edit', index, 'new rule testing'])
+    await this.fire(Bot, msg, [index, 'new rule testing'])
     await this.fire(Bot, msg, ['rem', index])
     await this.fire(Bot, msg, ['title', 'Title Change 1'])
     await this.fire(Bot, msg, ['title', 'Title Change 2'])

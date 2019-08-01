@@ -33,7 +33,7 @@ module.exports = (Bot) => {
     Bot.$confs.ensure(evt.guild.id, defaults.conf)
     return Bot.$confs.get(evt.guild.id, key || null)
   }
-  Bot.$getRule = (evt) => {
+  Bot.$getRule = (evt, key) => {
     Bot.$rules.ensure(evt.guild.id, defaults.rule(evt))
     return Bot.$rules.get(evt.guild.id, key || null)
   }

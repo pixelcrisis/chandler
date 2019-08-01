@@ -4,7 +4,7 @@
 module.exports = async (Bot, msg) => {
   if (!Bot.booted || !msg.member || msg.author.bot) return
 
-  const config  = Bot.$getConf(msg.guild.id)
+  const config  = Bot.$getConf(msg)
   const access  = Bot.verifyAccess(msg, config.modsID)
   const mention = `<@${Bot.user.id}>`
 

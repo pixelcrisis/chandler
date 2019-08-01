@@ -16,7 +16,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const notes = Bot.$getNOte(msg)
+    const notes = Bot.$getNote(msg)
     let response = { name: `${msg.guild.name} Notes`, desc: [] }
     for (var title in notes) {
       response.desc.push("**" + title + "**: `" + notes[title] + "`")
