@@ -119,12 +119,6 @@ module.exports = {
     return this.update(Bot, msg)
   },
 
-  __outro: function(Bot, msg, rules, val) {
-    Bot.$setRule(msg, 'outro', val)
-    Bot.replyFlash(msg, this.lang.outro, val)
-    return this.update(Bot, msg)
-  },
-
   __image: function(Bot, msg, rules, val) {
     Bot.$setRule(msg, 'image', val)
     Bot.replyFlash(msg, this.lang.image, val)
@@ -185,8 +179,25 @@ module.exports = {
     Bot.deleteTrigger(msg)
   },
 
-  test: async function(Bot, msg, data) {
-    return Bot.reply(msg, "{pre}rules requires custom testing.")
+  test: async function(Bot, msg, data) {\
+    Bot.reply(msg, {
+      name: "Testing {pre}rules",
+      desc: "`{pre}rules` - response\n" +
+            "`{pre}rules arg` - response",
+      color: 16549991
+    })
+
+    const rules = Bot.$getRule(msg, 'list')
+    const index = rules.length + 1
+
+    await this.fire(Bot, msg, ['post'])
+    await this.fire(Bot, msg, ['add', 'testing rule'])
+    await this.fire(Bot, msg, ['edit', index, 'new rule testing'])
+    await this.fire(Bot, msg, ['rem', index])
+    await this.fire(Bot, msg, ['title', 'Title Change 1'])
+    await this.fire(Bot, msg, ['title', 'Title Change 2'])
+    
+    return Bot.reply(msg, "{pre}rules test complete.")
   }
 
 }
