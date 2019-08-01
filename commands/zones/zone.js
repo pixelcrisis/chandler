@@ -23,8 +23,7 @@ module.exports = {
     let zone = Bot.findTimeZone(opts)
     if (!zone) return Bot.reply(msg, Bot.lang.badArgs, opts.join(' '))
 
-    const zones = Bot.zones.ensure(msg.guild.id, {})
-    Bot.zones.set(msg.guild.id, zone.name, msg.author.id)
+    Bot.$setZone(msg, msg.author.id, zone.name)
     return Bot.reply(msg, this.lang.done, opts.join(' '))
   },
 

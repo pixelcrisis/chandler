@@ -20,9 +20,9 @@ module.exports = {
     if (opts.length != 1) return Bot.reply(msg, this.help)
     const command = opts[0].toLowerCase()
 
-    const notes = Bot.notes.ensure(msg.guild.id, {})
-    if (!notes[command]) return Bot.reply(msg, this.lang.none, command)
-    Bot.notes.delete(msg.guild.id, command)
+    const note = Bot.$getNote(msg, command)
+    if (!note) return Bot.reply(msg, this.lang.none, command)
+    Bot.$remNote(msg, command)
     return Bot.reply(msg, this.lang.done, command)
   },
 

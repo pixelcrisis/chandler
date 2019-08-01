@@ -15,7 +15,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     if (!opts.length) return Bot.reply(msg, this.help)
-    const id = Bot.confs.get(msg.guild.id, 'speak')
+    const id = Bot.$getConf(msg, 'speak')
     if (!id) return Bot.reply(msg, this.lang.none)
     const chan = msg.guild.channels.get(id)
     if (opts.length) return chan.send(opts.join(' '))

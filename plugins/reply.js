@@ -7,7 +7,7 @@ module.exports = (Bot) => {
     if (!Bot.canChat(msg)) return false
     const response = Bot.response(msg, data, val1, val2)
     if (response.length == 1) return msg.channel.send(response[0])
-    for (var i = 0; i < response.length; i++) {
+    for (let i = 0; i < response.length; i++) {
       msg.channel.send(response[i])
     }
   }
@@ -15,25 +15,20 @@ module.exports = (Bot) => {
   Bot.replyFlash = async (msg, data, val1, val2) => {
     const flashed = await Bot.reply(msg, data, val1, val2)
     await Bot.sleep(5000)
-    if (flashed) flashed.delete()
+    if (flashed && flashed.delete) flashed.delete()
   }
 
   Bot.deleteTrigger = (msg) => {
-    if (Bot.canDelete(msg) && Bot.booted && !Bot.chaining) {
-      return msg.delete()
-    }
+    const canProcess = (Bot.booted && !Bot.chaining)
+    if (canProcess && Bot.canDelete(msg)) return msg.delete()
   }
 
   Bot.response = (msg, data, val1, val2) => {
     let result = [], desc = ''
     let embed = { author: {} }
 
-    if (typeof data == 'string') {
-      embed.description = Bot.parse(msg, data, val1, val2)
-    }
-
-    else {
-      for (var prop in data) {
+    if (typeof data != 'string') {
+      for (const prop in data) {
         let it = data[prop]
 
         if (prop != 'fields') {
@@ -48,7 +43,7 @@ module.exports = (Bot) => {
         else if (prop == 'desc') embed.description = it
         else embed[prop] = it
       }
-    }
+    } else embed.description = Bot.parse(msg, data, val1, val2)
 
     return Bot.splitResponse(embed)
   }
@@ -106,12 +101,11 @@ module.exports = (Bot) => {
       data = data.split('{user.id}').join(msg.author.id)
       data = data.split('{user.name}').join(msg.author.username)
       if (msg.guild) {
-        const prefix = Bot.confs.get(msg.guild.id, 'prefix')
+        const prefix = Bot.$getConf(msg, 'prefix')
         data = data.split('{pre}').join(prefix)
       }
     }
 
-    // unescape escaped parse flags
     data = data.split('{/').join('{')
     return data
   }

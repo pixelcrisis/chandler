@@ -17,7 +17,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const zones = Bot.zones.ensure(msg.guild.id, {})
+    const zones = Bot.$getZone(msg)
     const user = zones[msg.author.id]
     if (!user) return Bot.reply(msg, Bot.lang.noZone)
 

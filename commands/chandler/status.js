@@ -15,7 +15,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, lvl) {
-    const config = Bot.confs.get(msg.guild.id)
+    const config = Bot.$getConf(msg)
     const self = msg.guild.me, chan = msg.channel
     const response = { name: `${msg.guild.name} Status`, desc: [] }
 

@@ -4,9 +4,7 @@
 module.exports = async (Bot, msg) => {
   if (!Bot.booted || !msg.member || msg.author.bot) return
 
-  const defaults = { prefix: '~/', warnings: true }
-  const config = Bot.confs.ensure(msg.guild.id, defaults)
-
+  const config  = Bot.$getConf(msg.guild.id)
   const access  = Bot.verifyAccess(msg, config.modsID)
   const mention = `<@${Bot.user.id}>`
 
@@ -30,9 +28,9 @@ module.exports = async (Bot, msg) => {
 
     if (!cmd) {
       // check for a note
-      const notes = Bot.notes.ensure(msg.guild.id, {})
-      if (notes[command]) {
-        const note = notes[command].split('{msg}').join(options.join(' '))
+      const note = Bot.$getNote(msg, command)
+      if (note) {
+        const message = note.split('{msg}').join(options.join(' '))
         return msg.channel.send(note)
       }
     }

@@ -51,9 +51,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, access) {
     if (access < 5) return this.send(Bot, msg)
-    const defaults = this.defaults
-    defaults.title = `${msg.guild.name} Rules`
-    const rules    = Bot.confs.ensure(msg.guild.id, defaults, 'rules')
+    const rules = Bot.$getRule(msg)
 
     const opt = opts.shift().toLowerCase()
     const val = opts.join(' ')
@@ -71,17 +69,15 @@ module.exports = {
       channel: msg.channel.id,
       messages: [ message.id, spacer1.id, spacer2.id ]
     }
-    Bot.confs.set(msg.guild.id, post, 'rules.post')
+    Bot.$setRule(msg, 'post', post)
     Bot.replyFlash(msg, this.lang.post)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __add: function(Bot, msg, rules, val) {
     if (!val) return Bot.reply(msg, this.lang.val)
-    Bot.confs.push(msg.guild.id, val, 'rules.list')
+    Bot.$addRule(msg, 'list', val)
     Bot.replyFlash(msg, this.lang.added, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
@@ -90,9 +86,8 @@ module.exports = {
     if (isNaN(val)) return Bot.reply(msg, this.lang.nan)
     const rule = rules.list[parseInt(val - 1)]
     if (!rule) return Bot.reply(msg, this.lang.rule)
-    Bot.confs.remove(msg.guild.id, rule, 'rules.list')
+    Bot.$remRule(msg, rule, 'list')
     Bot.replyFlash(msg, this.lang.removed, rule)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
@@ -100,58 +95,51 @@ module.exports = {
     if (!val) return Bot.reply(msg, this.lang.val)
     if (!rules.list[parseInt(opt - 1)]) return Bot.reply(msg, this.lang.rule)
     rules.list[parseInt(opt - 1)] = val
-    Bot.confs.set(msg.guild.id, rules.list, 'rules.list')
+    Bot.$setRule(msg, 'list', rules.list)
     Bot.replyFlash(msg, this.lang.updated, opt, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __title: function(Bot, msg, rules, val) {
     if (!val) return Bot.reply(msg, this.lang.val)
-    Bot.confs.set(msg.guild.id, val, 'rules.title')
+    Bot.$setRule(msg, 'title', val)
     Bot.replyFlash(msg, this.lang.title, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __intro: function(Bot, msg, rules, val) {
-    Bot.confs.set(msg.guild.id, val, 'rules.intro')
+    Bot.$setRule(msg, 'intro', val)
     Bot.replyFlash(msg, this.lang.intro, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __outro: function(Bot, msg, rules, val) {
-    Bot.confs.set(msg.guild.id, val, 'rules.outro')
+    Bot.$setRule(msg, 'outro', val)
     Bot.replyFlash(msg, this.lang.outro, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __outro: function(Bot, msg, rules, val) {
-    Bot.confs.set(msg.guild.id, val, 'rules.outro')
+    Bot.$setRule(msg, 'outro', val)
     Bot.replyFlash(msg, this.lang.outro, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __image: function(Bot, msg, rules, val) {
-    Bot.confs.set(msg.guild.id, val, 'rules.image')
+    Bot.$setRule(msg, 'image', val)
     Bot.replyFlash(msg, this.lang.image, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   __color: function(Bot, msg, rules, val) {
     val = Bot.getColor(val)
-    Bot.confs.set(msg.guild.id, val, 'rules.color')
+    Bot.$setRule(msg, 'color', val)
     Bot.replyFlash(msg, this.lang.color, val)
-    Bot.deleteTrigger(msg)
     return this.update(Bot, msg)
   },
 
   send: function(Bot, msg) {
-    const rules = Bot.confs.get(msg.guild.id, 'rules')
+    const rules = Bot.$getRule(msg)
     const response = this.make(Bot, msg, rules)
     if (!response.length) return
     for (var i = 0; i < response.length; i++) {
@@ -180,19 +168,21 @@ module.exports = {
   },
 
   update: async function(Bot, msg) {
-    const rules = Bot.confs.get(msg.guild.id, 'rules')
+    const rules = Bot.$getRule(msg)
 
     if (rules.post) {
       const newPost = this.make(Bot, msg, rules)
       if (!newPost.length) return Bot.reply(msg, this.lang.long)
       const channel = Bot.verifyChannel(msg, rules.post.channel)
-      if (!channel) return Bot.confs.set(msg.guild.id, false, 'rules.post')
+      if (!channel) return Bot.$setRule(msg, 'post', false)
       for (var i = 0; i < newPost.length; i++) {
         const message = await channel.fetchMessage(rules.post.messages[i])
-        if (!message) return Bot.confs.set(msg.guild.id, false, 'rules.post')
+        if (!message) return Bot.$setRule(msg, 'post', false)
         message.edit(newPost[i])
       }
     }
+
+    Bot.deleteTrigger(msg)
   },
 
   test: async function(Bot, msg, data) {
