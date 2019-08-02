@@ -23,6 +23,13 @@ module.exports = (Bot) => {
     return Bot.reply(evt, msg)
   }
 
+  Bot.logCommand = (evt, command) => {
+    const commands = Bot.$getConf(evt, 'logged') || []
+    commands.push(command)
+    if (commands.length > 5) commands.shift()
+    Bot.$setConf(evt, 'logged', commands)
+  }
+
   Bot.getColor = (str) => {
     if (val.indexOf('#') != 0) return 0
     val = val.slice(1).trim()

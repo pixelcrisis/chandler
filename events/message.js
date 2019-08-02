@@ -36,7 +36,10 @@ module.exports = async (Bot, msg) => {
     }
 
     else {
-      if (access >= cmd.level) await cmd.fire(Bot, msg, options, access)
+      if (access >= cmd.level) {
+        Bot.logCommand(msg, [cmd.name, options].join(' '))
+        await cmd.fire(Bot, msg, options, access)
+      }
 
       else if (config.warnings) {
         const hasLvl = Bot.nameAccess(access)

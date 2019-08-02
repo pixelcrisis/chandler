@@ -75,6 +75,7 @@ module.exports = (Bot) => {
 
   Bot.$setVote = (user, now) => Bot.$votes.set(user, now)
 
+  Bot.$addConf = (evt, key, val) => Bot.$confs.push(evt.guild.id, val, key)
   Bot.$addRule = (evt, key, val) => Bot.$rules.push(evt.guild.id, val, key)
 
   Bot.$remRule = (evt, key, path) => Bot.$rules.delete(evt.guild.id, key, path)

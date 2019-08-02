@@ -26,7 +26,7 @@ module.exports = (Bot) => {
 
   Bot.response = (evt, data, val1, val2) => {
     let result = [], desc = ''
-    let embed = { author: {} }
+    let embed = { author: {}, footer: {} }
 
     if (typeof data != 'string') {
       for (const prop in data) {
@@ -42,6 +42,7 @@ module.exports = (Bot) => {
 
         if (prop == 'name') embed.author.name = it
         if (prop == 'icon') embed.author.icon_url = it
+        if (prop == 'foot') embed.footer.text = it
         else if (prop == 'desc') embed.description = it
         else embed[prop] = it
       }
