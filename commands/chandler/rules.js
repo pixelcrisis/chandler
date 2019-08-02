@@ -50,7 +50,7 @@ module.exports = {
   },
 
   fire: function(Bot, msg, opts, access) {
-    if (access < 5) return this.send(Bot, msg)
+    if (access < 5 || !opts.length) return this.send(Bot, msg)
     const rules = Bot.$getRule(msg)
 
     const opt = opts.shift().toLowerCase()
