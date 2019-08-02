@@ -104,7 +104,7 @@ module.exports = (Bot) => {
   }
 
   Bot.canChat = (msg, channel) => {
-    if (!msg.guild) return true
+    if (!msg.guild || !msg.guild.me) return true
     channel = channel ? channel : msg.channel
     return channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES", false)
   }
