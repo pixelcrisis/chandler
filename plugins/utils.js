@@ -8,23 +8,19 @@ const { Permissions } = require('discord.js')
 module.exports = (Bot) => {
 
   Bot.booted = false
-  // don't execute commands unless bot is booted
 
   Bot.no = ['n', 'no', 'off', 'false', 'disable']
   Bot.yes = ['y', 'yes', 'on', 'true', 'enable']
-  // use Bot.yes.includes(thing) to for yes/no check
 
   Bot.sleep = require("util").promisify(setTimeout)
   Bot.when = time => Moment(time).fromNow()
-  // use this to turn timestamps into "x ago"
 
   Bot.getPerms = (str) => new Permissions(str)
 
-  Bot.log = (message) => {
-    console.info(message)
-    // Always print logs in console
-    // If Server mode, print in channel
-    if (Bot._logger) Bot._logger.send(message)
+  Bot.log = (msg, evt = {}) => {
+    if (!Bot._logger) return
+    evt.channel = Bot._logger
+    return Bot.reply(evt, msg)
   }
 
   Bot.getColor = (str) => {
@@ -101,6 +97,7 @@ module.exports = (Bot) => {
   }
 
   Bot.canChat = (msg, channel) => {
+    if (!msg.guild) return true
     channel = channel ? channel : msg.channel
     return channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES", false)
   }

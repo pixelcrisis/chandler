@@ -4,12 +4,8 @@
 
 module.exports = async (Bot) => {
 
-  // Set up our logger in server mode
-  if (Bot.conf.serverMode && Bot.conf.serverLogs) {
-    Bot._logger = Bot.channels.get(Bot.conf.serverLogs)
-  }
+  if (Bot.conf.logs) Bot._logger = Bot.channels.get(Bot.conf.logs)
 
-  // Set a random status with helpful tips!
   Bot.updateStatus = (bot) => {
     const status = [
       `v${Bot.version}`, `${Bot.guilds.keyArray().length} Servers`,

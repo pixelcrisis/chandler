@@ -3,17 +3,18 @@
 
 module.exports = (Bot) => {
 
-  Bot.reply = (msg, data, val1, val2) => {
-    if (!Bot.canChat(msg)) return false
-    const response = Bot.response(msg, data, val1, val2)
-    if (response.length == 1) return msg.channel.send(response[0])
+  Bot.reply = (evt, data, val1, val2) => {
+    if (!Bot.canChat(evt)) return false
+    const response = Bot.response(evt, data, val1, val2)
+    const finalMsg = response.length - 1
     for (let i = 0; i < response.length; i++) {
-      msg.channel.send(response[i])
+      if (i == finalMsg) return evt.channel.send(response[i])
+      else evt.channel.send(response[i])
     }
   }
 
-  Bot.replyFlash = async (msg, data, val1, val2) => {
-    const flashed = await Bot.reply(msg, data, val1, val2)
+  Bot.replyFlash = async (evt, data, val1, val2) => {
+    const flashed = await Bot.reply(evt, data, val1, val2)
     await Bot.sleep(5000)
     if (flashed && flashed.delete) flashed.delete()
   }
@@ -23,7 +24,7 @@ module.exports = (Bot) => {
     if (canProcess && Bot.canDelete(msg)) return msg.delete()
   }
 
-  Bot.response = (msg, data, val1, val2) => {
+  Bot.response = (evt, data, val1, val2) => {
     let result = [], desc = ''
     let embed = { author: {} }
 
@@ -34,16 +35,17 @@ module.exports = (Bot) => {
         if (prop != 'fields') {
           if (Array.isArray(it)) it = it.join('ch&ler')
           if (typeof it == 'string') {
-            it = Bot.parse(msg, it, val1, val2)
+            it = Bot.parse(evt, it, val1, val2)
             if (it.indexOf('ch&ler') > -1) it = it.split('ch&ler')
           }
         }
 
         if (prop == 'name') embed.author.name = it
+        if (prop == 'icon') embed.author.icon_url = it
         else if (prop == 'desc') embed.description = it
         else embed[prop] = it
       }
-    } else embed.description = Bot.parse(msg, data, val1, val2)
+    } else embed.description = Bot.parse(evt, data, val1, val2)
 
     return Bot.splitResponse(embed)
   }
@@ -83,7 +85,7 @@ module.exports = (Bot) => {
     return ['```js', data, '```'].join('\n')
   }
 
-  Bot.parse = (msg, data, val1, val2) => {
+  Bot.parse = (evt, data, val1, val2) => {
     if (typeof data != 'string') return data
 
     data = data.split('{val1}').join(val1)
@@ -95,15 +97,23 @@ module.exports = (Bot) => {
     data = data.split('{vote}').join(Bot.lang.url.vote)
     data = data.split('{timezones}').join(Bot.lang.url.zones)
     data = data.split('{ver}').join(Bot.version)
+    data = data.split('{guilds}').join(Bot.guilds.keyArray().length)
 
-    if (msg) {
-      data = data.split('{love}').join(Bot.gotLove(msg.author.id))
-      data = data.split('{user}').join(`<@${msg.author.id}>`)
-      data = data.split('{user.id}').join(msg.author.id)
-      data = data.split('{user.name}').join(msg.author.username)
-      if (msg.guild) {
-        const prefix = Bot.$getConf(msg, 'prefix')
+    if (evt) {
+      if (evt.author) {
+        data = data.split('{love}').join(Bot.gotLove(evt.author.id))
+        data = data.split('{user}').join(`<@${evt.author.id}>`)
+        data = data.split('{user.id}').join(evt.author.id)
+        data = data.split('{user.name}').join(evt.author.username)
+      }
+
+      if (evt.guild) {
+        const prefix = Bot.$getConf(evt, 'prefix')
         data = data.split('{pre}').join(prefix)
+        data = data.split('{guild.name}').join(evt.guild.name)
+        data = data.split('{guild.id}').join(evt.guild.id)
+        data = data.split('{guild.count}').join(evt.guild.memberCount)
+        data = data.split('{guild.owner}').join(evt.guild.owner.user.username)
       }
     }
 

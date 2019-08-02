@@ -30,6 +30,12 @@ module.exports = {
       for (var i = 0; i < opts.length; i++) {
         let cmd = Bot.findCommand(opts[i])
         if (cmd) await cmd.test(Bot, msg, this.testData)
+
+        else if (opts[i] == 'logs') {
+          await Bot.emit('guildCreate', msg.guild, true)
+          await Bot.sleep(2000)
+          await Bot.emit('guildDelete', msg.guild, true)
+        }
       }
     }
 

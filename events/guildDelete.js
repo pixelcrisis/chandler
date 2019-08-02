@@ -1,9 +1,14 @@
 // Delete Guild Event
 
-module.exports = async (Bot, guild) => {
+module.exports = async (Bot, guild, test) => {
 
-  let guilds = Bot.guilds.keyArray()
-  Bot.log(`Removed from **${guild.name}** - Now In ${guilds.length} Servers.`)
-  Bot.$remConf(guild.id)
+  const msg = {
+    color: 16736084,
+    icon: guild.iconURL,
+    name: "Removed from {guild.name} ({guilds})"
+  }
+
+  if (!test) Bot.$remConf(guild.id)
+  return Bot.log(msg, { guild })
 
 }

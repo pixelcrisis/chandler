@@ -1,8 +1,14 @@
 // New Guild Event
 
-module.exports = async (Bot, guild) => {
+module.exports = async (Bot, guild, test) => {
 
-  let guilds = Bot.guilds.keyArray()
-  Bot.log(`Added to **${guild.name}** - Now In ${guilds.length} Servers.`)
+  const msg = {
+    color: 48268,
+    icon: guild.iconURL,
+    name: "Added to {guild.name} ({guilds})",
+    desc: "Server Owner: **{guild.owner}** - " +
+          "Total Users: **{guild.count}**"
+  }
+  return Bot.log(msg, { guild })
 
 }
