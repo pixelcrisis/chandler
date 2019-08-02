@@ -15,7 +15,7 @@ module.exports = async (Bot, msg) => {
   const trim  = hasPrefix ? config.prefix.length : mention.length
 
   const chained = msg.content.split(' && ')
-  if (chained.length > 3) return Bot.reply(msg, Bot.lang.badChain)
+  if (chained.length > 3) return Bot.reply(msg, Bot.lang.bad.chain)
   Bot.chaining = chained.length > 1
 
   for (var i = 0; i < chained.length; i++) {
@@ -41,7 +41,7 @@ module.exports = async (Bot, msg) => {
       else if (config.warnings) {
         const hasLvl = Bot.nameAccess(access)
         const reqLvl = Bot.nameAccess(cmd.level)
-        return Bot.reply(msg, Bot.lang.noAccess, reqLvl, hasLvl)
+        return Bot.reply(msg, Bot.lang.bad.level, hasLvl, reqLvl)
       }
 
       else return

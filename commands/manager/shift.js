@@ -21,12 +21,12 @@ module.exports = {
     let amount = parseInt(opts[0])
     let channel = Bot.verifyChannel(msg, opts[1])
     if (isNaN(amount)) return Bot.reply(msg, this.help)
-    if (!channel) return Bot.reply(msg, Bot.lang.badChan, opts[1])
+    if (!channel) return Bot.reply(msg, Bot.lang.bad.args, opts[1])
 
     const chat = Bot.canChat(msg.guild.me, channel)
     const clear = Bot.canDelete(msg.guild.me, msg.channel)
-    if (!chat) return Bot.reply(msg, Bot.lang.cantMessage, msg.channel.id)
-    if (!clear) return Bot.reply(msg, Bot.lang.cantDoClear, msg.channel.id)
+    if (!chat) return Bot.reply(msg, Bot.lang.cant.message, msg.channel.id)
+    if (!clear) return Bot.reply(msg, Bot.lang.cant.delete, msg.channel.id)
 
     await msg.channel.fetchMessages({ limit: amount + 1}).then(got => {
       got.forEach(message => {

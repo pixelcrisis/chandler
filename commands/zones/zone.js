@@ -12,8 +12,7 @@ module.exports = {
     name: "{pre}zone [timezone]",
     desc: "Replace `timezone` with the nearest city your time is based on!\n" +
           "`{pre}zone London` or `{pre}zone New York` or `{pre}zone Melbourne`\n\n" +
-          "If you don't know, find your timezone code here:\n" +
-          "<http://kevalbhatt.github.io/timezone-picker/>\n\n" +
+          "If you don't know, find your timezone code here:\n<{timezones}>\n\n" +
           "Then try `>zone America/Chicago` but replace with your timezone!"
   },
 
@@ -21,7 +20,7 @@ module.exports = {
     if (!opts.length) return Bot.reply(msg, this.help)
 
     let zone = Bot.findTimeZone(opts)
-    if (!zone) return Bot.reply(msg, Bot.lang.badArgs, opts.join(' '))
+    if (!zone) return Bot.reply(msg, Bot.lang.bad.args, opts.join(' '))
 
     Bot.$setZone(msg, msg.author.id, zone.name)
     return Bot.reply(msg, this.lang.done, opts.join(' '))

@@ -10,10 +10,7 @@ module.exports = {
 
   help: {
     name: "{pre}setzone [user] [timezone]",
-    desc: "Sets `timezone` for `user`." +
-          "Step 1: {timezones}\n\n" +
-          "Step 2: Use `>setzone !user America/Chicago`\n" +
-          "But replace with their timezone!"
+    desc: "Sets `timezone` for `user`."
   },
 
   fire: function(Bot, msg, opts, lvl) {
@@ -21,10 +18,10 @@ module.exports = {
 
     const userID = opts.shift()
     const user = Bot.verifyUser(msg, userID)
-    if (!user) return Bot.reply(msg, Bot.lang.badUser, userID)
+    if (!user) return Bot.reply(msg, Bot.lang.bad.args, userID)
 
     const zone = Bot.findTimeZone(opts)
-    if (!zone) return Bot.reply(msg, Bot.lang.badArgs, opts.join(' '))
+    if (!zone) return Bot.reply(msg, Bot.lang.bad.args, opts.join(' '))
 
     Bot.$setZone(msg, user.id, zone.name)
     return Bot.reply(msg, this.lang.done, user.id, zone.name)

@@ -5,13 +5,15 @@ module.exports = {
   level: 5,
   alias: [ 'configs' ],
 
-  lang: {
-    admin: "*The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
-  },
-
   help: {
     name: "{pre}status",
-    desc: "Reports back the status of the bot."
+    desc: "Reports back the status of the bot.\n\n" +
+          "*Permissions Key:*\n" +
+          "1,2 - Manage Roles (Global/Channel)\n" +
+          "3,4 - Manage Messages (Global/Channel)\n" +
+          "5,6 - Manage Channels (Global/Channel)\n" +
+          "7 - Admin Perms.\n\n" +
+          "*The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
   },
 
   fire: function(Bot, msg, opts, lvl) {
@@ -48,7 +50,7 @@ module.exports = {
     status.push("**warnings**: `" + config.warnings + "`")
     status.push("**onjoin**: `" + onjoin + "`")
     status.push("**onleave**: `" + onleave + "`\n")
-    status.push(`**Permissions**: ${perms} - ${hasAdmin} - [Wat?](${Bot.lang.guides})`)
+    status.push(`**Permissions**: ${perms} - ${hasAdmin} - \`{pre}help status\``)
 
     Bot.reply(msg, response)
   },

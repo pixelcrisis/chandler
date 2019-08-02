@@ -22,10 +22,10 @@ module.exports = {
       else {
         let embed = Bot.parseEmbed(newMsg)
         if (embed) m.edit(m.content, embed)
-        else return Bot.reply(msg, Bot.lang.badEmbed)
+        else return Bot.reply(msg, Bot.lang.bad.embed)
       }
     }).catch(() => {
-      return Bot.reply(msg, Bot.lang.badArgs, msgID)
+      return Bot.reply(msg, Bot.lang.bad.args, msgID)
     })
     return Bot.deleteTrigger(msg)
   },

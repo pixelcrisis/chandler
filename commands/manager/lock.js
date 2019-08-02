@@ -20,8 +20,8 @@ module.exports = {
   fire: async function(Bot, msg, opts, lvl) {
     const role = Bot.canRoles(msg.guild.me, msg.channel)
     const chan = Bot.canChannel(msg.guild.me, msg.channel)
-    if (!role) return Bot.reply(msg, Bot.lang.cantDoPerms, msg.channel.id)
-    if (!chan) return Bot.reply(msg, Bot.lang.cantChannel, msg.channel.id)
+    if (!role) return Bot.reply(msg, Bot.lang.cant.roles, msg.channel.id)
+    if (!chan) return Bot.reply(msg, Bot.lang.cant.manage, msg.channel.id)
     let curr = Bot.$getLock(msg, msg.channel.id)
     if (curr) return Bot.reply(msg, this.lang.curr)
     

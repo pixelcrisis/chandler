@@ -46,7 +46,7 @@ module.exports = {
 
   __mods: function(Bot, msg, val) {
     const role = Bot.verifyRole(msg, val)
-    if (!role) return Bot.reply(msg, Bot.lang.badRole, val)
+    if (!role) return Bot.reply(msg, Bot.lang.bad.args, val)
     Bot.$setConf(msg, 'modsID', role.id)
     return Bot.reply(msg, this.lang.modsID, role.id)
   },
@@ -71,7 +71,7 @@ module.exports = {
       return Bot.reply(msg, this.lang.disabled, 'onjoin')
     }
     const channel = Bot.verifyChannel(msg, key)
-    if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
+    if (!channel) return Bot.reply(msg. Bot.lang.bad.args, key)
     str = str ? str : '{user} joined.'
     Bot.$setConf(msg, 'onjoin', { channel: channel.id, message: str })
     return Bot.reply(msg, this.lang.onjoin, channel.id, Bot.escape(str))
@@ -86,7 +86,7 @@ module.exports = {
       return Bot.reply(msg, this.lang.disabled, 'onleave')
     }
     const channel = Bot.verifyChannel(msg, key)
-    if (!channel) return Bot.reply(msg. Bot.lang.badChan, key)
+    if (!channel) return Bot.reply(msg. Bot.lang.bad.args, key)
     str = str ? str : '{user.name} left.'
     Bot.$setConf(msg, 'onleave', { channel: channel.id, message: str })
     return Bot.reply(msg, this.lang.onleave, channel.id, Bot.escape(str))

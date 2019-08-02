@@ -88,11 +88,12 @@ module.exports = (Bot) => {
 
     data = data.split('{val1}').join(val1)
     data = data.split('{val2}').join(val2)
-    data = data.split('{guides}').join(Bot.lang.guides)
-    data = data.split('{invite}').join(Bot.lang.invite)
-    data = data.split('{docs}').join(Bot.lang.docs)
-    data = data.split('{server}').join(Bot.lang.server)
-    data = data.split('{vote}').join(Bot.lang.vote)
+    data = data.split('{guides}').join(Bot.lang.url.help)
+    data = data.split('{invite}').join(Bot.lang.url.invite)
+    data = data.split('{docs}').join(Bot.lang.url.docs)
+    data = data.split('{server}').join(Bot.lang.url.guild)
+    data = data.split('{vote}').join(Bot.lang.url.vote)
+    data = data.split('{timezones}').join(Bot.lang.url.zones)
     data = data.split('{ver}').join(Bot.version)
 
     if (msg) {

@@ -19,7 +19,7 @@ module.exports = {
   fire: function(Bot, msg, opts, lvl) {
     const zones = Bot.$getZone(msg)
     const user = zones[msg.author.id]
-    if (!user) return Bot.reply(msg, Bot.lang.noZone)
+    if (!user) return Bot.reply(msg, Bot.lang.no.zone)
 
     let fields = [] // for embed!
     const table = Bot.sortTimeZones(zones)

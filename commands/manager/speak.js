@@ -20,7 +20,7 @@ module.exports = {
 
     if (opts.length == 1) {
       const newCh = Bot.verifyChannel(msg, opts[0])
-      if (!newCh) return Bot.reply(msg, Bot.lang.badChan, opts[0])
+      if (!newCh) return Bot.reply(msg, Bot.lang.bad.args, opts[0])
       Bot.$setConf(msg, 'speak', newCh.id)
       return Bot.reply(msg, this.lang.curr, newCh.id)
     }

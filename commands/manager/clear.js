@@ -19,7 +19,7 @@ module.exports = {
 
   fire: async function(Bot, msg, opts, lvl) {
     const can = Bot.canDelete(msg.guild.me, msg.channel)
-    if (!can) return Bot.reply(msg, Bot.lang.cantDoClear, msg.channel.id)
+    if (!can) return Bot.reply(msg, Bot.lang.cant.delete, msg.channel.id)
     if (!opts.length || opts.length > 1) return Bot.reply(msg, this.help)
     const amount = parseInt(opts.shift())
     if (isNaN(amount)) return Bot.reply(msg, this.help)

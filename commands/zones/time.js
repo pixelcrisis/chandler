@@ -18,7 +18,7 @@ module.exports = {
 
   fire: function(Bot, msg, opts, lvl) {
     const zone = Bot.$getZone(msg, msg.author.id)
-    if (!zone) return Bot.reply(msg, Bot.lang.noZone)
+    if (!zone) return Bot.reply(msg, Bot.lang.no.zone)
 
     opts = opts.join(' ')
 
@@ -27,7 +27,7 @@ module.exports = {
     let when = false, user = false
     if (opts) when = Bot.findTime(opts, zone)
     if (opts && !when) user = Bot.verifyUser(msg, opts)
-    if (opts && !when && !user) return Bot.reply(msg, Bot.lang.badArgs, opts)
+    if (opts && !when && !user) return Bot.reply(msg, Bot.lang.bad.args, opts)
 
     let response = { title: 'Current Time', desc: [] }
 
