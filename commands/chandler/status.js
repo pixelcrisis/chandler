@@ -8,12 +8,12 @@ module.exports = {
   help: {
     name: "{pre}status",
     desc: "Reports back the status of the bot.\n\n" +
-          "*Permissions Key:*\n" +
-          "1,2 - Manage Roles (Global/Channel)\n" +
-          "3,4 - Manage Messages (Global/Channel)\n" +
-          "5,6 - Manage Channels (Global/Channel)\n" +
-          "7 - Admin Perms.\n\n" +
-          "*The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
+          "**Permissions Key:** `123456 - 7`\n\n" +
+          "`1, 2` - Manage Roles (`server, channel`)\n" +
+          "`3, 4` - Manage Messages (`server, channel`)\n" +
+          "`5, 6` - Manage Channels (`server, channel`)\n" +
+          "`7` - Admin Perms*\n\n" +
+          "**The bot can function pretty well without administrator perms, and just the perms listed. However, this can cause problems with channel specific perms, and some features such as locking or clearing may not work as intended.*"
   },
 
   fire: function(Bot, msg, opts, lvl) {
