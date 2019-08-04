@@ -15,17 +15,20 @@ module.exports = {
       if (err) return Bot.reply(msg, 'Nay')
       yay = yay.split('online')[1].split(' ').join('').split('│')
 
-      const result = [
-        '```js',
-        `Guilds:       ${Bot.guilds.keyArray().length}`,
-        `Restarts:     ${yay[1]}`,
-        `Uptime:       ${yay[2]}`,
-        `CPU Use:      ${yay[3]}`,
-        `Memory:       ${yay[4]}`,
-        '```'
-      ]
+      const response = {
+        name: "Chandler Details",
+        desc: [
+          '```js',
+          `Guilds:       ${Bot.guilds.keyArray().length}`,
+          `Restarts:     ${yay[1]}`,
+          `Uptime:       ${yay[2]}`,
+          `CPU Use:      ${yay[3]}`,
+          `Memory:       ${yay[4]}`,
+          '```'
+        ]
+      }
 
-      return Bot.listReply(msg, 'Chandler Details', result)
+      return Bot.reply(msg, response)
     })
 
   },
