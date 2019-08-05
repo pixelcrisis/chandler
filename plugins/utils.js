@@ -27,6 +27,7 @@ module.exports = (Bot) => {
     const commands = Bot.$getConf(evt, 'logged') || []
     commands.push(command)
     if (commands.length > 5) commands.shift()
+    console.info(evt.guild.name, command)
     Bot.$setConf(evt, 'logged', commands)
   }
 
