@@ -10,7 +10,7 @@ module.exports = async (Bot, guild, test) => {
     desc: "Server Owner: **{guild.owner}** - " +
           "Total Users: **{guild.count}**"
   }
-  
+  console.info('Added to ' + guild.name)
   return Bot.log(msg, { guild })
 
 }

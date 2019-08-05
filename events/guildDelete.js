@@ -13,6 +13,7 @@ module.exports = async (Bot, guild, test) => {
   }
 
   if (!test) Bot.$remConf(guild.id)
+  console.info('Removed from ' + guild.name)
   return Bot.log(msg, { guild })
 
 }
