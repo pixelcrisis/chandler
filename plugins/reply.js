@@ -15,8 +15,7 @@ module.exports = (Bot) => {
 
   Bot.replyFlash = async (evt, data, val1, val2) => {
     const flashed = await Bot.reply(evt, data, val1, val2)
-    if (!flashed || !Bot.canDelete(flashed)) return 
-    else await Bot.sleep(5000)
+    await Bot.sleep(5000)
     if (flashed && flashed.delete) flashed.delete()
   }
 
