@@ -77,6 +77,7 @@ module.exports = (Bot) => {
   })
 
   process.on('unhandledRejection', (error) => {
+    if (error.method == 'DELETE') return
     Bot.log(`UNHANDLED REJECTION\n\`\`\`${error.stack || error}\`\`\``)
   })
 
