@@ -26,14 +26,12 @@ module.exports = {
     if (isNaN(amount)) return Bot.reply(msg, this.help)
     if (amount > 99) return Bot.reply(msg, this.lang.over)
 
-    Bot.booted = false
     msg.channel.startTyping()
     const fetched = await msg.channel.fetchMessages({ limit: amount + 1 })
     const started = await Bot.reply(msg, this.lang.start)
     for (const msg of fetched) { await msg[1].delete() }
     started.delete()
     Bot.replyFlash(msg, this.lang.done, amount)
-    Bot.booted = true
     msg.channel.stopTyping()
   },
 
