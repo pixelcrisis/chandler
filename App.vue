@@ -25,7 +25,7 @@
           </ul>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="https://discord.gg/tjRC7E4">Support Server</a>
+              <a class="nav-link" href="https://discord.gg/uyVcGKu">Support Server</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://github.com/12px/chandler">Github</a>

@@ -330,7 +330,7 @@ var staticRenderFns = [
           "a",
           {
             staticClass: "nav-link",
-            attrs: { href: "https://discord.gg/tjRC7E4" }
+            attrs: { href: "https://discord.gg/uyVcGKu" }
           },
           [_vm._v("Support Server")]
         )
