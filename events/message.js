@@ -1,0 +1,1 @@
+module.exports = (Bot, message) => Bot.tryCommand(Bot, message)

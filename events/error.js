@@ -1,0 +1,1 @@
+module.exports = (Bot, err) => Bot.log('Discord.js Err: ', err)
