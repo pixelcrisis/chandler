@@ -107,21 +107,21 @@ module.exports = {
     const hasRoles = self.permissions.has('MANAGE_ROLES', false) ? '✓' : '✗'
     const hasChans = self.permissions.has('MANAGE_CHANNELS', false) ? '✓' : '✗'
     const hasMsgs  = self.permissions.has('MANAGE_MESSAGES', false) ? '✓' : '✗'
-    const canRoles = Bot.canRoles(self, chan) ? '✓' : '✗'
+    const canRoles = Bot.canRole(self, chan) ? '✓' : '✗'
     const canChans = Bot.canDelete(self, chan) ? '✓' : '✗'
-    const canMsgs  = Bot.canChannel(self, chan) ? '✓' : '✗'
+    const canMsgs  = Bot.canManage(self, chan) ? '✓' : '✗'
 
     const perms = `${hasRoles}${canRoles}${hasChans}${canChans}${hasMsgs}${canMsgs}`
 
     let status = response.desc
     status.push("Change values with **set**. Use `{pre}help set` for more info.\n")
     status.push("**mods**: " + mods)
-    status.push("**warnings**: `" + config.warnings + "`")
+    status.push("**warnings**: `" + evt.config.warnings + "`")
     status.push("**onjoin**: `" + onjoin + "`")
     status.push("**onleave**: `" + onleave + "`\n")
     status.push(`**Permissions**: ${perms} - ${hasAdmin} - \`{pre}help status\``)
 
-    Bot.reply(msg, response)
+    Bot.reply(evt, response)
   },
 
   test: async function (Bot, evt, data) {
@@ -137,7 +137,7 @@ module.exports = {
     evt.options = ['warnings', 'off']
     await this.fire(Bot, evt)
 
-    evt.options = ['onjoin', this.data.chan, '{user} joined {user.id}']
+    evt.options = ['onjoin', data.chan, '{user} joined {user.id}']
     await this.fire(Bot, evt)
     await Bot.emit('guildMemberAdd', evt.member)
     await Bot.wait(2000)
@@ -145,7 +145,7 @@ module.exports = {
     evt.options = ['onjoin', 'off']
     await this.fire(Bot, evt)
 
-    evt.options = ['onleave', this.data.chan, '{user.id} left {user.id}']
+    evt.options = ['onleave', data.chan, '{user.id} left {user.id}']
     await this.fire(Bot, evt)
     await Bot.emit('guildMemberRemove', evt.member)
     await Bot.wait(2000)
