@@ -61,11 +61,11 @@ module.exports = Bot => {
     }
     if (str) messages.push(str)
 
-    for (const msg of messages) {
+    for (let i = 0; i < messages.length; i++) {
       let page = JSON.parse(JSON.stringify(embed))
       let foot = { text: `Page ${i + 1}/${messages.length}` }
       if (messages.length > 1) page.footer = foot
-      page.description = msg
+      page.description = messages[i]
       result.push({ embed: page })
     }
 
