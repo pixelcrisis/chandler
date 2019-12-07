@@ -20,6 +20,7 @@ const init = async () => {
   await Bot.loadPlugins()
   await Bot.loadEvents()
   await Bot.loadCommands()
+  await Bot.loadHandlers()
 
   Bot.login(Bot.conf.token)
 }

@@ -37,8 +37,9 @@ module.exports = Bot => {
     })
   }
 
-  // load error handling
-  process.on('uncaughtException',  err => Bot.log('Exception: ', err))
-  process.on('unhandledRejection', err => Bot.log('Rejection: ', err))
+  Bot.loadHandlers = async () => {
+    process.on('uncaughtException',  err => Bot.log('Exception: ', err))
+    process.on('unhandledRejection', err => Bot.log('Rejection: ', err))
+  }
 
 }
