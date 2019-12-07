@@ -29,10 +29,12 @@ module.exports = Bot => {
     else for (const prop in data) {
       let it = data[prop]
 
-      if (Array.isArray(it)) it = it.join('chan_dler')
-      if (typeof it == 'string') {
-        it = Bot.parse(evt, it, val1, val2)
-        if (it.indexOf('chan_dler') > -1) it = it.split('chan_dler')
+      if (prop != 'fields') {
+        if (Array.isArray(it)) it = it.join('chan_dler')
+        if (typeof it == 'string') {
+          it = Bot.parse(evt, it, val1, val2)
+          if (it.indexOf('chan_dler') > -1) it = it.split('chan_dler')
+        }
       }
 
       if      (prop == 'name') embed.author.name = it

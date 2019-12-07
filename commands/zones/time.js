@@ -34,11 +34,11 @@ module.exports = {
       desc.push(`**${time.time}** for <@${user.id}> in ${time.name}`)
     }
 
-    else if (when) {
+    else {
       const zones = Bot.$getZones(evt)
       const table = Bot.sortZones(zones, when)
 
-      for (let time in table) {
+      for (let time of table) {
         let count = time.users.length
         let ping = time.name == zone.split('/')[1] ? `<@${evt.author.id}>` : ''
         desc.push(`**${time.time}** - ${time.name} (${count}) ${ping}`)

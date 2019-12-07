@@ -24,10 +24,11 @@ module.exports = {
     let fields = []
     let name = `${evt.guild.name} Zones`
     let desc = '··································'
+    console.log(table)
 
     for (let zone of table) {
       let field = { name: `${zone.time} - ${zone.name}`, inline: true, value: '' }
-      for (let user in zone.users) field.value += `<@${user.id}>\n`
+      for (let user of zone.users) field.value += `<@${user}>\n`
       fields.push(field)
     }
 

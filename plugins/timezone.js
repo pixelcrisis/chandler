@@ -32,7 +32,7 @@ module.exports = Bot => {
 
     const hour = time[1]
     const mins = time[2] || ":00"
-    const nite = time[2].toUpperCase()
+    const nite = time[3].toUpperCase()
 
     const day = Moment.tz(zone).format(dateFormat)
     const str = `${day} ${hour}${mins} ${nite}`
@@ -44,7 +44,7 @@ module.exports = Bot => {
     name = name.join('_').toLowerCase()
     if (name.indexOf('/') > -1) return Moment.tz.zone(name)
 
-    for (let place in continents) {
+    for (let place of continents) {
       let zone = Moment.tz.zone(`${place}/${name}`)
       if (zone) return zone
     }
@@ -56,7 +56,7 @@ module.exports = Bot => {
     let table = {}
 
     for (let id in list) {
-      const zone = zones[id]
+      const zone = list[id]
       const when = Bot.getTime(zone, time)
 
       if (!table.hasOwnProperty(zone)) {

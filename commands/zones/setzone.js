@@ -15,7 +15,7 @@ module.exports = {
   fire: async function (Bot, evt) {
     if (evt.options.length < 2) return Bot.reply(evt, this.help)
 
-    const data = opts.shift()
+    const data = evt.options.shift()
     const user = Bot.verifyUser(evt, data)
     if (!user) return Bot.reply(evt, Bot.EN.bad.arg, data)
 
