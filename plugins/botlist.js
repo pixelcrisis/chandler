@@ -21,7 +21,7 @@ module.exports = Bot => {
     if (!Bot.dbl) return true
 
     const now          = Date.now()
-    const lastVote     = Bot.$getVote(user)
+    const lastVote     = Bot.$getVotes(user)
     const threeDaysAgo = now - 259200000
 
     if (lastVote > threeDaysAgo) return true
