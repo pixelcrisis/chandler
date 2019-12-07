@@ -33,7 +33,7 @@ module.exports = {
   },
 
   test: async function (Bot, evt, data) {
-    evt.options = [ data.channel ]
+    evt.options = [ data.chan ]
     await this.fire(Bot, evt)
   }
 

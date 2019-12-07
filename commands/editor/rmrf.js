@@ -35,7 +35,10 @@ module.exports = {
 
     let progress = 0
     for (const msg of batch) { 
-      progress += 1
+      if (progress < amount) progress += 1
+      // since we delete the  trigger
+      // prevent removed 2/1 message
+      
       await msg[1].delete()
       status.edit(`Removed ${progress}/${amount} Messages...`)
     }

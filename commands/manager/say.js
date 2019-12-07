@@ -15,7 +15,7 @@ module.exports = {
   fire: async function (Bot, evt) {
     if (!evt.options.length) return Bot.reply(evt, this.help)
     if (!evt.config.speak) return Bot.reply(evt, this.none)
-    const chan = Bot.verifyChannel(evt.config.speak)
+    const chan = Bot.verifyChannel(evt, evt.config.speak)
     if (chan) return chan.send(evt.options.join(' '))
   },
 

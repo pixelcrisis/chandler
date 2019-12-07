@@ -14,7 +14,7 @@ module.exports = {
 
   lang: {
     curr: "This channel is already locked!",
-    done: "Channel was locked by {user} for: {val1}"
+    done: "Channel was locked by {user} - {val1}"
   },
 
   fire: async function (Bot, evt) {
@@ -25,12 +25,12 @@ module.exports = {
     if (target) reason.shift()
     else target = evt.channel
 
-    const perm1 = Bot.canRoles(evt, target)
+    const perm1 = Bot.canRole(evt, target)
     const perm2 = Bot.canManage(evt, target)
     if (!perm1) return Bot.reply(evt, Bot.EN.cant.roles)
     if (!perm2) return Bot.reply(evt, Bot.EN.cant.manage)
 
-    const curr = Bot.$getLock(evt, target.id)
+    const curr = Bot.$getLocks(evt, target.id)
     if (curr) return Bot.reply(evt, this.lang.curr)
 
     const cache = target.permissionOverwrites.array()
@@ -42,21 +42,18 @@ module.exports = {
       return view ? [ 'SEND_MESSAGES' ] : [ 'SEND_MESSAGES', 'READ_MESSAGES' ]
     }
 
-    let overwrites = []
+    target.overwritePermissions(Bot.user.id, { SEND_MESSAGES: true })
+    
     cache.forEach(perm => {
-      perm.denied.add('SEND_MESSAGES')
-      perm.allowed.remove('SEND_MESSAGES')
-      overwrites.push(perm)
-      perm.delete()
+      if (perm.id != evt.config.modsID) {
+        target.overwritePermissions(perm.id, { SEND_MESSAGES: false }) 
+      }
     })
 
-    overwrites.push({ id: Bot.user.id, allow: ['SEND_MESSAGES']})
-
-    reason = Bot.parse(evt, this.lang.done, reason || 'No Reason')
+    reason = reason.length ? reason : 'No Reason'
 
     await target.setTopic(target.name)
     await target.setName('locked')
-    await target.replacePermissionOverwrites({ reason, overwrites })
 
     return Bot.reply(evt, this.lang.done, reason)
   },

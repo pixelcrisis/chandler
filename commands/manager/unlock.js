@@ -22,22 +22,22 @@ module.exports = {
 
     if (!target) return Bot.reply(evt, Bot.EN.bad.arg, evt.options.join(' '))
 
-    const perm1 = Bot.canRoles(evt, target)
+    const perm1 = Bot.canRole(evt, target)
     const perm2 = Bot.canManage(evt, target)
     if (!perm1) return Bot.reply(evt, Bot.EN.cant.roles)
     if (!perm2) return Bot.reply(evt, Bot.EN.cant.manage)
 
-    const curr = Bot.$getLock(evt, target.id)
+    const curr = Bot.$getLocks(evt, target.id)
     if (!curr) return Bot.reply(evt, this.lang.curr)
 
     let overwrites = []
-    for (let perm of curr) {
+    curr.cache.forEach(perm => {
       overwrites.push({
         id: perm.id,
         deny: Bot.perm(perm.deny),
         allow: Bot.perm(perm.allow)
       })
-    }
+    })
 
     const reason = Bot.parse(evt, this.lang.done)
 

@@ -1,7 +1,7 @@
 module.exports = {
   
   name: 'rules',
-  level: 1,
+  level: 9,
   alias: ['rule'],
 
   help: {
@@ -129,7 +129,7 @@ module.exports = {
     let rule = evt.rules.list[parseInt(opt - 1)]
     if (!rule) return Bot.reply(evt, this.lang.noRule)
 
-    rule = val
+    evt.rules.list[parseInt(opt - 1)] = val
     Bot.$setRule(evt, 'list', evt.rules.list)
     Bot.replyFlash(evt, this.lang.update, opt, val)
   },
@@ -168,19 +168,19 @@ module.exports = {
     evt.options = ['post']
     await this.fire(Bot, evt)
 
-    evt.options = ['add', 'testing rule']
+    evt.options = ['add', 'thing rule']
     await this.fire(Bot, evt)
 
-    evt.options = ['1', 'edited rule']
+    evt.options = ['1', 'what rule']
     await this.fire(Bot, evt)
 
     evt.options = ['rem', '1']
     await this.fire(Bot, evt)
 
-    evt.options = ['title', 'Title Change 1']
+    evt.options = ['title', 'Change 1']
     await this.fire(Bot, evt)
 
-    evt.options = ['title', 'Title Change 2']
+    evt.options = ['title', 'Change 2']
     await this.fire(Bot, evt)
   }
 

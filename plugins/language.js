@@ -32,7 +32,7 @@ module.exports = Bot => {
     docs:   "https://chandler.12px.io/#/cmds",
     help:   "https://chandler.12px.io/#/guides",
     vote:   "https://discordbots.org/bot/596194094275887116/vote",
-    guild:  "https://discord.gg/tjRC7E4",
+    guild:  "https://discord.gg/uyVcGKu",
     zones:  "http://kevalbhatt.github.io/timezone-picker",
     embed:  "https://leovoel.github.io/embed-visualizer/",
     invite: "https://discordapp.com/oauth2/authorize?client_id=596194094275887116&scope=bot&permissions=268512312"

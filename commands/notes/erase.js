@@ -24,7 +24,7 @@ module.exports = {
     if (!curr) return Bot.reply(evt, this.lang.none, note)
 
     Bot.$remNote(evt, note)
-    return Bot.reply(evt, this.lang.done, command)
+    return Bot.reply(evt, this.lang.done, note)
   },
 
   test: async function (Bot, evt, data) {
