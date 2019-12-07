@@ -6,7 +6,7 @@ const DBL = require('dblapi.js')
 module.exports = Bot => {
 
   if (Bot.conf.dbl.use) {
-    const options = { webhookPort: 5000, webhookAuth: Bot.conf.db.auth }
+    const options = { webhookPort: 5000, webhookAuth: Bot.conf.dbl.auth }
     Bot.dbl = new DBL(Bot.conf.dbl.token, options, Bot)
 
     Bot.dbl.on('posted', () => Bot.log('DBL Bot Count Posted.'))
