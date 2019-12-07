@@ -1,7 +1,7 @@
 module.exports = {
   
   name: 'rules',
-  level: 9,
+  level: 1,
   alias: ['rule'],
 
   help: {
@@ -21,7 +21,8 @@ module.exports = {
           "`color` - changes color of official rules post (#hex).\n" +
           "`image` - changes image of official rules post.\n" +
           "`intro` - adds intro to the official rules post.\n" +
-          "`outro` - adds outro to the official rules post."
+          "`outro` - adds outro to the official rules post.\n\n" +
+          "*Note: this is a little buggy at the moment!*"
   },
 
   lang: {
