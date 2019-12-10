@@ -133,6 +133,7 @@ module.exports = {
     evt.rules.list[parseInt(opt - 1)] = val
     Bot.$setRule(evt, 'list', evt.rules.list)
     Bot.replyFlash(evt, this.lang.update, opt, val)
+    return this.sync(Bot, evt)
   },
 
   __title: function (Bot, evt, val) {
