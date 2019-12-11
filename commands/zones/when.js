@@ -12,7 +12,7 @@ module.exports = {
     name: "{pre}when (time) (month) (day)",
     desc: "Returns or sets sets a countdown timer. " +
           "For same day countdowns, month and day are optional.\n" +
-          "Example: `{pre}when 12am Dec 25` or `{pre}when 8pm`" 
+          "Example: `{pre}when 12am Dec 25` or `{pre}when 8:30pm`" 
   },
 
   lang: {
