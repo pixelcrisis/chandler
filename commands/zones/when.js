@@ -18,13 +18,16 @@ module.exports = {
   lang: {
     now: "It should be happening? Don't ask me.",
     none: "I have no idea when it is.",
-    update: "Set to: about {val1} from now.",
-    count: "It's in about {val1} from now."
+    update: "Set to: about {val1} from now, {val2}",
+    count: "It's in about {val1} from now, {val2}",
+    zone: "use `{pre}zone` to find local time."
   },
 
   fire: async function (Bot, evt) {
     if (evt.access.level < 3 || !evt.options.length) {
       const count = this.count(Bot, evt)
+      return Bot.reply(evt, count.msg, count.when, count.time)
+
       if (count) return Bot.reply(evt, this.lang.count, count)
       else if (count === 0) return Bot.reply(evt, this.lang.now)
       else return Bot.reply(evt, this.lang.none)
@@ -32,12 +35,24 @@ module.exports = {
   },
 
   count: function(Bot, evt) {
+    let result = { msg: this.lang.none }
+    let zone = Bot.$getZones(evt, evt.author.id)
+
     const curr = Bot.getTime('America/Chicago')
     const then = Bot.strTime(evt.config.when, 'America/Chicago')
     const diff = then.diff(curr)
-    if (diff > 0) return Bot.diffTime(diff)
-    if (diff > -3600000) return 0
-    return false
+
+    result.when = Bot.diffTime(diff)
+    if (diff > 0) result.msg = this.lang.count
+    else if (diff > -3600000) result.msg = this.lang.now
+
+    if (!zone) result.time = this.lang.zone
+    else {
+      let time = Bot.timeStr(Bot.strTime(evt.config.when, zone)).split(' ')
+      result.time = `at ${time[1]}${time[2].toLowerCase()} on ${time[0]}`
+    }
+    
+    return result
   },
 
   update: function (Bot, evt) {
