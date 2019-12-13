@@ -28,6 +28,12 @@
         <code class="example">~/time Username</code>
       </doc-block>
 
+      <doc-block cmd="~/when (time) (month) (day)" group="zone" level="1" show="true">
+        The when command is a simple countdown timer. It will return a countdown to a date, if any is set. Mods can set a countdown by passing a time, month, and day. The month and day can be omitted for same-day countdowns.
+        <code class="example">~/when 9pm</code>
+        <code class="example">~/when 9pm Dec 31</code>
+      </doc-block>
+
       <doc-block cmd="~/zones" group="zone" level="1">
         Prints out all the active timezones and their users in the server. Disabled on servers with over 30 users registered with timezones for brevity.
       </doc-block>
