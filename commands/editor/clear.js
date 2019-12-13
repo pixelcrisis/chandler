@@ -29,9 +29,14 @@ module.exports = {
 
     const batch = await evt.channel.fetchMessages({ limit: amount + 1 })
 
-    evt.channel.bulkDelete(batch)
-      .then(msgs => Bot.replyFlash(evt, this.lang.rem, amount))
-      .catch(err => Bot.replyFlash(evt, this.lang.old))
+    try {
+      await evt.channel.bulkDelete(batch)
+      Bot.replyFlash(evt, this.lang.rem, amount)
+    }
+
+    catch(e) {
+      Bot.replyFlash(evt, this.lang.old)
+    }
   },
 
   test: async function (Bot, evt, data) {
