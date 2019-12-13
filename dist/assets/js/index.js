@@ -447,6 +447,28 @@ var render = function() {
         _vm._v(" "),
         _c(
           "doc-block",
+          {
+            attrs: {
+              cmd: "~/when (time) (month) (day)",
+              group: "zone",
+              level: "1",
+              show: "true"
+            }
+          },
+          [
+            _vm._v(
+              "\n      The when command is a simple countdown timer. It will return a countdown to a date, if any is set. Mods can set a countdown by passing a time, month, and day. The month and day can be omitted for same-day countdowns.\n      "
+            ),
+            _c("code", { staticClass: "example" }, [_vm._v("~/when 9pm")]),
+            _vm._v(" "),
+            _c("code", { staticClass: "example" }, [
+              _vm._v("~/when 9pm Dec 31")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "doc-block",
           { attrs: { cmd: "~/zones", group: "zone", level: "1" } },
           [
             _vm._v(
@@ -1234,6 +1256,12 @@ render._withStripped = true
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_DocBlock_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../parts/DocBlock.vue */ "./parts/DocBlock.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
