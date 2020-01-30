@@ -7,6 +7,7 @@ const Moment          = require('moment')
 module.exports = Bot => {
 
   Bot.ready = false
+  Bot.logBook = []
 
   Bot.isY = str => ['y', 'yes', 'on', 'true', 'enable'].includes(str.toLowerCase())
   Bot.isN = str => ['n', 'no', 'off', 'false', 'disable'].includes(str.toLowerCase())
@@ -35,6 +36,9 @@ module.exports = Bot => {
       savedLogs.push(evt.log.name || evt.log.desc)
       Bot.$setConf(evt, 'logged', savedLogs)
     }
+
+    if (Bot.logBook.length > 19) Bot.logBook.shift()
+    Bot.logBook.push(`${guild ? guild + ":" : ">"} ${evt.log.name || evt.log.desc}`)
 
     if (err) {
       console.log(guild, err)

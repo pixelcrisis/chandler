@@ -15,6 +15,10 @@ module.exports = {
     if (this[`__${opt}`]) return this[`__${opt}`](Bot, evt, val)
   },
 
+  __logs: function (Bot, evt) {
+    return Bot.reply(evt, { name: "Latest Logs", desc: Bot.logBook })
+  },
+
   __details: function (Bot, evt) {
     Bot.exec('pm2 list', (err, yay, nay) => {
       if (err) return Bot.reply(evt, 'Nay')
