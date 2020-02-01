@@ -8,6 +8,7 @@ module.exports = {
     name: "{pre}clear [amount]",
     desc: "Delete `amount` messages from current channel.\n" +
           "Due to discord limits, can only delete 99 messages at a time.\n" +
+          "Can only delete messages from within the last two weeks.\n" +
           "Check out `{pre}rmrf` for more powerful cleaning."
   },
 

@@ -6,6 +6,7 @@ module.exports = {
   help: {
     name: "{pre}rmrf [amount]",
     desc: "Delete `amount` messages from current channel.\n" +
+          "Using `{pre}clear` is faster, but has limitations.\n" +
           "For performance, limited to 300 messages at a time."
   },
 
@@ -28,25 +29,31 @@ module.exports = {
     if (isNaN(amount)) return Bot.reply(evt, this.help)
     if (amount > 300)  return Bot.reply(evt, this.lang.max)
 
-    const batch = await evt.channel.fetchMessages({ limit: amount + 1 })
-
-    const status = await Bot.reply(evt, this.lang.start)
     Bot.hold[evt.guild.id] = true
 
+    const batches = Math.floor(amount / 100)
+    const remains = amount - (batches * 100)
     let progress = 0
-    for (const msg of batch) { 
-      if (progress < amount) progress += 1
-      // since we delete the  trigger
-      // prevent removed 2/1 message
-      
-      await msg[1].delete()
-      status.edit(`Removed ${progress}/${amount} Messages...`)
+
+    for (var i = batches; i >= 0; i--) {
+      let limit = i == 0 ? remains + 1 : 100
+      const batch = await evt.channel.fetchMessages({ limit })
+
+      if (batch.size) {
+        const status = await Bot.reply(evt, this.lang.start)
+
+        for (const msg of batch) {
+          if (progress < amount) progress += 1
+          await msg[1].delete()
+          await status.edit(`Removed ${progress}/${amount} Messages...`)
+        }
+
+        await status.delete()
+      }
     }
 
     Bot.hold[evt.guild.id] = false
-    status.delete()
-
-    Bot.replyFlash(evt, this.lang.done, amount)
+    Bot.replyFlash(evt, this.lang.done, progress)
   },
 
   test: async function (Bot, evt, data) {
