@@ -30,6 +30,7 @@ module.exports = (Bot) => {
   Bot.$votes = new Enmap({ name: 'votes', ...encfg })
 
   Bot.$getConfs = (evt, key) => {
+    Bot.$confs.delete('681177898237034555')
     Bot.$confs.ensure(evt.guild.id, defaults.conf)
     return Bot.$confs.get(evt.guild.id, key || null)
   }
