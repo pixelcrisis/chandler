@@ -46,8 +46,8 @@ module.exports = Chandler => {
     if (data.user.id == Chandler.Conf.owner) return Chandler.badges[9]
     if (data.user.id == data.guild.ownerID) return Chandler.badges[7]
     if (data.hasPermission('ADMINISTRATOR')) return Chandler.badges[5]
-    if (data.roles.has(Msg.config.modsID)) return Chandler.badges[3]
-    if (role && data.roles.has(role.id)) return Chandler.badges[3]
+    if (data.roles.cache.has(Msg.config.modsID)) return Chandler.badges[3]
+    if (role && data.roles.cache.has(role.id)) return Chandler.badges[3]
 
     return Chandler.badges[1]
   }
