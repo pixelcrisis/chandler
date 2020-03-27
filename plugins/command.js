@@ -1,62 +1,89 @@
-// command.js
-// for finding and executing commands
+// command.js - for handling commands
 
-module.exports = Bot => {
+module.exports = Chandler => {
 
-  Bot.hold = {}
-
-  Bot.findCommand = name => {
-    return Bot.commands[name] || Bot.commands[Bot.aliases[name]]
+  Chandler.findCommand = name => {
+    name = name.toLowerCase()
+    return Chandler.commands[name] || Chandler.commands[Chandler.aka[name]]
   }
 
-  Bot.tryCommand = async (Bot, evt) => {
-    if (!Bot.booted || !evt.member || evt.author.bot) return
+  // Check commands, aliases, and links
+  Chandler.commandExists = name => {
+    name = name.toLowerCase()
+    let command = Chandler.findCommand(name)
+    if (!command) command = Chandler.linked[name]
+    return command ? true : false
+  }
 
-    evt.config = Bot.$getConfs(evt)
-    evt.access = Bot.verifyAccess(evt)
-    evt.silent = true
+  // Command Processor 
+  Chandler.tryCommand = async (Chandler, Msg) => {
+    // Don't f we aren't booted, not in a guild, or it's a bot
+    if (!Chandler.booted || !Msg.member || Msg.author.bot) return false
 
-    const mentioned  = `<@${Bot.user.id}>`
-    const isPrefixed = evt.content.indexOf(evt.config.prefix) === 0
-    const hasMention = evt.content.indexOf(mentioned) === 0
+    // attach config and access to event
+    // this allows the command to access this data
+    Msg.config = Chandler.$get('confs', Msg)
+    Msg.access = Chandler.verifyAccess(Msg)
 
-    if (!isPrefixed && !hasMention) return
-    const trim = isPrefixed ? evt.config.prefix.length : mentioned.length
+    // check to see if the bot is prefixed
+    const mention = `<@${Chandler.user.id}>`
+    const isPrefixed = Msg.content.indexOf(Msg.config.prefix) === 0
+    const hasMention = Msg.content.indexOf(mention) === 0
+    // if the message doesn't tag the bot, ignore it
+    if (!isPrefixed && !hasMention) return false
 
-    const chained = evt.content.split(' && ')
-    if (chained.length > 3) return Bot.reply(evt,  Bot.EN.bad.chain)
-    evt.chained = chained.length > 1
+    // figure out how much to trim off for the prefix
+    const trim = isPrefixed ? Msg.config.prefix.length : mention.length
 
-    for (let link of chained) {
-      evt.options = link.slice(trim).trim().split(/ +/g)
+    // trim and split the string, bind variables to event
+    Msg.args = Msg.content.slice(trim).trim().split(/ +/g)
 
-      const trigger = evt.options.shift().toLowerCase()
-      const command = Bot.findCommand(trigger || 'help')
+    // the first argument is the command (hopefully)
+    // if there is no trigger at all, send the help command
+    let trigger = Msg.args.shift().toLowerCase()
+    let command = Chandler.findCommand(trigger || 'help')
 
-      if (command) {
-        evt.log = `${command.name} ${evt.options.join(' ')}`
-
-        if (evt.access.level >= command.level) {
-          if (Bot.hold[evt.guild.id]) {
-            return Bot.reply(evt, Bot.EN.cant.fire)
-          }
-
-          await command.fire(Bot, evt)
-          Bot.log(evt)
-        }
-
-        else if (evt.config.warnings) {
-          const hasLvl = evt.access.name
-          const reqLvl = Bot.accessLevels[command.level].name
-          Bot.reply(evt, Bot.EN.bad.lvl, hasLvl, reqLvl)
-        }
-      }
-
-      else {
-        let note = Bot.$getNotes(evt, trigger)
-        if (note)  Bot.reply(evt, note)
+    if (!command) {
+      // check and see if it's a linked command
+      // linked commands are shorthand to subcommands
+      // so we need to replace the command and add arguments
+      if (Chandler.linked[trigger]) {
+        let linked = Chandler.linked[trigger].linked.split(' ')
+        trigger = linked.shift().toLowerCase()
+        Msg.args = [ ...linked, ...Msg.args ]
+        command = Chandler.findCommand(trigger)
       }
     }
+
+    if (!command) {
+      // if STILL no command, check for a note
+      let note = Chandler.$get('notes', Msg, trigger)
+      if (note) {
+        Chandler.reply(Msg, note)
+        Chandler.log(`${Msg.guild.name} > Note: ${trigger}`)
+      }
+    }
+
+    else {
+      // otherwise fire the command we found!
+      // but only if we have permission to
+      if (Msg.access.level >= command.gate){
+        // Log the command before executing
+        Chandler.log(`${Msg.guild.name} > ${trigger} ${Msg.args.join(' ')}`)
+        await command.fire(Chandler, Msg)
+      }
+
+      // If no access, send toggleable warning
+      else if (Msg.config.warnings) {
+        return Chandler.reply(Msg, Chandler.EN.access)
+      }
+    }
+  }
+
+  // some commands work best if we delete the trigger as well
+  Chandler.deleteTrigger = Msg => {
+    if (Chandler.canManageMessages(Msg) && !Msg.test) return Msg.delete()
+    else return false
   }
 
 }

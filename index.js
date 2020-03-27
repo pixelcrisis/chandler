@@ -8,21 +8,32 @@
 /**********************************/
 
 const Discord = require('discord.js')
-const Bot     = new Discord.Client()
+const Chandler = new Discord.Client()
 
-Bot.conf = require('./config.json')
-Bot.exec = require('child_process').exec
-Bot.vers = require('./package.json').version
+// Load some dependencies
+Chandler.Info = require('./package.json')
+Chandler.Conf = require('./config.json')
+Chandler.Exec = require('child_process').exec
 
-require('./loader.js')(Bot)
+// Pass Chandler to loader.js
+// To get loaded up with other files
+require('./loader.js')(Chandler)
 
+// Async requires a function, so 
+// we wrap it in a function!
 const init = async () => {
-  await Bot.loadPlugins()
-  await Bot.loadEvents()
-  await Bot.loadCommands()
-  await Bot.loadHandlers()
 
-  Bot.login(Bot.conf.token)
+  // Call the functions from loader.js
+  await Chandler.loadPlugins()
+  await Chandler.loadEvents()
+  await Chandler.loadCommands()
+  await Chandler.loadHandlers()
+
+  // Once we've loaded all the files
+  // We can login to Discord!
+  Chandler.login(Chandler.Conf.token)
 }
 
+// Nothing left to define, here we go!
+// Check events/ready.js for the next steps.
 init()

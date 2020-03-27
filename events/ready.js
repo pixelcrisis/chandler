@@ -1,26 +1,34 @@
-// ready.js
+// ready.js - on startup
 
-module.exports = async Bot => {
+module.exports = async Chandler => {
+  
+  const version = Chandler.Info.version
 
-  await Bot.wait(1000)
+  // I don't trust we're ready yet, tbh
+  await Chandler.wait(1000)
 
-  Bot.updateStatus = key => {
-    const statusPool = [
-      `v${Bot.vers} in ${Bot.guilds.keyArray().length} Servers`,
-      `~/help - v${Bot.vers}`,
-      `~/time - v${Bot.vers}`
+  // change bot status
+  Chandler.updateStatus = init => {
+    const guilds = Chandler.guilds.cache.keyArray().length
+    const status = [
+      `v${version} in ${guilds} Servers`, 
+      `~/help - v${version}`,
+      `~/time - v${version}`
     ]
-
-    key = key ? 0 : Math.floor(Math.random() * statusPool.length)
-    Bot.user.setActivity(statusPool[key], { type: 'WATCHING' })
+    // get a random status unless init is true
+    let key = init ? 0 : Math.floor(Math.random() * status.length)
+    Chandler.user.setActivity(status[key], { type: 'WATCHING' })
   }
 
-  Bot.updateStatus(true)
+  // Fire the first status update
+  Chandler.updateStatus(true)
 
+  // Set it to update randomly every two minutes
   const twoMins = 1000 * 60 * 2
-  Bot.statsUpdates = setInterval(Bot.updateStatus, twoMins)
+  Chandler.statusUpdates = setInterval(Chandler.updateStatus, twoMins)
 
-  Bot.booted = true
-  Bot.log(`Loaded Everything, Booted v${Bot.vers}`)
+  // Now we've booted up!
+  Chandler.booted = true
+  Chandler.post(`Loaded Everything, Booted v${version}`)
 
 }

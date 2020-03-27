@@ -1,149 +1,117 @@
-// response.js
-// for responding 
+// response.js - for responding
 
-module.exports = Bot => {
+module.exports = Chandler => {
 
-  Bot.reply = (evt, data, val1, val2) => {
-    if (!Bot.canChat(evt)) return false
-    if (!Array.isArray(data)) data = Bot.response(evt, data, val1, val2)
-    const finalMsg = data.length - 1
-    for (let i = 0; i < data.length; i++) {
-      if (i == finalMsg) return evt.channel.send(data[i])
-      else evt.channel.send(data[i])
-    }
+  // If we can send a message, send it
+  Chandler.reply = (Msg, data, str1, str2) => {
+    if (!Chandler.canSendMessages(Msg)) return false
+    // all of our data goes through the parser
+    const response = Chandler.parse(Msg, data, str1, str2)
+    return Msg.channel.send(response)
   }
 
-  Bot.replyFlash = async (evt, data, val1, val2) => {
-    const flashed = await Bot.reply(evt, data, val1, val2)
-    await Bot.wait(2000)
-    if (Bot.canDelete(flashed)) flashed.delete()
+  // Deletes a response after two seconds
+  Chandler.replyFlash = async (Msg, data, str1, str2) => {
+    const flashed = await Chandler.reply(Msg, data, str1, str2)
+    await Chandler.wait(2000)
+    if (Chandler.canManageMessages(flashed)) flashed.delete()
   }
 
-  Bot.response = (evt, data, val1, val2) => {
-    let embed = { author: {}, footer: {} }
-
-    if (typeof data == 'string') {
-      embed.description = Bot.parse(evt, data, val1, val2)
+  // The parser. I'm so sorry.
+  Chandler.parse = (Msg, str, val1, val2) => {
+    // Check if str is actually an object
+    // And if so, pass it off to quickEmbed
+    if (str && !Array.isArray(str) && typeof str === 'object') {
+      return Chandler.quickEmbed(Msg, str, val1, val2)
     }
+    // Otherwise, just return str if not a string
+    else if (typeof str != 'string') return str
 
-    else for (const prop in data) {
-      let it = data[prop]
+    str = str.split('{{ ').join('```js\n')
+    str = str.split('{{').join('```js\n')
+    str = str.split(' }}').join('\n```')
+    str = str.split('}}').join('\n```')
+    str = str.split(' || ').join('\n')
+    str = str.split('||').join('\n')
 
-      if (prop != 'fields') {
-        if (Array.isArray(it)) it = it.join('chan_dler')
-        if (typeof it == 'string') {
-          it = Bot.parse(evt, it, val1, val2)
-          if (it.indexOf('chan_dler') > -1) it = it.split('chan_dler')
-        }
+    str = str.split('{val1}').join(val1)
+    str = str.split('{val2}').join(val2)
+    
+    str = str.split('{bot}').join(`<@${Chandler.user.id}>`)
+    str = str.split('{ver}').join(Chandler.Info.version)
+    str = str.split('{guilds}').join(Chandler.guilds.cache.keyArray().length)
+
+    str = str.split('{guides}').join(Chandler.URL.help)
+    str = str.split('{invite}').join(Chandler.URL.invite)
+    str = str.split('{docs}').join(Chandler.URL.docs)
+    str = str.split('{server}').join(Chandler.URL.guild)
+    str = str.split('{vote}').join(Chandler.URL.vote)
+    str = str.split('{timezones}').join(Chandler.URL.zones)
+    str = str.split('{embeds}').join(Chandler.URL.embed)
+    str = str.split('{getids}').join(Chandler.URL.getids)
+
+    if (Msg) {
+      if (Msg.author) {
+        str = str.split('{user}').join(`<@${Msg.author.id}>`)
+        str = str.split('{user.id}').join(Msg.author.id)
+        str = str.split('{user.name}').join(Msg.author.username)
       }
 
-      if      (prop == 'name') embed.author.name = it
-      else if (prop == 'icon') embed.author.icon_url = it
-      else if (prop == 'foot') embed.footer.text = it
-      else if (prop == 'time') embed.timestamp = it
-      else if (prop == 'desc') embed.description = it
-      else embed[prop] = it
-    }
+      if (Msg.guild) {
+        str = str.split('~/').join(Msg.config.prefix)
+        str = str.split('{guild.name}').join(Msg.guild.name)
+        str = str.split('{guild.id}').join(Msg.guild.id)
+        str = str.split('{guild.count}').join(Msg.guild.memberCount)
+        str = str.split('{guild.owner}').join(`<@${Msg.guild.owner.user.id}>`)
+      }
 
-    return Bot.splitResponse(embed)
-  }
-
-  Bot.splitResponse = embed => {
-    if (!Array.isArray(embed.description)) return [{ embed }]
-    let result = [], messages = [], str = ''
-    let data = embed.description
-
-    for (let i = 0; i < data.length; i++) {
-      if (!str) str = data[i]
-      else {
-        let len = str.length + data[i].length + 2
-        if (len >= 1850) messages.push(str)
-        str = len < 1850 ? `${str}\n${data[i]}` : data[i]
+      if (Msg.args) {
+        str = str.split('{msg}').join(Msg.args.join(' '))
+        str = str.split('{opts}').join(Msg.args.join(' '))
+        str = str.split('{args}').join(Msg.args.length)
       }
     }
-    if (str) messages.push(str)
 
-    for (let i = 0; i < messages.length; i++) {
-      let page = JSON.parse(JSON.stringify(embed))
-      let foot = { text: `Page ${i + 1}/${messages.length}` }
-      if (messages.length > 1) page.footer = foot
-      page.description = messages[i]
-      result.push({ embed: page })
+    // un-escape any escaped keys
+    str = str.split('{/').join('{')
+    return str
+  }
+
+  // Custom shorthand for embeds
+  Chandler.quickEmbed = (Msg, obj, val1, val2) => {
+    let embed = { author: {} }
+    for (let prop in obj) {
+      // parse the property if it's a string
+      let isStr = typeof obj[prop] === 'string'
+      let data = isStr ? Chandler.parse(Msg, obj[prop], val1, val2) : obj[prop]
+
+      // apply our shorthands
+      if (prop == 'name') embed.author.name = data
+      else if (prop == 'desc') embed.description = data
+      else embed[prop] = data
     }
-
-    return result
+    return { embed }
   }
 
-  Bot.escape = str => str ? str.split('{').join('{/') : str
+  // escape variables that need to be printed instead of parsed
+  Chandler.escape = str => str ? str.split('{').join('{/') : false
 
-  Bot.deleteTrigger = evt => {
-    return Bot.canDelete(evt) && !evt.chained ? evt.delete() : false
-  }
-
-  Bot.clean = data => {
+  // clean messages for safety, only used for sudo commands
+  Chandler.clean = data => {
+    // if it's an object / array, we'll break it down with inspect
     const inspect = data => require('util').inspect(data, { depth: 2 })
     if (typeof data !== 'string') data = inspect(data)
 
-    data = data.split(Bot.token).join('t0k3n-n0t-f0r-s4l3')
-    if (Bot.conf.dbl.use) {
-      data = data.split(Bot.conf.dbl.auth).join('f@keAuth')
-      data = data.split(Bot.conf.dbl.token).join('th1s-0n3-4ls0-n4S')
+    // now we basically just remove any sensitive information, if any
+    const dbl = Chandler.Conf.dbl
+    const sensitive = [ Chandler.token, dbl.auth, dbl.token ]
+
+    for (let i = sensitive.length - 1; i >= 0; i--) {
+      if (sensitive[i]) data = data.split(sensitive[i]).join('t0k3n')
     }
+
+    // and then we pretty print!
     return ['```js', data, '```'].join('\n')
-  }
-
-  Bot.parseEmbed = str => {
-    try {
-      let obj = JSON.parse(str)
-      return obj.embed ? obj : { embed: obj }
-    }
-    catch(e) { return false }
-  }
-
-  Bot.parse = (evt, str, val1, val2) => {
-    if (typeof str != 'string') return str
-
-    str = str.split('{{').join('\n\n```js\n')
-    str = str.split('}}').join('\n```')
-    str = str.split('{val1}').join(val1)
-    str = str.split('{val2}').join(val2)
-    str = str.split('{bot}').join(`<@${Bot.user.id}>`)
-    str = str.split('{guides}').join(Bot.URL.help)
-    str = str.split('{invite}').join(Bot.URL.invite)
-    str = str.split('{docs}').join(Bot.URL.docs)
-    str = str.split('{server}').join(Bot.URL.guild)
-    str = str.split('{vote}').join(Bot.URL.vote)
-    str = str.split('{timezones}').join(Bot.URL.zones)
-    str = str.split('{embeds}').join(Bot.URL.embed)
-    str = str.split('{ver}').join(Bot.vers)
-    str = str.split('{guilds}').join(Bot.guilds.keyArray().length)
-
-    if (evt) {
-      if (evt.author) {
-        str = str.split('{love}').join(Bot.hasLove(evt.author.id))
-        str = str.split('{user}').join(`<@${evt.author.id}>`)
-        str = str.split('{user.id}').join(evt.author.id)
-        str = str.split('{user.name}').join(evt.author.username)
-      }
-
-      if (evt.guild) {
-        const prefix = Bot.$getConfs(evt, 'prefix')
-        str = str.split('{pre}').join(prefix)
-        str = str.split('{guild.name}').join(evt.guild.name)
-        str = str.split('{guild.id}').join(evt.guild.id)
-        str = str.split('{guild.count}').join(evt.guild.memberCount)
-        str = str.split('{guild.owner}').join(evt.guild.owner.user.username)
-      }
-
-      if (evt.options) {
-        str = str.split('{msg}').join(evt.options.join(' '))
-        str = str.split('{opts}').join(evt.options.join(' '))
-        str = str.split('{args}').join(evt.options.length)
-      }
-    }
-
-    str = str.split('{/').join('{')
-    return str
   }
 
 }

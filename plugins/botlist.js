@@ -1,39 +1,18 @@
-// botlist.js
-// for interacting with discordbotlist api
+// botlist.js - interacting with discordbotlist
 
 const DBL = require('dblapi.js')
 
-module.exports = Bot => {
+module.exports = Chandler => {
 
-  if (Bot.conf.dbl.use) {
-    const options = { webhookPort: 5000, webhookAuth: Bot.conf.dbl.auth }
-    Bot.dbl = new DBL(Bot.conf.dbl.token, options, Bot)
+  if (Chandler.Conf.dbl.use) {
+    // Define DBL Api with webhook (to listen for votes)
+    Chandler.Dbl = new DBL(Chandler.Conf.dbl.token, {
+      webhookPort: 5000, webhookAuth: Chandler.Conf.dbl.auth
+    }, Chandler)
 
-    Bot.dbl.on('posted', () => console.info('DBL Bot Count Posted.'))
-    Bot.dbl.on('error', err => console.info(`DBL Error: ${err}`))
-
-    Bot.dbl.webhook.on('ready', e => console.info('DBL Webhook Running.'))
-    Bot.dbl.webhook.on('vote',  e => Bot.$setVote(e.user, Date.now()))
-  }
-
-  Bot.hasVoted = user => {
-    if (!user) return false
-    if (!Bot.dbl) return true
-
-    const now          = Date.now()
-    const lastVote     = Bot.$getVotes(user)
-    const threeDaysAgo = now - 259200000
-
-    if (lastVote > threeDaysAgo) return true
-      
-    const voted = Bot.dbl.hasVoted(user)
-    if (voted) Bot.$setVote(user, now)
-    return voted
-  }
-
-  Bot.hasLove = user => {
-    let voted = Bot.hasVoted(user)
-    return voted ? `ily <@${user}> <3` : `[Vote! <3](${Bot.URL.vote})`
+    Chandler.Dbl.on('posted', () => Chandler.log('DBL Count Posted'))
+    Chandler.Dbl.on('error', err => Chandler.post(err, 'DBL Error'))
+    Chandler.Dbl.webhook.on('ready', () => Chandler.log('DBL Running'))
   }
 
 }

@@ -3,3 +3,4 @@ TODO.md
 node_modules
 config.json
 data/*
+_fallback/*

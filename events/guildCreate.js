@@ -1,16 +1,14 @@
-module.exports = (Bot, guild) => {
+// guildCreate.js - Handles bot being added to guild
 
-  let response  = { guild }
-  response.conf = Bot.$getConfs(response)
+module.exports = (Chandler, guild) => {
 
-  response.log = {
-    color: 48268,
-    icon: guild.iconURL,
-    name: `Added to ${guild.name}`,
-    foot: 'Now in {guilds} servers.',
-    desc: 'Server Owner: **{guild.owner}** - Total Users: **{guild.count}**'
-  }
-  
-  Bot.log(response)
+  let name = `Added to ${guild.name}`
+  let description = [
+    `Total Users: ${guild.memberCount}`,
+    `Server Owner: ${guild.owner.user.username}`,
+    `Now In ${Chandler.guild.keyArray().length} servers.`
+  ].join('\n')
+
+  return Chandler.post(description, name)
 
 }

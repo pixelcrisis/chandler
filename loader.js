@@ -1,45 +1,50 @@
-// loader.js
-// loads plugins, events, commands
+// loader.js - Loads plugins, events, commands 
 
 const { promisify } = require('util')
 const readDirectory = promisify(require('fs').readdir)
 
-module.exports = Bot => {
+// define a load folder helper
+// read every file in a directory,
+// load that file and apply a callback
+const loadFolder = async (folder, cb) => {
+  const files = await readDirectory(folder)
+  files.forEach(file => cb(file.split('.')[0], require(`${folder}/${file}`)))
+}
 
-  Bot.aliases  = {}
-  Bot.commands = {}
+module.exports = Chandler => {
 
-  const loadFolder = async (folder, callback) => {
-    const files = await readDirectory(folder)
-    files.forEach(file => callback(file))
+  Chandler.aka = {}
+  Chandler.linked = {}
+  Chandler.commands = {}
+
+  // Using the loadFolder helper above,
+  // We Quickly load several folders worth of files!
+
+  Chandler.loadPlugins = async () => {
+    const cb = (name, plugin) => plugin(Chandler)
+    const plugins = await loadFolder('./plugins/', cb)
   }
 
-  Bot.loadPlugins = async () => {
-    const plugins = await loadFolder('./plugins/', file => {
-      require(`./plugins/${file}`)(Bot)
-    })
+  Chandler.loadEvents = async () => {
+    const cb = (name, event) => Chandler.on(name, event.bind(null, Chandler))
+    const events = await loadFolder('./events/', cb)
   }
 
-  Bot.loadEvents = async () => {
-    const events = await loadFolder('./events/', file => {
-      const event = require(`./events/${file}`)
-      Bot.on(file.split('.')[0], event.bind(null, Bot))
-    })
+  Chandler.loadCommands = async () => {
+    const cb = (name, cmd) => {
+      Chandler.commands[name] = cmd
+      if (cmd.also) cmd.also.forEach(also => Chandler.aka[also] = name)
+      if (cmd.link) Chandler.linked = { ...Chandler.linked, ...cmd.link }
+    }
+    const commands = await loadFolder('./commands/', cb)
   }
 
-  Bot.loadCommands = async () => {
-    const groups = await loadFolder('./commands/', async group => {
-      const commands = await loadFolder(`./commands/${group}`, file => {
-        const cmd = require(`./commands/${group}/${file}`)
-        Bot.commands[cmd.name] = cmd
-        if (cmd.alias) cmd.alias.forEach(alias => Bot.aliases[alias] = cmd.name)
-      })
-    })
-  }
+  // Might as well define these now
+  // Chandler.post() is available in plugins/logging.js
 
-  Bot.loadHandlers = async () => {
-    process.on('uncaughtException',  err => Bot.log('Exception: ', err))
-    process.on('unhandledRejection', err => Bot.log('Rejection: ', err))
+  Chandler.loadHandlers = async () => {
+    process.on('uncaughtException',  err => Chandler.post(err, 'Exception'))
+    process.on('unhandledRejection', err => Chandler.post(err, 'Rejection'))
   }
 
 }
