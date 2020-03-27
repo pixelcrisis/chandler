@@ -394,8 +394,7 @@ var render = function() {
               "\n      Returns a link to this site and the support server, as well as an invite link for the bot. When passed a "
             ),
             _c("code", [_vm._v("(command)")]),
-            _vm._v(", returns the help string for that command.\n      "),
-            _c("code", { staticClass: "alias" }, [_vm._v("~/invite")])
+            _vm._v(", returns the help string for that command.\n    ")
           ]
         ),
         _vm._v(" "),
@@ -403,7 +402,9 @@ var render = function() {
           "doc-block",
           { attrs: { cmd: "~/commands", group: "sys", level: "1" } },
           [
-            _vm._v("\n      Returns all commands available to you.\n      "),
+            _vm._v(
+              "\n      Returns a list of all the commands available to you. (All the commands you can use.)\n      "
+            ),
             _c("code", { staticClass: "alias" }, [_vm._v("~/cmds")])
           ]
         )
@@ -442,38 +443,6 @@ var render = function() {
             _c("code", { staticClass: "example" }, [_vm._v("~/time 9pm")]),
             _vm._v(" "),
             _c("code", { staticClass: "example" }, [_vm._v("~/time Username")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/when (time) (month) (day)",
-              group: "zone",
-              level: "1",
-              show: "true"
-            }
-          },
-          [
-            _vm._v(
-              "\n      The when command is a simple countdown timer. It will return a countdown to a date, if any is set. Mods can set a countdown by passing a time, month, and day. The month and day can be omitted for same-day countdowns.\n      "
-            ),
-            _c("code", { staticClass: "example" }, [_vm._v("~/when 9pm")]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/when 9pm Dec 31")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/zones", group: "zone", level: "1" } },
-          [
-            _vm._v(
-              "\n      Prints out all the active timezones and their users in the server. Disabled on servers with over 30 users registered with timezones for brevity.\n    "
-            )
           ]
         ),
         _vm._v(" "),
@@ -557,7 +526,7 @@ var render = function() {
           "doc-block",
           {
             attrs: {
-              cmd: "~/note [cmd] [message]",
+              cmd: "~/write [cmd] [message]",
               group: "note",
               level: "3",
               show: "true"
@@ -572,7 +541,7 @@ var render = function() {
               ". Only mods can create a note, but anyone can use them.\n      "
             ),
             _c("code", { staticClass: "example" }, [
-              _vm._v("~/note yo hello there")
+              _vm._v("~/write yo hello there")
             ]),
             _vm._v(" "),
             _c("code", { staticClass: "example" }, [_vm._v("~/yo")]),
@@ -617,26 +586,29 @@ var render = function() {
             attrs: { cmd: "~/set [option] [value]", group: "conf", level: "5" }
           },
           [
-            _vm._v("\n      Check out the "),
-            _c("a", { attrs: { href: "guides.html" } }, [_vm._v("Guides")]),
-            _vm._v(" for all options!\n      "),
+            _c("code", { staticClass: "example" }, [_vm._v("~/set prefix ?")]),
+            _vm._v("\n      Change the prefix to "),
+            _c("strong", [_vm._v("?")]),
+            _vm._v(" "),
+            _c("code", { staticClass: "example" }, [
+              _vm._v("~/set warnings off")
+            ]),
+            _vm._v(
+              "\n      Disables the warning message for using a command you don't have access to.\n      "
+            ),
+            _c("code", { staticClass: "example" }, [
+              _vm._v("~/set mods @Role")
+            ]),
+            _vm._v("\n      Sets the "),
+            _c("strong", [_vm._v("role")]),
+            _vm._v(
+              " that Chandler will identify as Moderators. If the role is named "
+            ),
+            _c("em", [_vm._v("Mod")]),
+            _vm._v(" or "),
+            _c("em", [_vm._v("Moderator")]),
+            _vm._v(", he'll pick them up automatically.\n      "),
             _c("code", { staticClass: "alias" }, [_vm._v("~/config")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/rules [option] [value]",
-              group: "conf",
-              level: "5"
-            }
-          },
-          [
-            _vm._v("\n      Check out the "),
-            _c("a", { attrs: { href: "guides.html" } }, [_vm._v("Guides")]),
-            _vm._v(" for all options!\n    ")
           ]
         ),
         _vm._v(" "),
@@ -661,20 +633,46 @@ var render = function() {
         _vm._v(" "),
         _c(
           "doc-block",
-          { attrs: { cmd: "~/print", group: "mods", level: "3" } },
+          {
+            attrs: {
+              cmd: "~/clear [x]",
+              group: "mods",
+              level: "3",
+              show: "true"
+            }
+          },
           [
-            _vm._v("\n      Prints "),
+            _vm._v("\n      Deletes "),
+            _c("strong", [_vm._v("x")]),
+            _vm._v(
+              " messages from the channel, up to 300. Chandler will attempt to bulk delete the messages, but if they are over 2 weeks old Discord will only allow them to be deleted one at a time, so it may take a while\n      "
+            ),
+            _c("code", { staticClass: "example" }, [_vm._v("~/clear 24")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "doc-block",
+          { attrs: { cmd: "~/say", group: "mods", level: "3" } },
+          [
+            _vm._v("\n      Repeats "),
             _c("code", [_vm._v("(message)")]),
-            _vm._v(" in the channel.\n      "),
+            _vm._v(
+              " in the channel, and deletes the original message.\n      "
+            ),
             _c("code", { staticClass: "example" }, [
-              _vm._v("~/print this is a message")
+              _vm._v("~/say hello there")
+            ]),
+            _vm._v(" "),
+            _c("code", { staticClass: "example" }, [
+              _vm._v("Chandler: Hello there")
             ])
           ]
         ),
         _vm._v(" "),
         _c(
           "doc-block",
-          { attrs: { cmd: "~/embed [object]", group: "mods", level: "3" } },
+          { attrs: { cmd: "~/post [object]", group: "mods", level: "3" } },
           [
             _vm._v("\n      Input an "),
             _c("code", [_vm._v("(embed object)")]),
@@ -691,8 +689,10 @@ var render = function() {
             ),
             _vm._v(", and the bot embeds it in the channel.\n      "),
             _c("code", { staticClass: "example" }, [
-              _vm._v('~/embed { "title": "hello!" }')
-            ])
+              _vm._v('~/post { "title": "hello!" }')
+            ]),
+            _vm._v(" "),
+            _c("code", { staticClass: "alias" }, [_vm._v("~/embed")])
           ]
         ),
         _vm._v(" "),
@@ -733,54 +733,6 @@ var render = function() {
               _vm._v('~/edit MESSAGE { "title": "hello!" }')
             ])
           ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/lock", group: "mods", level: "3" } },
-          [
-            _vm._v(
-              "\n      Locks the current channel - sets all perms to Can't Send Messages.\n    "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/unlock", group: "mods", level: "3" } },
-          [
-            _vm._v(
-              "\n      Unlocks the current channel - resets all perms to original state.\n    "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/speak (channel)", group: "mods", level: "3" } },
-          [
-            _vm._v("\n      Confirms the channel currently set to "),
-            _c("code", [_vm._v("~/say")]),
-            _vm._v(" things in."),
-            _c("br"),
-            _vm._v("Change the speaking channel by passing a new "),
-            _c("code", [_vm._v("(#channel)")]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [_vm._v("~/speak #general")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/say [message]", group: "mods", level: "3" } },
-          [
-            _vm._v("\n      Sends "),
-            _c("code", [_vm._v("message")]),
-            _vm._v(" to the channel set by "),
-            _c("code", [_vm._v("~/speak")]),
-            _vm._v(".\n      "),
-            _c("code", { staticClass: "example" }, [_vm._v("~/say hello!")])
-          ]
         )
       ],
       1
@@ -812,248 +764,47 @@ var render = function() {
   return _c("div", { staticClass: "chunk content container" }, [
     _c(
       "div",
-      { staticClass: "accordion", attrs: { id: "set" } },
+      { staticClass: "accordion", attrs: { id: "zones" } },
       [
-        _c("h5", [_vm._v("Configuration")]),
+        _c("h5", [_vm._v("Tracking Timezones")]),
         _vm._v(" "),
         _c(
           "doc-block",
           {
             attrs: {
-              cmd: "~/set prefix (symbol)",
-              group: "set",
-              name: "prefix",
+              cmd: "Adding a timezone",
+              group: "zones",
+              name: "add",
               show: "true"
             }
           },
           [
-            _vm._v("\n      Change the default "),
-            _c("strong", [_vm._v("prefix")]),
-            _vm._v(" for commands in your server.\n      "),
-            _c("code", { staticClass: "example" }, [_vm._v("~/set prefix ~")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/set mods (role)", group: "set", name: "mods" } },
-          [
-            _vm._v("\n      Set your "),
-            _c("strong", [_vm._v("mods role")]),
-            _vm._v(
-              " so they have permission to use Mod commands. If you can't mention the role, use "
-            ),
-            _c("strong", [_vm._v("~/roles")]),
-            _vm._v(" to get the ID.\n      "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set mods @Staff")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/set warnings (on/off)",
-              group: "set",
-              name: "warnings"
-            }
-          },
-          [
-            _vm._v(
-              '\n      Enable or Disable the "You dont\' have permssion to use this command" warnings.\n    '
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/set onjoin (channel) (message)",
-              group: "set",
-              name: "join"
-            }
-          },
-          [
-            _vm._v("\n      Enable or Disable entry logging in "),
-            _c("strong", [_vm._v("#channel")]),
+            _vm._v("\n      You can add your own timezone by using "),
+            _c("code", [_vm._v("~/zone [timezone]")]),
             _vm._v(". "),
-            _c("strong", [_vm._v("message")]),
-            _vm._v(" is optional, defaults to "),
-            _c("strong", [_vm._v("{user} joined.")]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set onjoin off")
-            ]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set onjoin #modlogs")
-            ]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set onjoin #welcome {user} joined in!")
-            ]),
-            _vm._v(" "),
-            _c("code", { staticClass: "options" }, [
-              _vm._v("{user} {user.name} {user.id}")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/set onleave (channel) (message)",
-              group: "set",
-              name: "leave"
-            }
-          },
-          [
-            _vm._v("\n      Enable or Disable entry logging in "),
-            _c("strong", [_vm._v("#channel")]),
-            _vm._v(". "),
-            _c("strong", [_vm._v("message")]),
-            _vm._v(" is optional, defaults to "),
-            _c("strong", [_vm._v("{user.name} left.")]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set onleave off")
-            ]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set onleave #modlogs")
-            ]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/set onleave #welcome {user} joined in!")
-            ]),
-            _vm._v(" "),
-            _c("code", { staticClass: "options" }, [
-              _vm._v("{user} {user.name} {user.id}")
-            ])
-          ]
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "accordion", attrs: { id: "rules" } },
-      [
-        _c("h5", [_vm._v("Setting Up Your Rules Post")]),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/rules post", group: "rules", name: "post" } },
-          [
-            _vm._v("\n      Prints out the "),
-            _c("em", [_vm._v("official")]),
+            _c("br"),
             _vm._v(
-              " rules post. This post will get automatically updated, so it's best stashed in an entry channel.\n    "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/rules add [rule]", group: "rules", name: "add" } },
-          [
-            _vm._v("\n      Adds "),
-            _c("code", [_vm._v("(rule)")]),
-            _vm._v(" as a new Server Rule.\n      "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules add Be Quiet.")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          { attrs: { cmd: "~/rules rem #", group: "rules", name: "rem" } },
-          [
-            _vm._v("\n      Deletes Rule "),
-            _c("code", [_vm._v("#")]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [_vm._v("~/rules rem 1")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/rules edit # [rule]",
-              group: "rules",
-              name: "edit"
-            }
-          },
-          [
-            _vm._v("\n      Edits Rule "),
-            _c("code", [_vm._v("#")]),
-            _vm._v(" to "),
-            _c("code", [_vm._v("(rule)")]),
-            _vm._v(" "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules edit 1 Be Quieter.")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/rules title [value]",
-              group: "rules",
-              name: "title"
-            }
-          },
-          [
-            _vm._v("\n      Changes the title of the Rules Post.\n      "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules title Welcome To Our Server!")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/rules intro [value]",
-              group: "rules",
-              name: "intro"
-            }
-          },
-          [
-            _vm._v(
-              "\n      Edits the intro paragraph posted before the rules.\n      "
+              "\n      You can set someone else's timezone (if you're a mod) by doing "
             ),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules intro Please Read Carefully!")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: {
-              cmd: "~/rules outro [value]",
-              group: "rules",
-              name: "outro"
-            }
-          },
-          [
-            _vm._v(
-              "\n      Changes the outry paragraph posted after the rules.\n      "
+            _c("code", [_vm._v("~/setzone [timezone]")]),
+            _vm._v(" "),
+            _c("br"),
+            _c("br"),
+            _vm._v("\n      You can click "),
+            _c(
+              "a",
+              {
+                attrs: { href: "http://kevalbhatt.github.io/timezone-picker/" }
+              },
+              [_vm._v("This Link")]
             ),
+            _vm._v(" to \n      go to a timezone picker. Running "),
+            _c("code", [_vm._v("~/help time")]),
+            _vm._v(" will also return this link.\n      "),
+            _c("code", { staticClass: "example" }, [_vm._v("~/zone new york")]),
+            _vm._v(" "),
             _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules outro Thanks For Reading!")
+              _vm._v("~/setzone username sydney")
             ])
           ]
         ),
@@ -1061,28 +812,14 @@ var render = function() {
         _c(
           "doc-block",
           {
-            attrs: { cmd: "~/rules image [url]", group: "rules", name: "image" }
+            attrs: { cmd: "Getting The Time", group: "zones", name: "custom" }
           },
           [
-            _vm._v("\n      Add/Change the image for your Rules Post.\n      "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules image https://example.com/image.jpg")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "doc-block",
-          {
-            attrs: { cmd: "~/rules color [hex]", group: "rules", name: "color" }
-          },
-          [
-            _vm._v("\n      Changes the color of the rules post to "),
-            _c("code", [_vm._v("(hex)")]),
-            _vm._v(".\n      "),
-            _c("code", { staticClass: "example" }, [
-              _vm._v("~/rules color #ffffff")
-            ])
+            _c("code", { staticClass: "example" }, [_vm._v("~/time")]),
+            _vm._v(" "),
+            _c("code", { staticClass: "example" }, [_vm._v("~/time 9pm")]),
+            _vm._v(" "),
+            _c("code", { staticClass: "example" }, [_vm._v("~/time username")])
           ]
         )
       ],
@@ -1371,27 +1108,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1411,69 +1127,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_DocBlock_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../parts/DocBlock.vue */ "./parts/DocBlock.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1562,7 +1215,7 @@ __webpack_require__.r(__webpack_exports__);
     getLevel: function getLevel() {
       if (this.level == '5') return 'Admin';
       if (this.level == '3') return 'Mod';
-      if (this.level == '1') return 'Mod';
+      if (this.level == '1') return 'User';
       return '';
     },
     badgeClass: function badgeClass() {
