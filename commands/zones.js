@@ -22,7 +22,9 @@ module.exports = {
   help: {
     name: "Using Chandler to Track Timezones",
     desc: "`~/time` will display the current tracked time.\n" +
-          "`~/zone` will set your timezone to `timezone`.\n" +
+          "`~/zone` will set your timezone to `timezone`.\n\n" +
+          "You can use this timezone picker to find yours:\n" +
+          "{timezones}\n\n" +
           "{{ ~/time || ~/time 9pm || ~/time user }}" +
           "{{ ~/zone New York }}",
     mods: "Mods: You can use `~/setzone` to set a timezone for a user.\n" +

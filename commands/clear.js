@@ -8,6 +8,7 @@ module.exports = {
     name: "~/clear (amount)",
     desc: "Delete `amount` messages from the current channel.\n" +
           "Can only remove up to 300 messages at a time.\n" +
+          "Messages will be deleted instantly if they can.\n" +
           "{{ ~/clear 24 || ~/clear 300 }}"
   },
 
