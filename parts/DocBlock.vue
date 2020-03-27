@@ -28,7 +28,7 @@
       getLevel() {
         if (this.level == '5') return 'Admin'
         if (this.level == '3') return 'Mod'
-        if (this.level == '1') return 'Mod'
+        if (this.level == '1') return 'User'
         return ''
       },
       badgeClass() {
