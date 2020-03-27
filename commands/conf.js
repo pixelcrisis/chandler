@@ -58,9 +58,12 @@ module.exports = {
 
     // have we set mods or no?
     const mods = Msg.config.modsID ? `<@&${Msg.config.modsID}>` : 'Unset'
+    // convert boolean to text
+    const warn = Chandler.onOff(Msg.config.warnings)
 
     response.desc += `**Prefix**: ~/\n`
     response.desc += `**Mods**: ${mods}\n`
+    response.desc += `**Warnings**: ${warn}\n`
     response.desc += '\nUse `~/help set` for more details.'
 
     return Chandler.reply(Msg, response)

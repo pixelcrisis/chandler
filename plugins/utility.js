@@ -13,6 +13,9 @@ module.exports = Chandler => {
   Chandler.isYes = str => positive.includes(str.toLowerCase())
   Chandler.isNo  = str => negative.includes(str.toLowerCase())
 
+  // Convert true/false to On/Off
+  Chandler.onOff = bool => bool ? 'On' : 'Off'
+
   // Shorthand for sleep(300) in the form of wait(300)
   Chandler.wait = require('util').promisify(setTimeout)
 
