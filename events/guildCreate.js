@@ -6,7 +6,7 @@ module.exports = (Chandler, guild) => {
   let description = [
     `Total Users: ${guild.memberCount}`,
     `Server Owner: ${guild.owner.user.username}`,
-    `Now In ${Chandler.guild.keyArray().length} servers.`
+    `Now In ${Chandler.guild.cache.keyArray().length} servers.`
   ].join('\n')
 
   return Chandler.post(description, name)
