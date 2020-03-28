@@ -3,7 +3,8 @@
 module.exports = (Chandler, guild) => {
 
   let name = `Removed from ${guild.name}`
-  let description = `Now In ${Chandler.guild.cache.keyArray().length} servers.`
+  let count = Chandler.guilds.cache.keyArray().length
+  let description = `Now In ${count} servers.`
   
   return Chandler.post(description, name)
 
