@@ -13,6 +13,11 @@ module.exports = Chandler => {
   Chandler.isYes = str => positive.includes(str.toLowerCase())
   Chandler.isNo  = str => negative.includes(str.toLowerCase())
 
+  // Check if a message exists before deleting it
+  Chandler.deleteMessage = Msg => {
+    if (Msg && Msg.delete) return Msg.delete()
+  }
+
   // Convert true/false to On/Off
   Chandler.onOff = bool => bool ? 'On' : 'Off'
 

@@ -54,23 +54,23 @@ module.exports = {
           await Msg.channel.bulkDelete(batch)
           // if we made it here, bulk delete worked
           progress += limit
-          await status.delete()
+          await Chandler.deleteMessage(status)
         }
         catch(e) {
           // bulk delete didn't work, we gotta go through manually
           for (const message of batch) {
             progress += 1
-            await message[1].delete()
+            await Chandler.deleteMessage(message[1])
             await status.edit(`Removed ${progress}/${amount} Messages...`)
           }
-          await status.delete()
+          await Chandler.deleteMessage(status)
         }
       }
     }
 
     // delete one more message (the trigger command)
     const last = await Msg.channel.messages.fetch({ limit: 1 })
-    for (const message of last) await message[1].delete()
+    for (const message of last) await Chandler.deleteMessage(message[1])
 
     Chandler.replyFlash(Msg, this.lang.clean, amount)
   },
