@@ -48,7 +48,7 @@ module.exports = {
   },
 
   _warnings: function (Chandler, Msg, opt) {
-    let on = Chandler.isY(opt)
+    let on = Chandler.isYes(opt)
     Chandler.$set('confs', Msg, 'warnings', on)
     return Chandler.reply(Msg, this.lang.warned, on ? 'On' : 'Off')
   },
