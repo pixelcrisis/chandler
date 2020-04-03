@@ -15,7 +15,8 @@ module.exports = Chandler => {
 
   // Check if a message exists before deleting it
   Chandler.deleteMessage = Msg => {
-    if (Msg && Msg.delete) return Msg.delete()
+    try { Msg.delete() }
+    catch (e) {}
   }
 
   // Convert true/false to On/Off
