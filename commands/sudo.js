@@ -53,7 +53,7 @@ module.exports = {
     Chandler.Exec('pm2 list', (err, yay, nay) => {
       if (err || !yay) return Chandler.reply(Msg, 'Nay?')
       // convert the table into something readable, hopefully
-      yay = yay.split('online')[1].split(' ').join('').split('|')
+      yay = yay.split('online')[1].split(' ').join('').split('│')
 
       const response = {
         name: 'Chandler Details',
