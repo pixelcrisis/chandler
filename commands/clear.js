@@ -25,6 +25,9 @@ module.exports = {
       return Chandler.reply(Msg, Chandler.EN.delete, Msg.channel.id)
     }
 
+    // delete the trigger
+    await Msg.channel.messages.delete(Msg.channel.lastMessageID)
+
     // make sure our option is a number, and within limits
     const amount = parseInt(Msg.args[0])
     if (isNaN(amount)) return Chandler.reply(Msg, Chandler.EN.number)
@@ -54,27 +57,19 @@ module.exports = {
           await Msg.channel.bulkDelete(batch)
           // if we made it here, bulk delete worked
           progress += limit
-          console.log('Post Bulk Status Delete')
           await Chandler.deleteMessage(status)
         }
         catch(e) {
           // bulk delete didn't work, we gotta go through manually
           for (const message of batch) {
             progress += 1
-            console.log('Spammy Log: In The Loop')
             await Chandler.deleteMessage(message[1])
             await status.edit(`Removed ${progress}/${amount} Messages...`)
           }
-          console.log('Post Loop Status Delete')
           await Chandler.deleteMessage(status)
         }
       }
     }
-
-    // delete one more message (the trigger command)
-    const last = await Msg.channel.messages.fetch({ limit: 1 })
-    console.log('Trigger Delete')
-    for (const message of last) await Chandler.deleteMessage(message[1])
 
     Chandler.replyFlash(Msg, this.lang.clean, amount)
   },
