@@ -26,6 +26,7 @@ module.exports = {
     }
 
     // delete the trigger
+    console.log('trigger delete')
     await Msg.channel.messages.delete(Msg.channel.lastMessageID)
 
     // make sure our option is a number, and within limits
@@ -54,18 +55,22 @@ module.exports = {
 
         // attempt a bulk delete, if messages are old, it fails
         try {
+          console.log('bulk delete')
           await Msg.channel.bulkDelete(batch)
           // if we made it here, bulk delete worked
           progress += limit
+          console.log('bulk status delete')
           await Chandler.deleteMessage(status)
         }
         catch(e) {
           // bulk delete didn't work, we gotta go through manually
           for (const message of batch) {
             progress += 1
+            console.log('spam delete')
             await Chandler.deleteMessage(message[1])
             await status.edit(`Removed ${progress}/${amount} Messages...`)
           }
+          console.log('spam status delete')
           await Chandler.deleteMessage(status)
         }
       }
