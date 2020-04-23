@@ -39,7 +39,9 @@ module.exports = {
     // figure out what's leftover after batches
     const remains = amount - (batches * 100)
 
-    let progress = 0
+    // Use the typing indicator to indicate in progress
+    Msg.channel.startTyping()
+
     for (var i = batches; i >= 0; i--) {
       // set limit to 100
       // or leftover if last loop
@@ -49,32 +51,23 @@ module.exports = {
       if (limit) {
         const batch = await Msg.channel.messages.fetch({ limit })
 
-        // print our status update to keep folks informed
-        let update = `Removed ${progress}/${amount} Messages...`
-        const status = await Chandler.reply(Msg, update)
-
         // attempt a bulk delete, if messages are old, it fails
         try {
           console.log('bulk delete')
           await Msg.channel.bulkDelete(batch)
-          // if we made it here, bulk delete worked
-          progress += limit
-          console.log('bulk status delete')
-          await Chandler.deleteMessage(status)
         }
         catch(e) {
           // bulk delete didn't work, we gotta go through manually
           for (const message of batch) {
-            progress += 1
             console.log('spam delete')
             await Chandler.deleteMessage(message[1])
-            await status.edit(`Removed ${progress}/${amount} Messages...`)
           }
-          console.log('spam status delete')
-          await Chandler.deleteMessage(status)
         }
       }
     }
+
+    // We're done!
+    Msg.channel.stopTyping()
 
     Chandler.replyFlash(Msg, this.lang.clean, amount)
   },
