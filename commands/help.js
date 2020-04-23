@@ -50,10 +50,10 @@ module.exports = {
       const command = Chandler.findCommand(name)
       if (command && Msg.access.level >= command.gate) {
         // replace the response with command specific help
-        response = command.help
+        response = { ...command.help }
 
         // add the command aliases
-        let list = command.also
+        let list = [ ...command.also ]
         if (list) {
           response.desc += `\`*Also works:\` \`~/${list.join('` `~/')}\``
         }
