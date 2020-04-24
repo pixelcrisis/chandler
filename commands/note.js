@@ -51,7 +51,11 @@ module.exports = {
   _list: async function (Chandler, Msg) {
     let list = []
     // collect all of our note details in an array
-    for (let title in Msg.notes) list.push(`**${title}**: ${Msg.notes[title]}`)
+    for (let title in Msg.notes) {
+      let preview = Msg.notes[title]
+      if (preview.length > 15)  preview = preview.slice(0, 12) + '...'
+      list.push(`**${title}**: ${preview}`)
+    }
     // attach the info to our response
     let response = { name: `${Msg.guild.name} Notes`, desc: list.join('\n') }
     // if the list is empty, tell them, otherwise print the list!
