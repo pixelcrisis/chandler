@@ -6,8 +6,11 @@ module.exports = Chandler => {
   Chandler.reply = (Msg, data, str1, str2) => {
     if (!Chandler.canSendMessages(Msg)) return false
     // all of our data goes through the parser
-    const response = Chandler.parse(Msg, data, str1, str2)
-    return Msg.channel.send(response)
+    let response = Chandler.parse(Msg, data, str1, str2)
+    response = Chandler.splitResponse(response)
+    for (let i = 0; i < response.length; i++) {
+      Msg.channel.send(response[i])
+    }
   }
 
   // Deletes a response after two seconds
@@ -74,6 +77,7 @@ module.exports = Chandler => {
 
     // un-escape any escaped keys
     str = str.split('{/').join('{')
+
     return str
   }
 
@@ -90,7 +94,32 @@ module.exports = Chandler => {
       else if (prop == 'desc') embed.description = data
       else embed[prop] = data
     }
-    return { embed }
+
+    // split apart long embeds
+    let stringed = JSON.stringify(embed)
+    if (stringed.length > 1995) {
+      let embeds = []
+      let divisions = Math.ceil(stringed.length / 1995)
+      let split = embed.description.match(/[\s\S]{1,1995}/g)
+      for (let i = 0; i < split.length; i++) {
+        let newEmbed = { ...embed }
+        newEmbed.description = split[i]
+        embeds.push({ embed: newEmbed })
+      }
+      return embeds
+    }
+    else return [{ embed }]
+  }
+
+  // Split apart long messages
+  Chandler.splitResponse = response => {
+    // if response is already split...
+    if (Array.isArray(response)) return response
+    
+    if (response.length > 1995) response = response.match(/[\s\S]{1,1995}/g)
+    else response = [ response ]
+
+    return response
   }
 
   // escape variables that need to be printed instead of parsed
