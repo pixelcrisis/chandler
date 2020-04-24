@@ -5,7 +5,8 @@ const encfg = { fetchAll: false, autoFetch: true, cloneLevel: 'deep' }
 
 // define our defaults
 const defaults = {
-  confs: { prefix: '~/' }, locks: {}, zones: {}, notes: {}, votes: 0,
+  confs: { prefix: '~/' }, 
+  locks: {}, zones: {}, notes: {}, stars: {}, votes: 0,
   rules: Msg => {
     return {
       list: [],
@@ -26,6 +27,7 @@ module.exports = Chandler => {
   Chandler.$zones = new Enmap({ name: 'zones', ...encfg })
   Chandler.$notes = new Enmap({ name: 'notes', ...encfg })
   Chandler.$votes = new Enmap({ name: 'votes', ...encfg })
+  Chandler.$stars = new Enmap({ name: 'stars', ...encfg })
 
   // Really DRY Getter
   Chandler.$get = (store, Msg, key) => {

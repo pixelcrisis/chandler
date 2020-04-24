@@ -53,8 +53,8 @@ module.exports = {
         response = { ...command.help }
 
         // add the command aliases
-        let list = [ ...command.also ]
-        if (list) {
+        if (command.also) {
+          let list = [ ...command.also ]
           response.desc += `\`*Also works:\` \`~/${list.join('` `~/')}\``
         }
         
