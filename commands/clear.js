@@ -14,7 +14,7 @@ module.exports = {
 
   lang: {
     total: "Can only remove 300 messages at a time.",
-    clean: "Successfully cleared {val1} messages."
+    clean: "Successfully cleared {val1}/{val2} messages."
   },
 
   fire: async function (Chandler, Msg) {
@@ -26,7 +26,6 @@ module.exports = {
     }
 
     // delete the trigger
-    console.log('trigger delete')
     await Msg.channel.messages.delete(Msg.channel.lastMessageID)
 
     // make sure our option is a number, and within limits
@@ -34,62 +33,47 @@ module.exports = {
     if (isNaN(amount)) return Chandler.reply(Msg, Chandler.EN.number)
     if (amount > 300) return Chandler.reply(Msg, this.lang.total)
 
-    // figure out how many batches to run
-    const batches = Math.floor(amount / 100)
-    // figure out what's leftover after batches
-    const remains = amount - (batches * 100)
-
     // Use the typing indicator to indicate in progress
     Msg.channel.startTyping()
 
-    for (var i = batches; i >= 0; i--) {
-      // set limit to 100
-      // or leftover if last loop
-      let limit = i == 0 ? remains : 100
+    // set a flag for when we find old messages
+    let old = false
+    let amt = amount
 
-      // only run if we're actually getting messages
-      if (limit) {
-        const batch = await Msg.channel.messages.fetch({ limit })
+    while (amt > 0) {
+      let wiped = 0
+      // only process 100 messages at a time
+      let limit = amt > 100 ? 100 : amt
+      let batch = await Msg.channel.messages.fetch({ limit })
 
-        // attempt a bulk delete, if messages are old, it fails
-        try {
-          console.log('bulk delete')
-          await Msg.channel.bulkDelete(batch)
+      if (old) {
+        for (const message of batch) {
+          await message[1].delete()
+          amt -= 1
         }
-        catch(e) {
-          // bulk delete didn't work, we gotta go through manually
-          for (const message of batch) {
-            console.log('spam delete')
-            await Chandler.deleteMessage(message[1])
-          }
-        }
+      } else {
+        let bulk = await Msg.channel.bulkDelete(batch, true)
+        if (bulk.size < batch.size) old = true
+        amt -= bulk.size
       }
+
+      let progress = amount - amt
+      await Chandler.replyFlash(Msg, this.lang.clean, progress, amount)
+      await Chandler.wait(1000)
     }
 
     // We're done!
     Msg.channel.stopTyping()
-
-    Chandler.replyFlash(Msg, this.lang.clean, amount)
   },
 
   test: async function (Chandler, Msg, data) {
-    Msg.args = ['300']
+    Msg.args = ['102']
 
-    for (var i = 1; i <= 100; i++) {
+    for (var i = 1; i <= 102; i++) {
       await Msg.channel.send(`${i}`)
     }
 
-    await Chandler.wait(15000)
-
-    for (var i = 101; i <= 200; i++) {
-      await Msg.channel.send(`${i}`)
-    }
-
-    await Chandler.wait(15000)
-
-    for (var i = 201; i <= 300; i++) {
-      await Msg.channel.send(`${i}`)
-    }
+    await Msg.channel.send('~~clear')
 
     await this.fire(Chandler, Msg)
   }
