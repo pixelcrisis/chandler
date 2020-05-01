@@ -9,7 +9,8 @@ module.exports = Chandler => {
     let response = Chandler.parse(Msg, data, str1, str2)
     response = Chandler.splitResponse(response)
     for (let i = 0; i < response.length; i++) {
-      Msg.channel.send(response[i])
+      if (i == response.length - 1) return Msg.channel.send(response[i])
+      else Msg.channel.send(response[i])
     }
   }
 
