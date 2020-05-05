@@ -18,7 +18,7 @@ module.exports = Chandler => {
   Chandler.replyFlash = async (Msg, data, str1, str2) => {
     const flashed = await Chandler.reply(Msg, data, str1, str2)
     await Chandler.wait(5000)
-    if (!flashed || flashed.deleted) return
+    if (flashed && !flashed.deleted) return
     else if (Chandler.canManageMessages(flashed)) flashed.delete()
   }
 

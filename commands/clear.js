@@ -58,12 +58,12 @@ module.exports = {
       }
 
       let progress = amount - amt
-      await Chandler.replyFlash(Msg, this.lang.clean, progress, amount)
       await Chandler.wait(1000)
     }
 
     // We're done!
     Msg.channel.stopTyping()
+    Chandler.replyFlash(Msg, this.lang.clean, progress, amount)
   },
 
   test: async function (Chandler, Msg, data) {
