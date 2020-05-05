@@ -39,6 +39,7 @@ module.exports = {
     // set a flag for when we find old messages
     let old = false
     let amt = amount
+    let progress = amount
 
     while (amt > 0) {
       let wiped = 0
@@ -57,7 +58,7 @@ module.exports = {
         amt -= bulk.size
       }
 
-      let progress = amount - amt
+      progress = amount - amt
       await Chandler.wait(1000)
     }
 
