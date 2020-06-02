@@ -47,6 +47,12 @@ module.exports = {
       let limit = amt > 100 ? 100 : amt
       let batch = await Msg.channel.messages.fetch({ limit })
 
+      // don't try and delete messages that aren't there
+      if (batch.size < 1) {
+        amt = 0
+        break
+      }
+
       if (old) {
         for (const message of batch) {
           await message[1].delete()
