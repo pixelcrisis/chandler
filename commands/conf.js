@@ -16,7 +16,8 @@ module.exports = {
   lang: {
     modsID: "Set modsID to <@&{val1}>.",
     prefix: "Set prefix to `{val1}`.\nFYI: You can always {bot} as a prefix!",
-    warned: "Toggled command warnings {val1}"
+    warned: "Toggled command warnings {val1}",
+    reset:  "Successfully reset configs."
   },
 
   fire: async function (Chandler, Msg) {
@@ -28,7 +29,7 @@ module.exports = {
     const opt = Msg.args.join(' ')
 
     // we need an option for this, error out if no
-    if (!opt) return Chandler.reply(Msg, Chandler.EN.option)
+    if (!opt && cmd != 'reset') return Chandler.reply(Msg, Chandler.EN.option)
     if (this[`_${cmd}`]) return this[`_${cmd}`](Chandler, Msg, opt)
   },
 
@@ -67,6 +68,11 @@ module.exports = {
     response.desc += '\nUse `~/help set` for more details.'
 
     return Chandler.reply(Msg, response)
+  },
+
+  _reset: function (Chandler, Msg) {
+    Chandler.reply(Msg, this.lang.reset)
+    Chandler.$default('confs', Msg)
   },
 
   test: async function (Chandler, Msg, data) {

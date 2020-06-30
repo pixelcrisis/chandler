@@ -51,6 +51,11 @@ module.exports = Chandler => {
     return Chandler[`$${store}`].delete(Msg.guild.id, key, path)
   }
 
+  // Set to Default
+  Chandler.$default = (store, Msg) => {
+    Chandler[`$${store}`].set(Msg.guild.id, defaults[store])
+  }
+
   // Less DRY
   Chandler.$getVote = user => Chandler.$votes.ensure(user, defaults.votes)
   Chandler.$setVote = (user, now) => Chandler.$votes.set(user, now)
