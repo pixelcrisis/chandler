@@ -8,7 +8,7 @@
     "dblapi.js": "^2.3.1",
     "discord.js": "^12.0.1",
     "enmap": "^5.2.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.28"
   }
 }
